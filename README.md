@@ -1,5 +1,5 @@
-# Buno
+# Buno-extended
 
-uno discord bot i made partially as a joke and partially as a way to learn [oceanic.js](https://www.npmjs.com/package/oceanic.js)
+uno discord bot i forked partially as a joke and partially as a way to revive Buno bot
 
 requires message content intent, there's no reason this can't use slash commands but i'm lazy
