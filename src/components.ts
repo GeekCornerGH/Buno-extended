@@ -262,7 +262,7 @@ export const SettingsSelectMenu = (game: UnoGame<false>) => new ComponentBuilder
                 description: game.settings.sevenAndZero ? "Enabled" : "Disabled"
             },
             {
-                label: "Players should yell BUNO",
+                label: "Players must yell BUNO",
                 value: SettingsIDs.SHOULD_YELL_BUNO,
                 description: game.settings.shouldYellBUNO ? "Enabled": "Disabled"
             }
