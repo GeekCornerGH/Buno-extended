@@ -73,6 +73,10 @@ export function onGameButtonPress(ctx: ComponentInteraction<ComponentTypes.BUTTO
         }
 
         case ButtonIDs.SHOUT_UNO: {
+            if (!game.settings.shouldYellBUNO) return ctx.createFollowup({
+                content: "nuh uh ☝️",
+                flags: MessageFlags.EPHEMERAL
+            });
             if (!game.players.includes(ctx.member.id)) return ctx.createFollowup({
                 content: "You aren't in the game!",
                 flags: MessageFlags.EPHEMERAL
@@ -85,12 +89,12 @@ export function onGameButtonPress(ctx: ComponentInteraction<ComponentTypes.BUTTO
                 content: "You need to press this button when you have 2 cards before playing one of them.",
                 flags: MessageFlags.EPHEMERAL
             });
-            if (game.unoPlayers.includes(ctx.member.id)) return ctx.createFollowup({
-                content: "You already shouted BUNO!",
+            if (game.settings.shouldYellBUNO && game.unoPlayers.includes(ctx.member.id)) return ctx.createFollowup({
+                content: "You already yelled BUNO Out!",
                 flags: MessageFlags.EPHEMERAL
             });
-            game.unoPlayers.push(ctx.member.id);
-            sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** shouted BUNO!`);
+            if (game.settings.shouldYellBUNO) game.unoPlayers.push(ctx.member.id);
+            sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** yelled\n# BUN${"O".repeat(Math.floor(Math.random() * (5 - 1 + 1) + 1))} O${"U".repeat(Math.floor(Math.random() * (5 - 1 + 1) + 1))}T!`);
             sendGameMessage(game);
             break;
         }

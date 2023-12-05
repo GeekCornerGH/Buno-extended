@@ -80,7 +80,8 @@ export const defaultSettings: UnoGameSettings = {
     randomizePlayerList: true,
     resendGameMessage: true,
     canJoinMidgame: "temporarily",
-    sevenAndZero: false
+    sevenAndZero: false,
+    shouldYellBUNO: true
 } as const;
 
 export const maxRejoinableTurnCount = 30;
@@ -128,6 +129,7 @@ export const SettingsIDs = Object.freeze({
     ALLOW_SKIPPING: "allow-skipping",
     ALLOW_CARD_STACKING: "allow-stacking",
     SEVEN_AND_ZERO: "7-and-0",
+    SHOULD_YELL_BUNO: "should-shout-uno",
 
     TIMEOUT_DURATION_MODAL: "timeout-duration-modal",
     TIMEOUT_DURATION_MODAL_SETTING: "timeout-setting-field",

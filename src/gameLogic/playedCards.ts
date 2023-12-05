@@ -96,7 +96,7 @@ export function onForceDrawPlayed(ctx: ComponentInteraction<ComponentTypes.STRIN
         game.cards[game.currentPlayer].push(...cards);
         game.deck = newDeck;
         game.currentPlayer = next(game.players, game.players.indexOf(game.currentPlayer));
-        if (game.cards[game.currentPlayer].length > 1 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.indexOf(game.currentPlayer), 1);
+        if (game.settings.shouldYellBUNO && game.cards[game.currentPlayer].length > 1 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.indexOf(game.currentPlayer), 1);
         sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** drew ${game.drawStackCounter} cards`);
         game.drawStackCounter = 0;
         ctx.deleteOriginal();
@@ -108,7 +108,7 @@ export function onForceDrawPlayed(ctx: ComponentInteraction<ComponentTypes.STRIN
 export function onSevenPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SELECT>, game: UnoGame<true>) {
     if (game.currentPlayer !== ctx.member.id) return;
     const id = ctx.data.values.raw[0];
-    if (game.unoPlayers.includes(ctx.member.id)) {
+    if (game.settings.shouldYellBUNO && game.unoPlayers.includes(ctx.member.id)) {
         game.unoPlayers.splice(game.unoPlayers.indexOf(ctx.member.id), 1);
         game.unoPlayers.push(id);
     }
@@ -180,7 +180,7 @@ export function onCardPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SEL
 
     let extraInfo = "";
     if (cardPlayed === "draw") {
-        if (game.cards[game.currentPlayer].length > 1 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.indexOf(game.currentPlayer), 1);
+        if (game.settings.shouldYellBUNO && game.cards[game.currentPlayer].length > 1 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.indexOf(game.currentPlayer), 1);
         if (game.settings.antiSabotage && isSabotage(ctx, game)) return;
         game.drawDuration++;
 
@@ -215,13 +215,13 @@ You drew ${cardEmotes[newCards[0]]}`,
         game.currentCardColor = color as typeof colors[number];
         game.drawDuration = 0;
         game.cards[ctx.member.id].splice(game.cards[ctx.member.id].indexOf(cardPlayed), 1);
-        if (game.cards[ctx.member.id].length === 1 && !game.unoPlayers.includes(ctx.member.id)) {
+        if (game.settings.shouldYellBUNO && game.cards[ctx.member.id].length === 1 && !game.unoPlayers.includes(ctx.member.id)) {
             const { cards, newDeck } = game.draw(2);
             game.cards[ctx.member.id].push(...cards);
             game.deck[ctx.member.id] = newDeck;
-            sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** forgot to shout BUNO and drew 2 cards.`);
+            sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** forgot to yell BUNO OUT and drew 2 cards.`);
         }
-        if (game.cards[game.currentPlayer].length === 1 && !game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.indexOf(game.currentPlayer), 1);
+        if (game.settings.shouldYellBUNO && game.cards[game.currentPlayer].length === 1 && !game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.indexOf(game.currentPlayer), 1);
         if (game.cards[ctx.member.id].length === 0) return deleteMessage(game.message);
 
         switch (variant) {
@@ -270,10 +270,12 @@ You drew ${cardEmotes[newCards[0]]}`,
 
                 const keys = Object.keys(game.cards);
                 keys.unshift(keys.pop());
-                for (let i = 0; i < keys.length; i++) {
-                    if (game.unoPlayers.includes(keys[i])) {
-                        game.unoPlayers.splice(game.unoPlayers.indexOf(keys[i]), 1);
-                        game.unoPlayers.push(keys[(i + 1) % keys.length]);
+                if (game.settings.shouldYellBUNO) {
+                    for (let i = 0; i < keys.length; i++) {
+                        if (game.unoPlayers.includes(keys[i])) {
+                            game.unoPlayers.splice(game.unoPlayers.indexOf(keys[i]), 1);
+                            game.unoPlayers.push(keys[(i + 1) % keys.length]);
+                        }
                     }
                 }
                 game.cards = Object.fromEntries(Object.entries(game.cards).map(([_, value], i) =>

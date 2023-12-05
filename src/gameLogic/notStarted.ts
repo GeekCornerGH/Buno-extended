@@ -243,6 +243,10 @@ export function onSettingsChange(ctx: ComponentInteraction<ComponentTypes.STRING
             game.settings.sevenAndZero = !game.settings.sevenAndZero;
             break;
         }
+        case SettingsIDs.SHOULD_YELL_BUNO: {
+            game.settings.shouldYellBUNO = !game.settings.shouldYellBUNO;
+            break;
+        }
         default: {
             ctx.createFollowup({
                 content: `The **${ctx.data.values.raw[0]}** setting is missing a handler. this is a bug`

@@ -55,8 +55,9 @@ export const GameButtons = ((game: UnoGame<true>) => {
         .addInteractionButton({
             style: ButtonStyles.SUCCESS,
             customID: ButtonIDs.SHOUT_UNO,
-            label: "Shout BUNO",
-            emoji: ComponentBuilder.emojiToPartial("❗", "default")
+            label: "Yell BUNO OUT",
+            emoji: ComponentBuilder.emojiToPartial("❗", "default"),
+            disabled: !game.settings.shouldYellBUNO
         })
         .addRow()
         .addInteractionButton({
@@ -259,6 +260,11 @@ export const SettingsSelectMenu = (game: UnoGame<false>) => new ComponentBuilder
                 label: "7 and 0",
                 value: SettingsIDs.SEVEN_AND_ZERO,
                 description: game.settings.sevenAndZero ? "Enabled" : "Disabled"
+            },
+            {
+                label: "Players should yell BUNO",
+                value: SettingsIDs.SHOULD_YELL_BUNO,
+                description: game.settings.shouldYellBUNO ? "Enabled": "Disabled"
             }
         ]
     })
