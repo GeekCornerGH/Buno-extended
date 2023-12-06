@@ -57,7 +57,7 @@ export function onColorPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SE
     else game.lastPlayer = { id: game.currentPlayer, duration: 0 };
 
     if (game.settings.shouldYellBUNO && game.cards[ctx.member.id].length === 1 && !game.unoPlayers.includes(ctx.member.id)) {
-        const { cards, newDeck } = game.draw(2);
+        const { cards, newDeck } = game.draw(3);
         game.cards[ctx.member.id].push(...cards);
         game.deck[ctx.member.id] = newDeck;
         sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** forgot to yell BUNO OUT and drew 2 cards.`);
