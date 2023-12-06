@@ -12,12 +12,13 @@ export const cmd = {
         const game = games[msg.channel.id];
         if (!game) return respond(msg, "There's no game in this channel");
 
-        const canDeleteGames = msg.member.permissions.has(Permissions.MANAGE_MESSAGES)
+        const canDeleteGames = msg.member.id === game.host
+            || msg.member.permissions.has(Permissions.MANAGE_MESSAGES)
             || msg.channel.permissionsOf(msg.member.id).has(Permissions.MANAGE_MESSAGES)
             || msg.member.permissions.has(Permissions.MODERATE_MEMBERS)
             || msg.channel.permissionsOf(msg.member.id).has(Permissions.MODERATE_MEMBERS);
         const canDeleteOngoingGames = msg.member.permissions.has(Permissions.MANAGE_CHANNELS);
-        if (!canDeleteGames) return respond(msg, "You need the `Manage Messages` or `Moderate Members` permission to delete games");
+        if (!canDeleteGames) return respond(msg, "You need to be the game host, or have the `Manage Messages` or `Moderate Members` permission to delete games");
 
         if (!game.started) {
             timeouts.delete(msg.channel.id);
