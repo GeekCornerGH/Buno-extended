@@ -45,13 +45,9 @@ export const cmd = {
 
                 if (result.length > MAX_RESPONSE_LENGTH) {
                     return clientUtils.respond(msg, {
-                        attachments: [{
-                            id: "0",
-                            filename: "output.ts"
-                        }],
                         files: [{
-                            name: "output.ts",
-                            contents: Buffer.from(inspect(evalResult, { depth: 4 }))
+                            contents: Buffer.from(inspect(evalResult, { depth: 4 })),
+                            name: "output.ts"
                         }]
                     });
                 }
