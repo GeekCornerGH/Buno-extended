@@ -161,7 +161,8 @@ Anti sabotage: **find out :troll\\:**
 
 Skipping turns: **${game.settings.allowSkipping ? "Enabled" : "Disabled"}**
 Stack +2's and +4's: **${game.settings.allowStacking ? "Enabled" : "Disabled"}**
-7 and 0: **${game.settings.sevenAndZero ? "Enabled" : "Disabled"}**`,
+7 and 0: **${game.settings.sevenAndZero ? "Enabled" : "Disabled"}**
+Players must yell BUNO OUT: **${game.settings.shouldYellBUNO ? "Enabled" : "Disabled"}**`,
                 flags: MessageFlags.EPHEMERAL
             });
         }
