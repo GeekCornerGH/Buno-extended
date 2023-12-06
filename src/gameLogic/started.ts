@@ -60,7 +60,7 @@ export function onGameButtonPress(ctx: ComponentInteraction<ComponentTypes.BUTTO
                 flags: MessageFlags.EPHEMERAL
             });
             if (game.hasPlayed) return ctx.createFollowup({
-                content: `You already played a card.`,
+                content: "You already played a card.",
                 flags: MessageFlags.EPHEMERAL
             });
             const components = PickCardSelect(game, ctx.member.id);
