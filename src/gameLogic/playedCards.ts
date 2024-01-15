@@ -56,13 +56,6 @@ export function onColorPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SE
     if (game.lastPlayer.id === game.currentPlayer) game.lastPlayer.duration++;
     else game.lastPlayer = { id: game.currentPlayer, duration: 0 };
 
-    if (game.settings.shouldYellBUNO && game.cards[ctx.member.id].length === 1 && !game.unoPlayers.includes(ctx.member.id)) {
-        const { cards, newDeck } = game.draw(3);
-        game.cards[ctx.member.id].push(...cards);
-        game.deck[ctx.member.id] = newDeck;
-        sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** forgot to yell BUNO OUT and drew 2 cards.`);
-    }
-
     if (variant === "+4") {
         const nextPlayer = next(game.players, game.players.indexOf(ctx.member.id));
         if (game.settings.allowStacking && game.cards[nextPlayer].some(c => c === "+4" || c === `${color}-+2`)) {
@@ -80,6 +73,7 @@ export function onColorPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SE
 
     game.currentCard = variant;
     game.currentCardColor = color;
+    forgotToYellBuno(ctx, game);
     game.currentPlayer = next(game.players, game.players.indexOf(game.currentPlayer));
     game.hasPlayed = false;
     ctx.deleteOriginal();
@@ -135,6 +129,15 @@ ${cardEmotes[game.currentCard]} ${toTitleCase(game.currentCard)}
     sendGameMessage(game);
 }
 
+export function forgotToYellBuno(ctx: ComponentInteraction<ComponentTypes.STRING_SELECT>, game: UnoGame<true>) {
+    if (game.settings.shouldYellBUNO && game.cards[ctx.member.id].length === 1 && !game.unoPlayers.includes(ctx.member.id)) {
+        const { cards, newDeck } = game.draw(3);
+        game.cards[ctx.member.id].push(...cards);
+        game.deck[ctx.member.id] = newDeck;
+        sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** forgot to yell BUNO OUT and drew 2 cards.`);
+    }
+}
+
 export function onCardPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SELECT>, game: UnoGame<true>, ignoreDrawStack = false) {
     if (game.currentPlayer !== ctx.member.id) return;
     if (game.hasPlayed === true) return ctx.createFollowup({
@@ -166,7 +169,10 @@ export function onCardPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SEL
         game.currentCard = color as typeof uniqueVariants[number];
         game.drawDuration = 0;
         game.cards[ctx.member.id].splice(game.cards[ctx.member.id].indexOf(cardPlayed as Card), 1);
-        if (game.cards[ctx.member.id].length === 0) return deleteMessage(game.message);
+        if (game.cards[ctx.member.id].length === 0) {
+            ctx.deleteOriginal();
+            return deleteMessage(game.message);
+        }
 
         return ctx.editOriginal({
             content: "Choose a color",
@@ -223,7 +229,10 @@ You drew ${cardEmotes[newCards[0]]}`,
         game.drawDuration = 0;
         game.cards[ctx.member.id].splice(game.cards[ctx.member.id].indexOf(cardPlayed), 1);
         if (game.settings.shouldYellBUNO && game.cards[game.currentPlayer].length === 1 && !game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.indexOf(game.currentPlayer), 1);
-        if (game.cards[ctx.member.id].length === 0) return deleteMessage(game.message);
+        if (game.cards[ctx.member.id].length === 0) {
+            deleteMessage(game.message);
+            return ctx.deleteOriginal();
+        }
 
         switch (variant) {
             case "reverse": {
@@ -299,6 +308,7 @@ You drew ${cardEmotes[newCards[0]]}`,
     }
     game.cards[ctx.member.id].sort((a, b) => cards.indexOf(a) - cards.indexOf(b));
 
+    forgotToYellBuno(ctx, game);
     sendMessage(ctx.channel.id,
         `${cardPlayed === "draw"
             ? `**${getUsername(ctx.member.id, true, ctx.guild)}** drew a card`
