@@ -134,7 +134,7 @@ export function forgotToYellBuno(ctx: ComponentInteraction<ComponentTypes.STRING
         const { cards, newDeck } = game.draw(3);
         game.cards[ctx.member.id].push(...cards);
         game.deck[ctx.member.id] = newDeck;
-        sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** forgot to yell BUNO OUT and drew 2 cards.`);
+        sendMessage(ctx.channel.id, `**${getUsername(ctx.member.id, true, ctx.guild)}** forgot to yell BUNO OUT and drew 3 cards.`);
     }
 }
 
