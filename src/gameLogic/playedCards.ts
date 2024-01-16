@@ -140,16 +140,16 @@ export function forgotToYellBuno(ctx: ComponentInteraction<ComponentTypes.STRING
 
 export function onCardPlayed(ctx: ComponentInteraction<ComponentTypes.STRING_SELECT>, game: UnoGame<true>, ignoreDrawStack = false) {
     if (game.currentPlayer !== ctx.member.id) return;
-    if (game.hasPlayed === true) return ctx.createFollowup({
-        content: "You already played a card.",
-        flags: MessageFlags.EPHEMERAL
-    });
     const cardPlayed = ctx.data.values.raw[0] as Card | "draw" | "skip";
     const [color, variant] = cardPlayed.split("-") as [typeof colors[number] | typeof uniqueVariants[number], typeof variants[number]];
     const [ccColor, ccVariant] = game.currentCard.split("-") as [typeof colors[number] | typeof uniqueVariants[number], typeof variants[number]];
 
     if (game.cards[ctx.member.id].indexOf(cardPlayed as Card) === -1 && !["draw", "skip"].includes(cardPlayed)) return ctx.createFollowup({
         content: "nuh uh ☝️",
+        flags: MessageFlags.EPHEMERAL
+    });
+    if (game.hasPlayed === true) return ctx.createFollowup({
+        content: "You already played a card.",
         flags: MessageFlags.EPHEMERAL
     });
 
