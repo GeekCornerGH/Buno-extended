@@ -247,6 +247,10 @@ export function onSettingsChange(ctx: ComponentInteraction<ComponentTypes.STRING
             game.settings.shouldYellBUNO = !game.settings.shouldYellBUNO;
             break;
         }
+        case SettingsIDs.REVERSE_ANYTHING: {
+            game.settings.reverseAnything = !game.settings.reverseAnything;
+            break;
+        }
         default: {
             ctx.createFollowup({
                 content: `The **${ctx.data.values.raw[0]}** setting is missing a handler. this is a bug`

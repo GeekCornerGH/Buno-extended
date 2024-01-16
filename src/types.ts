@@ -51,7 +51,8 @@ export type UnoGameSettings = {
     resendGameMessage: boolean,
     canJoinMidgame: "no" | "temporarily" | "permanently",
     sevenAndZero: boolean,
-    shouldYellBUNO: boolean
+    shouldYellBUNO: boolean,
+    reverseAnything: boolean
 }
 export type UnoGame<T extends boolean> = T extends true ? {
     uid: string,

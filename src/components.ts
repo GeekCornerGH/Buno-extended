@@ -265,6 +265,11 @@ export const SettingsSelectMenu = (game: UnoGame<false>) => new ComponentBuilder
                 label: "Players must yell BUNO",
                 value: SettingsIDs.SHOULD_YELL_BUNO,
                 description: game.settings.shouldYellBUNO ? "Enabled": "Disabled"
+            },
+            {
+                label: "Reverse card can reverse anything",
+                value: SettingsIDs.REVERSE_ANYTHING,
+                description: game.settings.reverseAnything ? "Enabled": "Disabled"
             }
         ]
     })
