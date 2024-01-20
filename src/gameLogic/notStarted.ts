@@ -75,13 +75,15 @@ function pushStateFactory(game: UnoGame<true>): (state: DebugState & { type: Deb
 
 export function startGame(game: UnoGame<false>, automatic: boolean) {
     if (hasStarted(game)) return;
-    if (game.players.length === 1 && !game._allowSolo) {
+    if (game.players.length === 1 && !game._allowSolo && automatic) {
+        sendMessage(game.message.id, "No one was available to join you, try again later!");
+        deleteMessage(game.message);
+        timeouts.delete(game.channelID);
+        delete games[game.channelID];
+        return;
+    }
+    else if (game.players.length === 1 && !game._allowSolo && !automatic) {
         respond(game.message, "You can't start a game by yourself!");
-        if (automatic) {
-            deleteMessage(game.message);
-            timeouts.delete(game.channelID);
-            delete games[game.channelID];
-        }
         return;
     }
 
