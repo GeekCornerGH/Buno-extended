@@ -1,7 +1,7 @@
 {
     "root": true,
+    "ignorePatterns": ["typings", "dist", "node_modules"],
     "parser": "@typescript-eslint/parser",
-    "ignorePatterns": ["dist"],
     "plugins": ["@typescript-eslint", "unused-imports", "simple-import-sort"],
     "rules": {
         "quotes": ["error", "double", { "avoidEscape": true }],
@@ -46,6 +46,9 @@
         "no-unexpected-multiline": "error",
         "no-unsafe-optional-chaining": "error",
         "no-useless-backreference": "error",
+        "no-unused-expressions": "error",
+        "no-unused-labels": "error",
+        "no-unused-vars": "error",
         "use-isnan": "error",
         "prefer-const": "error",
         "prefer-spread": "error",

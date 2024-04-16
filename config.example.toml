@@ -1,0 +1,5 @@
+emoteless = false
+
+# used for eval, takes discord user id's. bot's owner not included
+# ⚠ don't just goof around if you don't know what you're doing
+developerIds = [""]

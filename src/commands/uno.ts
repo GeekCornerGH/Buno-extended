@@ -1,63 +1,59 @@
+import { randomUUID } from "crypto";
+import { MessageCreateOptions, SlashCommandBuilder } from "discord.js";
 
-import { respond } from "../client.js";
-import { JoinButtons } from "../components.js";
-import { autoStartTimeout } from "../constants.js";
-import database from "../database.js";
-import { games, makeStartMessage } from "../gameLogic/index.js";
-import { startGame } from "../gameLogic/notStarted.js";
-import timeouts from "../timeouts.js";
-import { Command, UnoGame } from "../types";
-import { hasStarted } from "../utils.js";
+import { command } from "../../typings/command";
+import { unoGame } from "../../typings/unoGame";
+import lobbyGameMessage from "../components/lobbyGameMessage";
+import { Buno } from "../database/models/buno";
+import { autoStartTimeout, defaultSettings } from "../utils/constants";
+import startGame from "../utils/game/startGame";
 
-export const cmd = {
-    name: "uno",
-    aliases: ["buno"],
-    execute: (msg, args) => {
-        const existingGame = games[msg.channel.id];
-        if (existingGame) return respond(msg, `Someone already started a game
-Jump: https://discord.com/channels/${existingGame.message.channel.guild.id}/${existingGame.message.channel.id}/${existingGame.message.id}`);
-        games[msg.channel.id] = { started: false } as UnoGame<false>;
-
-        const data = database.getOrCreate(msg.guild.id, msg.author.id);
-        Object.entries(database.defaultValue.preferredSettings).forEach(([k, v]) => {
-            let isOutdated = false;
-            if (!(k in data.preferredSettings)) {
-                isOutdated = true;
-                data.preferredSettings[k] = v;
+export const c: command = {
+    data: new SlashCommandBuilder()
+        .setName("uno")
+        .setDescription("Starts a Buno game")
+        .setDMPermission(false),
+    execute: async (client, interaction) => {
+        const isGame = client.games.find(g => g.channelId === interaction.channelId);
+        if (isGame) {
+            return await interaction.reply({ content: "A game already exists on this channel :point_right: https://discord.com/channels/" + interaction.guildId + "/" + isGame.channelId + "/" + isGame.messageId, ephemeral: true });
+        }
+        const req = await Buno.findOne({
+            where: {
+                guildId: interaction.guildId,
+                userId: interaction.user.id
             }
-            if (isOutdated) database.set(msg.guild.id, msg.author.id, { preferredSettings: data.preferredSettings });
         });
-
-        const gameObj = {
-            uid: Math.random().toString().substring(2),
-            started: false,
-            starting: Math.floor(Date.now() / 1000) + autoStartTimeout,
-            host: msg.author.id,
-            settings: data.preferredSettings,
-            players: [msg.author.id],
-            _allowSolo: args[0]?.toLowerCase() === "solo",
+        if (!req) await Buno.create({
+            userId: interaction.user.id,
+            guildId: interaction.guildId,
+            settings: {
+                ...defaultSettings
+            },
+            wins: 0,
+            losses: 0
+        });
+        let settings = { ...defaultSettings };
+        if (req) settings = { ...settings, ...req.getDataValue("settings") };
+        const game = {
             _modified: false,
-            channelID: msg.channel.id,
-            guildID: msg.channel.guild.id
-        } as UnoGame<false>;
+            state: "waiting",
+            guildId: interaction.guildId,
+            channelId: interaction.channelId,
+            hostId: interaction.user.id,
+            uid: randomUUID(),
+            players: [interaction.user.id],
+            settings
+        } as unoGame;
+        client.games.push(game);
+        const message = await interaction.channel.send(await lobbyGameMessage(game, interaction.guild) as MessageCreateOptions);
+        interaction.deferReply({ ephemeral: true });
+        interaction.deleteReply();
+        game.messageId = message.id;
 
-        respond(msg, {
-            embeds: [makeStartMessage(gameObj, msg.channel.guild)],
-            components: JoinButtons
-        }).then(m => {
-            if (!m) {
-                delete games[msg.channel.id];
-                return msg.createReaction("‼");
-            }
-
-            timeouts.delete(gameObj.channelID);
-            gameObj.message = m;
-            timeouts.set(gameObj.channelID, () => {
-                const g = games[msg.channel.id];
-                if (!hasStarted(g)) startGame(g, true);
-            }, autoStartTimeout * 1000);
-
-            games[msg.channel.id] = gameObj;
-        });
-    },
-} as Command;
+        setTimeout(() => {
+            if (game.state === "waiting") startGame(client, game, true, message);
+        }, autoStartTimeout * 1000);
+        return;
+    }
+};

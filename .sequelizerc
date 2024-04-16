@@ -1,0 +1,6 @@
+import { resolve } from "path";
+
+export default {
+    'models-path': resolve('./dist/database/models'),
+    config: resolve('./dist/database/', 'config.js')
+};

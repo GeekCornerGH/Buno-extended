@@ -6,9 +6,10 @@
         "alwaysStrict": true,
         "outDir": "dist",
         "module": "ESNext",
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "types": ["node"],
     },
     "watchOptions": { "excludeDirectories": ["node_modules"] },
-    "include": ["./src/**/*.ts"],
-    "exclude": ["./src/database/**/*", "./dist/**/*", "./node_modules/**/*"]
+    "include": ["./src/**/*.ts", "./typings/**/*.d.ts"],
+    "exclude": ["./dist/**/*", "./node_modules/**/*"]
 }

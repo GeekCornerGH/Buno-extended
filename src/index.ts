@@ -1,93 +1,72 @@
-import { readdir, readFileSync } from "fs";
-import { ActivityTypes, InteractionTypes } from "oceanic.js";
-import { parse } from "toml";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { configDotenv } from "dotenv";
+import { readdirSync } from "fs";
 
-import { client } from "./client.js";
-import { defaultConfig } from "./constants.js";
-import { handleGameResend, onButtonPress, onModalSubmit, onSelectMenu } from "./gameLogic/index.js";
-import { patch } from "./patchContext.js";
-import { Command, Config } from "./types.js";
-import { onMsgError } from "./utils.js";
+import { buttonFile } from "../typings/button";
+import { customClient } from "../typings/client";
+import { commandFile } from "../typings/command";
+import { eventFile } from "../typings/event";
+import { modalFile } from "../typings/modal";
+import { stringSelectFile } from "../typings/stringSelect";
 
-declare global {
-    interface Array<T> {
-        includes<U>(searchElement: U, fromIndex?: number): U extends T ? boolean : false;
-    }
-    interface ReadonlyArray<T> {
-        includes<U>(searchElement: U, fromIndex?: number): U extends T ? boolean : false;
-    }
-}
+configDotenv();
 
-export let config: Config;
-let configFile: Partial<Config>;
-try {
-    configFile = parse(readFileSync("config.toml", "utf-8"));
-    config = { ...defaultConfig, ...configFile };
-} catch (e) {
-    config = defaultConfig;
-}
+Error.stackTraceLimit = Infinity;
 
-const prefix = process.argv[2] === "--dev" ? config.devPrefix : config.prefix;
 
-const commands: { [k: string]: Command } = {};
-// why the fuck does it need ./src specified
-readdir("./src/commands", (err, res) => {
-    if (err) throw err;
-    res.forEach(
-        f => (import(`./commands/${f.slice(0, -3)}.js`) as Promise<{ cmd: Command }>)
-            .then(c => {
-                if (commands[c.cmd.name]) return console.error(`Duplicate command ${c.cmd.name}`);
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
+}) as customClient;
 
-                c.cmd.aliases?.forEach(a => {
-                    if (commands[a]) return console.error(`Duplicate command ${a}`);
-                    else commands[a] = c.cmd;
-                });
+client.games = [];
 
-                commands[c.cmd.name] = c.cmd;
-            })
-    );
+const events = readdirSync(import.meta.dirname + "/events");
+events.forEach(async (name: string) => {
+    if (!name.endsWith(".js") && !name.endsWith(".ts")) return;
+    const { e } = await import("file://" + import.meta.dirname + "/events/" + name) as eventFile;
+    const propername = name.split(".")[0];
+    client.on(propername, (...args) => e(client, ...args));
 });
 
-client.once("ready", () => {
-    console.log("Ready as", client.user.tag);
-
-    if (config.status) client.editStatus("online", [{ name: `${config.status} - ${prefix}uno`, type: ActivityTypes.GAME }]);
-    if (config.logChannel) client.rest.channels.createMessage(config.logChannel, {
-        content: `Restarted (<t:${Math.floor(Date.now() / 1000)}>)`
-    }).catch(() => { });
+client.commands = new Collection();
+const commands = readdirSync(import.meta.dirname + "/commands");
+commands.forEach(async (name: string) => {
+    if (!name.endsWith(".js") && !name.endsWith(".ts")) return;
+    const { c } = await import("file://" + import.meta.dirname + "/commands/" + name) as commandFile;
+    const propername = name.split(".")[0];
+    client.commands.set(propername, c);
 });
+
+client.buttons = new Collection();
+const buttons = readdirSync(import.meta.dirname + "/interactions/buttons/");
+buttons.forEach(async (name: string) => {
+    if (!name.endsWith(".js") && !name.endsWith(".ts")) return;
+    const { b } = await import("file://" + import.meta.dirname + "/interactions/buttons/" + name) as buttonFile;
+    client.buttons.set(b.name, b);
+});
+
+client.stringSelects = new Collection();
+const stringSelects = readdirSync(import.meta.dirname + "/interactions/stringSelects/");
+stringSelects.forEach(async (name: string) => {
+    if (!name.endsWith(".js") && !name.endsWith(".ts")) return;
+    const { s } = await import("file://" + import.meta.dirname + "/interactions/stringSelects/" + name) as stringSelectFile;
+    client.stringSelects.set(s.name, s);
+});
+
+client.modals = new Collection();
+const modals = readdirSync(import.meta.dirname + "/interactions/modals/");
+modals.forEach(async (name: string) => {
+    if (!name.endsWith(".js") && !name.endsWith(".ts")) return;
+    const { m } = await import("file://" + import.meta.dirname + "/interactions/modals/" + name) as modalFile;
+    client.modals.set(m.name, m);
+});
+
+client.login(process.env.TOKEN);
+
 client.on("error", console.error);
-
-client.on("messageCreate", msg => {
-    if (!msg.inCachedGuildChannel()) return;
-    handleGameResend(msg);
-
-    if (!msg.content.startsWith(prefix)) return;
-    const args = msg.content.slice(prefix.length).split(/ +/);
-    const command = args.shift();
-    if (commands[command]) {
-        try {
-            commands[command].execute(msg, args);
-        } catch (e) {
-            onMsgError(e, msg);
-        }
-    }
-});
-
-client.on("interactionCreate", ctx => {
-    patch(ctx);
-
-    try {
-        if (ctx.type === InteractionTypes.MESSAGE_COMPONENT) {
-            if (ctx.isButtonComponentInteraction()) onButtonPress(ctx);
-            else onSelectMenu(ctx);
-        }
-        else if (ctx.type === InteractionTypes.MODAL_SUBMIT) {
-            onModalSubmit(ctx);
-        }
-    } catch (e) {
-        onMsgError(e, ctx);
-    }
-});
-
-client.connect();
+process.on("unhandledRejection", console.error);
