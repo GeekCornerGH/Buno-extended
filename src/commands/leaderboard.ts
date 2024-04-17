@@ -14,6 +14,9 @@ export const c: command = {
         const cmd = client.application.commands.cache.find(c => c.name === "uno");
         if (!cmd) return interaction.editReply("An error occured while executing this command.");
         const dbReq = await Buno.findAndCountAll({
+            where: {
+                guildId: interaction.guildId
+            },
             order: [["wins", "DESC"]],
             limit: 25,
             offset: 0
