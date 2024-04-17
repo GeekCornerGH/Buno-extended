@@ -9,8 +9,8 @@
         "start": "node .",
         "start:restart": "forever start . --watchDirectory dist",
         "dev": "tsx watch src",
-        "scripts:deploySlash": "node dist/src/utils/registerSlashCommands",
-        "scripts:migrate": "node dist/src/utils/migrateDatabase"
+        "scripts:deploySlash": "node dist/utils/registerSlashCommands",
+        "scripts:migrate": "node dist/utils/migrateDatabase"
     },
     "keywords": [],
     "author": "",
