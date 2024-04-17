@@ -16,27 +16,31 @@ for (const fileName of folder) {
     if (!data) throw new Error(fileName + " is not a proper JSON file, please fix that");
     const array = Object.entries(data);
     for (const e of array) {
-        console.log(guildId, e[0]);
-        if (e[0] !== "settingsVersion") continue;
-        if (!(process.env.IGNORED_PLAYERS && process.env.IGNORED_PLAYERS.split(",").includes(e[0]))) continue;
-        const req = await Buno.findOne({
-            where: {
-                userId: e[0],
-                guildId
+        if (e[0] === "settingsVersion") { }
+        else {
+            if ((process.env.IGNORED_PLAYERS && process.env.IGNORED_PLAYERS.split(",").includes(e[0]))) { }
+            else {
+                const req = await Buno.findOne({
+                    where: {
+                        userId: e[0],
+                        guildId
+                    }
+                });
+                if (req) console.log("This user/guild pair already exists");
+                else {
+                    await Buno.create({
+                        userId: e[0],
+                        guildId,
+                        wins: e[1].wins,
+                        losses: e[1].losses,
+                        settings: {
+                            ...e[1].preferredSettings
+                        }
+                    });
+                    console.log("Migrated user " + e[0] + " from guild " + guildId);
+                }
             }
-        });
-        if (req) console.log("This user/guild pair already exists");
-        else continue;
-        await Buno.create({
-            userId: e[0],
-            guildId,
-            wins: e[1].wins,
-            losses: e[1].losses,
-            settings: {
-                ...e[1].preferredSettings
-            }
-        });
-        console.log("Migrated user " + e[0] + " from guild " + guildId);
+        }
     }
 }
 

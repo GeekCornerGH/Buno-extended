@@ -21,8 +21,8 @@ export const b: button = {
                 guildId: interaction.guildId
             },
             order: [["wins", "DESC"]],
-            limit: 14,
-            offset: offset * 14
+            limit: 25,
+            offset: offset * 25
         });
         const { count } = dbReq;
         interaction.editReply(await leaderboard(dbReq.rows, interaction, count, offset));
