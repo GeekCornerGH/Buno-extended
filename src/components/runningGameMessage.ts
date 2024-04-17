@@ -6,7 +6,7 @@ import { ButtonIDs, cardEmojis, cardEmotes, coloredUniqueCards, colorEmotes, uni
 import canJoinMidGame from "../utils/game/canJoinMidGame";
 import generatePlayerList from "../utils/game/generatePlayerList";
 import toTitleCase from "../utils/game/toTitleCase";
-import toHumanReadableTime from "../utils/toHumanReadableDate";
+import toHumanReadableTime from "../utils/toHumanReadableTime";
 
 export default async (game: runningUnoGame, guild: Guild): Promise<MessageCreateOptions> => {
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);

@@ -1,11 +1,11 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
 
-import { customClient } from "../../../typings/client";
-import { runningUnoGame, unoLog } from "../../../typings/unoGame";
-import { Buno } from "../../database/models/buno";
-import { ButtonIDs, cardEmotes, defaultSettings } from "../constants";
-import toHumanReadableTime from "../toHumanReadableDate";
-import toTitleCase from "./toTitleCase";
+import { customClient } from "../../../typings/client.js";
+import { runningUnoGame, unoLog } from "../../../typings/unoGame.js";
+import { Buno } from "../../database/models/buno.js";
+import { ButtonIDs, cardEmotes, defaultSettings } from "../constants.js";
+import toHumanReadableTime from "../toHumanReadableTime.js";
+import toTitleCase from "./toTitleCase.js";
 
 export default async function (game: runningUnoGame, client: customClient, reason: "notEnoughPeople" | "win", winner?: string) {
     const calledTimestamp = new Date();

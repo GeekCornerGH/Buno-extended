@@ -1,13 +1,13 @@
 import { ActionRowBuilder, ButtonInteraction, InteractionReplyOptions, SelectMenuComponentOptionData, StringSelectMenuBuilder } from "discord.js";
 
-import { customClient } from "../../typings/client";
-import { runningUnoGame, unoCard } from "../../typings/unoGame";
-import { cardEmotes, SelectIDs } from "../utils/constants";
-import { cardArrayToCount } from "../utils/game/cardArrayToCount";
-import endGame from "../utils/game/endGame";
-import endTurn from "../utils/game/endTurn";
-import next from "../utils/game/next";
-import toTitleCase from "../utils/game/toTitleCase";
+import { customClient } from "../../typings/client.js";
+import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
+import { cardEmotes, SelectIDs } from "../utils/constants.js";
+import { cardArrayToCount } from "../utils/game/cardArrayToCount.js";
+import endGame from "../utils/game/endGame.js";
+import endTurn from "../utils/game/endTurn.js";
+import next from "../utils/game/next.js";
+import toTitleCase from "../utils/game/toTitleCase.js";
 
 export default (client: customClient, interaction: ButtonInteraction, game: runningUnoGame, player: string): InteractionReplyOptions => {
     const playerCards = game.cards[player].filter(c => c === "+4" || c.endsWith("-+2") || (game.settings.reverseAnything === true && c.endsWith("-reverse")));

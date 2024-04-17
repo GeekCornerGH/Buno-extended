@@ -1,7 +1,7 @@
 import { ActionRowBuilder, InteractionReplyOptions, InteractionUpdateOptions, StringSelectMenuBuilder } from "discord.js";
 
-import { colorEmotes, colors, SelectIDs, uniqueVariants } from "../utils/constants";
-import toTitleCase from "../utils/game/toTitleCase";
+import { colorEmotes, colors, SelectIDs, uniqueVariants } from "../utils/constants.js";
+import toTitleCase from "../utils/game/toTitleCase.js";
 
 export default (cardType: typeof uniqueVariants[number]): InteractionReplyOptions | InteractionUpdateOptions => {
     return {

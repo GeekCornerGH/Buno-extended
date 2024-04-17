@@ -1,6 +1,6 @@
-import { button } from "../../../typings/button";
-import { config } from "../../utils/config";
-import { ButtonIDs } from "../../utils/constants";
+import { button } from "../../../typings/button.js";
+import { config } from "../../utils/config.js";
+import { ButtonIDs } from "../../utils/constants.js";
 
 export const b: button = {
     name: ButtonIDs.DELETE_GAME,

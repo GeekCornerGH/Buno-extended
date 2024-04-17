@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { parse } from "toml";
 
-import { Config } from "../../typings/config";
+import { Config } from "../../typings/config.js";
 
 export const defaultConfig: Config = Object.freeze({
     emoteless: true,

@@ -1,6 +1,6 @@
 import { StringSelectMenuInteraction } from "discord.js";
 
-import { customClient } from "./client";
+import { customClient } from "./client.js";
 
 export type stringSelectFile = { s: stringSelect };
 export type stringSelect = {

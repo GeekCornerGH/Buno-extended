@@ -2,7 +2,7 @@
 
 import { readFileSync } from "fs";
 
-import { unoCard, unoSettings } from "../../typings/unoGame";
+import { unoCard, unoSettings } from "../../typings/unoGame.js";
 import { config } from "./config";
 
 export const colors = ["red", "yellow", "green", "blue",] as const;

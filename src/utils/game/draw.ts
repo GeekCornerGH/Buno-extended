@@ -1,4 +1,4 @@
-import { unoCard } from "../../../typings/unoGame";
+import { unoCard } from "../../../typings/unoGame.js";
 
 export default (quota: {
     [card: string]: number

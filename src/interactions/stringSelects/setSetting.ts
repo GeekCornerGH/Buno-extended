@@ -1,10 +1,10 @@
 import { ActionRowBuilder, InteractionUpdateOptions, ModalActionRowComponentBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect";
-import editSettings from "../../components/editSettings";
-import { Buno } from "../../database/models/buno";
-import { config } from "../../utils/config";
-import { defaultSettings, SelectIDs, SettingsIDs } from "../../utils/constants";
+import { stringSelect } from "../../../typings/stringSelect.js";
+import editSettings from "../../components/editSettings.js";
+import { Buno } from "../../database/models/buno.js";
+import { config } from "../../utils/config.js";
+import { defaultSettings, SelectIDs, SettingsIDs } from "../../utils/constants.js";
 
 export const s: stringSelect = {
     name: SelectIDs.EDIT_GAME_SETTINGS,

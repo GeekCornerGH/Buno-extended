@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { command } from "../../typings/command";
+import { command } from "../../typings/command.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()

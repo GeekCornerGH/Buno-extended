@@ -1,10 +1,10 @@
 
-import { button } from "../../../typings/button";
-import { ButtonIDs } from "../../utils/constants";
-import endTurn from "../../utils/game/endTurn";
-import next from "../../utils/game/next";
-import onTimeout from "../../utils/game/onTimeout";
-import timeouts from "../../utils/timeoutManager";
+import { button } from "../../../typings/button.js";
+import { ButtonIDs } from "../../utils/constants.js";
+import endTurn from "../../utils/game/endTurn.js";
+import next from "../../utils/game/next.js";
+import onTimeout from "../../utils/game/onTimeout.js";
+import timeouts from "../../utils/timeoutManager.js";
 
 export const b: button = {
     name: ButtonIDs.LEAVE_GAME_CONFIRMATION_YES,

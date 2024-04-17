@@ -1,12 +1,12 @@
 import { EmbedBuilder } from "discord.js";
 
-import { button } from "../../../typings/button";
-import { unoCard } from "../../../typings/unoGame";
-import backToAdminAbuseHome from "../../components/backToAdminAbuseHome";
-import { config } from "../../utils/config";
-import { ButtonIDs, cardEmojis, cardEmotes } from "../../utils/constants";
-import digitsToEmotes from "../../utils/game/digitsToEmotes";
-import toTitleCase from "../../utils/game/toTitleCase";
+import { button } from "../../../typings/button.js";
+import { unoCard } from "../../../typings/unoGame.js";
+import backToAdminAbuseHome from "../../components/backToAdminAbuseHome.js";
+import { config } from "../../utils/config.js";
+import { ButtonIDs, cardEmojis, cardEmotes } from "../../utils/constants.js";
+import digitsToEmotes from "../../utils/game/digitsToEmotes.js";
+import toTitleCase from "../../utils/game/toTitleCase.js";
 
 export const b: button = {
     name: ButtonIDs.ADMIN_ABUSE_VIEW_CARDS,

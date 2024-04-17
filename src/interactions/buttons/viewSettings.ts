@@ -1,9 +1,9 @@
 
 import { InteractionReplyOptions } from "discord.js";
 
-import { button } from "../../../typings/button";
-import editSettings from "../../components/editSettings";
-import { ButtonIDs } from "../../utils/constants";
+import { button } from "../../../typings/button.js";
+import editSettings from "../../components/editSettings.js";
+import { ButtonIDs } from "../../utils/constants.js";
 
 export const b: button = {
     name: ButtonIDs.VIEW_GAME_SETTINGS,

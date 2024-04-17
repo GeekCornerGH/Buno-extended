@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionEditReplyOptions, User } from "discord.js";
 
-import { Buno } from "../database/models/buno";
-import { ButtonIDs } from "../utils/constants";
+import { Buno } from "../database/models/buno.js";
+import { ButtonIDs } from "../utils/constants.js";
 
 export default async function (rows: Buno[], interaction: ChatInputCommandInteraction | ButtonInteraction, total: number, offset: number = 0): Promise<InteractionEditReplyOptions> {
     const dataArray = await Promise.all(rows.map(async (r, index) => {

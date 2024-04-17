@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto";
 import { MessageCreateOptions, SlashCommandBuilder } from "discord.js";
 
-import { command } from "../../typings/command";
-import { unoGame } from "../../typings/unoGame";
-import lobbyGameMessage from "../components/lobbyGameMessage";
-import { Buno } from "../database/models/buno";
-import { autoStartTimeout, defaultSettings } from "../utils/constants";
-import startGame from "../utils/game/startGame";
+import { command } from "../../typings/command.js";
+import { unoGame } from "../../typings/unoGame.js";
+import lobbyGameMessage from "../components/lobbyGameMessage.js";
+import { Buno } from "../database/models/buno.js";
+import { autoStartTimeout, defaultSettings } from "../utils/constants.js";
+import startGame from "../utils/game/startGame.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()

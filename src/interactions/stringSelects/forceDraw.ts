@@ -1,15 +1,15 @@
 
 import { GuildMember, InteractionUpdateOptions } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect";
-import { runningUnoGame, unoCard } from "../../../typings/unoGame";
-import chooseColor from "../../components/chooseColor";
-import { SelectIDs, uniqueVariants } from "../../utils/constants";
-import draw from "../../utils/game/draw";
-import endTurn from "../../utils/game/endTurn";
-import next from "../../utils/game/next";
-import playableCard from "../../utils/game/playableCard";
-import use from "../../utils/game/use";
+import { stringSelect } from "../../../typings/stringSelect.js";
+import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
+import chooseColor from "../../components/chooseColor.js";
+import { SelectIDs, uniqueVariants } from "../../utils/constants.js";
+import draw from "../../utils/game/draw.js";
+import endTurn from "../../utils/game/endTurn.js";
+import next from "../../utils/game/next.js";
+import playableCard from "../../utils/game/playableCard.js";
+import use from "../../utils/game/use.js";
 
 export const s: stringSelect = {
     name: SelectIDs.FORCEFUL_DRAW,

@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
 
-import { event } from "../../typings/event";
-import runningGameMessage from "../components/runningGameMessage";
-import { maxWeightBeforeResend } from "../utils/constants";
+import { event } from "../../typings/event.js";
+import runningGameMessage from "../components/runningGameMessage.js";
+import { maxWeightBeforeResend } from "../utils/constants.js";
 
 
 export const e: event = async (client, message: Message) => {

@@ -1,6 +1,6 @@
 import { button } from "../../../typings/button";
-import { ButtonIDs } from "../../utils/constants";
-import { b as nextBtn } from "./leaderboard_next";
+import { ButtonIDs } from "../../utils/constants.js";
+import { b as nextBtn } from "./leaderboard_next.js";
 
 export const b: button = {
     name: ButtonIDs.LEADERBOARD_PREVIOUS,

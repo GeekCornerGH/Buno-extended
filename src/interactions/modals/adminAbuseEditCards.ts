@@ -1,5 +1,5 @@
-import { modal } from "../../../typings/modal";
-import { ModalsIDs } from "../../utils/constants";
+import { modal } from "../../../typings/modal.js";
+import { ModalsIDs } from "../../utils/constants.js";
 
 export const m: modal = {
     name: ModalsIDs.ADMIN_ABUSE_EDIT_CARDS,

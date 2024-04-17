@@ -1,8 +1,8 @@
 import { button } from "../../../typings/button";
-import { runningUnoGame } from "../../../typings/unoGame";
-import { ButtonIDs } from "../../utils/constants";
-import draw from "../../utils/game/draw";
-import endTurn from "../../utils/game/endTurn";
+import { runningUnoGame } from "../../../typings/unoGame.js";
+import { ButtonIDs } from "../../utils/constants.js";
+import draw from "../../utils/game/draw.js";
+import endTurn from "../../utils/game/endTurn.js";
 
 export const b: button = {
     name: ButtonIDs.JOIN_MID_GAME,

@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { command } from "../../typings/command";
-import { Blacklisted } from "../database/models/blacklisted";
-import { config } from "../utils/config";
+import { command } from "../../typings/command.js";
+import { Blacklisted } from "../database/models/blacklisted.js";
+import { config } from "../utils/config.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()

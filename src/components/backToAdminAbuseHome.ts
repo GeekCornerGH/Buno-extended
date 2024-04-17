@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
-import { ButtonIDs } from "../utils/constants";
+import { ButtonIDs } from "../utils/constants.js";
 
 export default () => {
     return new ActionRowBuilder<ButtonBuilder>()

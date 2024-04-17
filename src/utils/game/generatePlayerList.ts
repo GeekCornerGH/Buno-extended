@@ -1,6 +1,6 @@
 import { GuildMember, GuildMemberManager } from "discord.js";
 
-import { unoGame } from "../../../typings/unoGame";
+import { unoGame } from "../../../typings/unoGame.js";
 
 export default async function generatePlayerList(game: unoGame, members: GuildMemberManager): Promise<string> {
     let string = "```diff\n";

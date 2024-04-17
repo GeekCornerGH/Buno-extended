@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
 
-import { button } from "../../../typings/button";
-import { ButtonIDs } from "../../utils/constants";
+import { button } from "../../../typings/button.js";
+import { ButtonIDs } from "../../utils/constants.js";
 
 export const b: button = {
     name: ButtonIDs.ACTIONS_MENU,

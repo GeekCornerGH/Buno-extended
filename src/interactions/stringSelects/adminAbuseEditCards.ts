@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect";
-import { ModalsIDs, SelectIDs } from "../../utils/constants";
+import { stringSelect } from "../../../typings/stringSelect.js";
+import { ModalsIDs, SelectIDs } from "../../utils/constants.js";
 
 export const s: stringSelect = {
     name: SelectIDs.ADMIN_ABUSE_PLAYER_CARDS_EDIT,

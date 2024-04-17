@@ -1,6 +1,6 @@
 import { ButtonInteraction } from "discord.js";
 
-import { customClient } from "./client";
+import { customClient } from "./client.js";
 
 export type buttonFile = { b: button }
 export type button = {

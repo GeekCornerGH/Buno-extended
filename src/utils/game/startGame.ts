@@ -1,14 +1,14 @@
 import { Message } from "discord.js";
 
-import { customClient } from "../../../typings/client";
-import { runningUnoGame, unoGame } from "../../../typings/unoGame";
-import runningGameMessage from "../../components/runningGameMessage";
-import { Buno } from "../../database/models/buno";
-import { averageUnoGameCount, defaultSettings } from "../constants";
-import timeouts from "../timeoutManager";
-import draw from "./draw";
-import onTimeout from "./onTimeout";
-import use from "./use";
+import { customClient } from "../../../typings/client.js";
+import { runningUnoGame, unoGame } from "../../../typings/unoGame.js";
+import runningGameMessage from "../../components/runningGameMessage.js";
+import { Buno } from "../../database/models/buno.js";
+import { averageUnoGameCount, defaultSettings } from "../constants.js";
+import timeouts from "../timeoutManager.js";
+import draw from "./draw.js";
+import onTimeout from "./onTimeout.js";
+import use from "./use.js";
 
 export default async (client: customClient, game: unoGame, automatic: boolean, message: Message) => {
     if (automatic && game.players.length < 2 && game._modified !== true) {

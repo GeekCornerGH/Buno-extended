@@ -1,14 +1,14 @@
 import { GuildMember, GuildTextBasedChannel } from "discord.js";
 
-import { customClient } from "../../../typings/client";
-import { runningUnoGame, unoCard } from "../../../typings/unoGame";
-import runningGameMessage from "../../components/runningGameMessage";
-import { config } from "../config";
-import { cardEmotes, coloredUniqueCards, colorEmotes, colors, uniqueVariants } from "../constants";
-import draw from "./draw";
-import endGame from "./endGame";
-import next from "./next";
-import toTitleCase from "./toTitleCase";
+import { customClient } from "../../../typings/client.js";
+import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
+import runningGameMessage from "../../components/runningGameMessage.js";
+import { config } from "../config.js";
+import { cardEmotes, coloredUniqueCards, colorEmotes, colors, uniqueVariants } from "../constants.js";
+import draw from "./draw.js";
+import endGame from "./endGame.js";
+import next from "./next.js";
+import toTitleCase from "./toTitleCase.js";
 
 export default async (client: customClient, game: runningUnoGame, player: string) => {
     if (!game || !client.games.find(g => g.uid === game.uid) || game.currentPlayer !== player || game.uid !== client.games.find(g => g.channelId === game.channelId).uid) return;

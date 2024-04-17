@@ -1,5 +1,5 @@
-import { unoCard } from "../../../typings/unoGame";
-import { cards } from "../constants";
+import { unoCard } from "../../../typings/unoGame.js";
+import { cards } from "../constants.js";
 
 export const cardArrayToCount = (a: unoCard[]) => a
     .sort((a, b) => cards.indexOf(a) - cards.indexOf(b))

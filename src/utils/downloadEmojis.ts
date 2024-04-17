@@ -4,7 +4,7 @@ import { Readable } from "stream";
 import { finished } from "stream/promises";
 import { ReadableStream } from "stream/web";
 
-import { cardEmojis } from "./constants";
+import { cardEmojis } from "./constants.js";
 
 if (!existsSync(join(import.meta.dirname, "..", "..", "assets"))) mkdirSync(join(import.meta.dirname, "..", "..", "assets"));
 for (const value of Object.values(cardEmojis)) {

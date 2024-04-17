@@ -1,7 +1,7 @@
-import { button } from "../../../typings/button";
-import { config } from "../../utils/config";
-import { ButtonIDs } from "../../utils/constants";
-import startGame from "../../utils/game/startGame";
+import { button } from "../../../typings/button.js";
+import { config } from "../../utils/config.js";
+import { ButtonIDs } from "../../utils/constants.js";
+import startGame from "../../utils/game/startGame.js";
 
 export const b: button = {
     name: ButtonIDs.START_GAME,

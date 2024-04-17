@@ -1,7 +1,7 @@
 import { EmbedBuilder, PermissionFlagsBits, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 
-import { command } from "../../typings/command";
-import { config } from "../utils/config";
+import { command } from "../../typings/command.js";
+import { config } from "../utils/config.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()

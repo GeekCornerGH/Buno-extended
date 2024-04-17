@@ -1,15 +1,15 @@
 import { GuildMember, InteractionUpdateOptions } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect";
-import { runningUnoGame, unoCard } from "../../../typings/unoGame";
-import chooseColor from "../../components/chooseColor";
-import pickPlayer from "../../components/pickPlayer";
-import playCard from "../../components/playCard";
-import { colors, maxDrawAsSabotage, SelectIDs, uniqueVariants, variants } from "../../utils/constants";
-import draw from "../../utils/game/draw";
-import endTurn from "../../utils/game/endTurn";
-import next from "../../utils/game/next";
-import use from "../../utils/game/use";
+import { stringSelect } from "../../../typings/stringSelect.js";
+import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
+import chooseColor from "../../components/chooseColor.js";
+import pickPlayer from "../../components/pickPlayer.js";
+import playCard from "../../components/playCard.js";
+import { colors, maxDrawAsSabotage, SelectIDs, uniqueVariants, variants } from "../../utils/constants.js";
+import draw from "../../utils/game/draw.js";
+import endTurn from "../../utils/game/endTurn.js";
+import next from "../../utils/game/next.js";
+import use from "../../utils/game/use.js";
 
 export const s: stringSelect = {
     name: SelectIDs.CHOOSE_CARD,

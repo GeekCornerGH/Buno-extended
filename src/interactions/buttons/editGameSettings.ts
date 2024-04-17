@@ -1,11 +1,11 @@
 
 import { InteractionReplyOptions } from "discord.js";
 
-import { button } from "../../../typings/button";
-import editSettings from "../../components/editSettings";
-import { Buno } from "../../database/models/buno";
-import { config } from "../../utils/config";
-import { ButtonIDs, defaultSettings } from "../../utils/constants";
+import { button } from "../../../typings/button.js";
+import editSettings from "../../components/editSettings.js";
+import { Buno } from "../../database/models/buno.js";
+import { config } from "../../utils/config.js";
+import { ButtonIDs, defaultSettings } from "../../utils/constants.js";
 
 export const b: button = {
     name: ButtonIDs.EDIT_GAME_SETTINGS,

@@ -1,15 +1,15 @@
 import { ActionRowBuilder, ButtonInteraction, InteractionReplyOptions, SelectMenuComponentOptionData, StringSelectMenuBuilder, StringSelectMenuInteraction } from "discord.js";
 
-import { customClient } from "../../typings/client";
-import { runningUnoGame, unoCard } from "../../typings/unoGame";
-import { config } from "../utils/config";
-import { cardEmojis, cardEmotes, SelectIDs } from "../utils/constants";
-import { cardArrayToCount } from "../utils/game/cardArrayToCount";
-import digitsToEmotes from "../utils/game/digitsToEmotes";
-import endGame from "../utils/game/endGame";
-import endTurn from "../utils/game/endTurn";
-import next from "../utils/game/next";
-import toTitleCase from "../utils/game/toTitleCase";
+import { customClient } from "../../typings/client.js";
+import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
+import { config } from "../utils/config.js";
+import { cardEmojis, cardEmotes, SelectIDs } from "../utils/constants.js";
+import { cardArrayToCount } from "../utils/game/cardArrayToCount.js";
+import digitsToEmotes from "../utils/game/digitsToEmotes.js";
+import endGame from "../utils/game/endGame.js";
+import endTurn from "../utils/game/endTurn.js";
+import next from "../utils/game/next.js";
+import toTitleCase from "../utils/game/toTitleCase.js";
 
 export default (client: customClient, interaction: ButtonInteraction | StringSelectMenuInteraction, game: runningUnoGame, player: string, canSkip: boolean = false, showCard?: unoCard): InteractionReplyOptions => {
     const seenCards: unoCard[] = [];

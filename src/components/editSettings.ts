@@ -1,7 +1,7 @@
 import { ActionRowBuilder, EmbedBuilder, InteractionReplyOptions, InteractionUpdateOptions, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 
-import { unoGame } from "../../typings/unoGame";
-import { defaultSettings, SelectIDs, settingsMapToName } from "../utils/constants";
+import { unoGame } from "../../typings/unoGame.js";
+import { defaultSettings, SelectIDs, settingsMapToName } from "../utils/constants.js";
 
 
 

@@ -1,10 +1,10 @@
 import { Client, Collection } from "discord.js";
 
-import { button } from "./button";
-import { command } from "./command";
-import { modal } from "./modal";
-import { stringSelect } from "./stringSelect";
-import { unoGame } from "./unoGame";
+import { button } from "./button.js";
+import { command } from "./command.js";
+import { modal } from "./modal.js";
+import { stringSelect } from "./stringSelect.js";
+import { unoGame } from "./unoGame.js";
 
 export interface customClient extends Client {
     commands: Collection<string, command>,

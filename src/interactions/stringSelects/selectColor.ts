@@ -1,12 +1,12 @@
 import { GuildMember } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect";
-import { runningUnoGame } from "../../../typings/unoGame";
-import { colors, SelectIDs, variants } from "../../utils/constants";
-import draw from "../../utils/game/draw";
-import endTurn from "../../utils/game/endTurn";
-import next from "../../utils/game/next";
-import toTitleCase from "../../utils/game/toTitleCase";
+import { stringSelect } from "../../../typings/stringSelect.js";
+import { runningUnoGame } from "../../../typings/unoGame.js";
+import { colors, SelectIDs, variants } from "../../utils/constants.js";
+import draw from "../../utils/game/draw.js";
+import endTurn from "../../utils/game/endTurn.js";
+import next from "../../utils/game/next.js";
+import toTitleCase from "../../utils/game/toTitleCase.js";
 
 export const s: stringSelect = {
     name: SelectIDs.CHOOSE_COLOR,

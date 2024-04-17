@@ -1,10 +1,10 @@
-import { button } from "../../../typings/button";
-import { runningUnoGame, unoCard } from "../../../typings/unoGame";
-import { config } from "../../utils/config";
-import { ButtonIDs, cardEmojis, cardEmotes } from "../../utils/constants";
-import { cardArrayToCount } from "../../utils/game/cardArrayToCount";
-import digitsToEmotes from "../../utils/game/digitsToEmotes";
-import toTitleCase from "../../utils/game/toTitleCase";
+import { button } from "../../../typings/button.js";
+import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
+import { config } from "../../utils/config.js";
+import { ButtonIDs, cardEmojis, cardEmotes } from "../../utils/constants.js";
+import { cardArrayToCount } from "../../utils/game/cardArrayToCount.js";
+import digitsToEmotes from "../../utils/game/digitsToEmotes.js";
+import toTitleCase from "../../utils/game/toTitleCase.js";
 
 export const b: button = {
     name: ButtonIDs.VIEW_CARDS,

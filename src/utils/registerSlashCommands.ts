@@ -2,7 +2,7 @@ import { REST, RESTPostAPIChatInputApplicationCommandsJSONBody, Routes } from "d
 import { configDotenv } from "dotenv";
 import { readdirSync } from "fs";
 
-import { commandFile } from "../../typings/command";
+import { commandFile } from "../../typings/command.js";
 
 configDotenv();
 

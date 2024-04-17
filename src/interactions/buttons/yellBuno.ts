@@ -1,7 +1,7 @@
-import { button } from "../../../typings/button";
-import { ButtonIDs } from "../../utils/constants";
-import endTurn from "../../utils/game/endTurn";
-import getRandomInt from "../../utils/getRandomInt";
+import { button } from "../../../typings/button.js";
+import { ButtonIDs } from "../../utils/constants.js";
+import endTurn from "../../utils/game/endTurn.js";
+import getRandomInt from "../../utils/getRandomInt.js";
 
 export const b: button = {
     name: ButtonIDs.SHOUT_UNO,

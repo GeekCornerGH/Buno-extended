@@ -1,7 +1,7 @@
 import { button } from "../../../typings/button";
-import leaderboard from "../../components/leaderboard";
-import { Buno } from "../../database/models/buno";
-import { ButtonIDs } from "../../utils/constants";
+import leaderboard from "../../components/leaderboard.js";
+import { Buno } from "../../database/models/buno.js";
+import { ButtonIDs } from "../../utils/constants.js";
 
 export const b: button = {
     name: ButtonIDs.LEADERBOARD_NEXT,

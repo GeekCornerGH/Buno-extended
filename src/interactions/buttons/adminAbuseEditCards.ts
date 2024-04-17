@@ -1,8 +1,8 @@
 import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 
-import { button } from "../../../typings/button";
-import backToAdminAbuseHome from "../../components/backToAdminAbuseHome";
-import { ButtonIDs, SelectIDs } from "../../utils/constants";
+import { button } from "../../../typings/button.js";
+import backToAdminAbuseHome from "../../components/backToAdminAbuseHome.js";
+import { ButtonIDs, SelectIDs } from "../../utils/constants.js";
 
 export const b: button = {
     name: ButtonIDs.ADMIN_ABUSE_EDIT_CARDS,

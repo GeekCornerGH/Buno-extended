@@ -1,14 +1,14 @@
 import { ButtonInteraction, GuildMember, StringSelectMenuInteraction } from "discord.js";
 
-import { customClient } from "../../../typings/client";
-import { runningUnoGame } from "../../../typings/unoGame";
-import runningGameMessage from "../../components/runningGameMessage";
-import { config } from "../config";
-import { cardEmotes, coloredUniqueCards, colorEmotes, uniqueVariants } from "../constants";
-import timeouts from "../timeoutManager";
-import endGame from "./endGame";
-import onTimeout from "./onTimeout";
-import toTitleCase from "./toTitleCase";
+import { customClient } from "../../../typings/client.js";
+import { runningUnoGame } from "../../../typings/unoGame.js";
+import runningGameMessage from "../../components/runningGameMessage.js";
+import { config } from "../config.js";
+import { cardEmotes, coloredUniqueCards, colorEmotes, uniqueVariants } from "../constants.js";
+import timeouts from "../timeoutManager.js";
+import endGame from "./endGame.js";
+import onTimeout from "./onTimeout.js";
+import toTitleCase from "./toTitleCase.js";
 
 export default async (client: customClient, game: runningUnoGame, interaction: StringSelectMenuInteraction | ButtonInteraction, previousPlayer: string, type: "played" | "skipped" | "misc", toAppend?: string, showPlayedCard: boolean = true) => {
     timeouts.delete(game.channelId);

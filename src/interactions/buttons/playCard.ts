@@ -1,12 +1,12 @@
 import { InteractionReplyOptions } from "discord.js";
 
 import { button } from "../../../typings/button";
-import { runningUnoGame } from "../../../typings/unoGame";
-import chooseColor from "../../components/chooseColor";
-import forceDraw from "../../components/forceDraw";
-import pickPlayer from "../../components/pickPlayer";
-import playCard from "../../components/playCard";
-import { ButtonIDs, uniqueVariants } from "../../utils/constants";
+import { runningUnoGame } from "../../../typings/unoGame.js";
+import chooseColor from "../../components/chooseColor.js";
+import forceDraw from "../../components/forceDraw.js";
+import pickPlayer from "../../components/pickPlayer.js";
+import playCard from "../../components/playCard.js";
+import { ButtonIDs, uniqueVariants } from "../../utils/constants.js";
 
 export const b: button = {
     name: ButtonIDs.PLAY_CARD,

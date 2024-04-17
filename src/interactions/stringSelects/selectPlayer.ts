@@ -1,8 +1,8 @@
-import { stringSelect } from "../../../typings/stringSelect";
-import { runningUnoGame } from "../../../typings/unoGame";
-import { SelectIDs } from "../../utils/constants";
-import endTurn from "../../utils/game/endTurn";
-import next from "../../utils/game/next";
+import { stringSelect } from "../../../typings/stringSelect.js";
+import { runningUnoGame } from "../../../typings/unoGame.js";
+import { SelectIDs } from "../../utils/constants.js";
+import endTurn from "../../utils/game/endTurn.js";
+import next from "../../utils/game/next.js";
 
 export const s: stringSelect = {
     name: SelectIDs.PLAYER_USER_SELECT,
