@@ -7,9 +7,20 @@
         "outDir": "dist",
         "module": "ESNext",
         "skipLibCheck": true,
-        "types": ["node"],
+        "types": [
+            "node"
+        ],
     },
-    "watchOptions": { "excludeDirectories": ["node_modules"] },
-    "include": ["./src/**/*.ts", "./typings/**/*.d.ts"],
-    "exclude": ["./dist/**/*", "./node_modules/**/*"]
+    "watchOptions": {
+        "excludeDirectories": [
+            "node_modules"
+        ]
+    },
+    "include": [
+        "./src/**/*.ts",
+    ],
+    "exclude": [
+        "./dist/**/*",
+        "./node_modules/**/*"
+    ]
 }

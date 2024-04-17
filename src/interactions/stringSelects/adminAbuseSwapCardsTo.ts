@@ -1,4 +1,4 @@
-import { stringSelect } from "../../../typings/stringSelect.js";
+import { stringSelect } from "../../typings/stringSelect.js";
 import { SelectIDs } from "../../utils/constants.js";
 
 export const s: stringSelect = {

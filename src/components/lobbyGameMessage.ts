@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, Guild, InteractionUpdateOptions, MessageCreateOptions } from "discord.js";
 
-import { unoGame } from "../../typings/unoGame.js";
+import { unoGame } from "../typings/unoGame.js";
 import { autoStartTimeout, ButtonIDs } from "../utils/constants.js";
 import generatePlayerList from "../utils/game/generatePlayerList.js";
 

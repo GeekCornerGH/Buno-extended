@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 
-import { event } from "../../typings/event.js";
 import runningGameMessage from "../components/runningGameMessage.js";
+import { event } from "../typings/event.js";
 import { maxWeightBeforeResend } from "../utils/constants.js";
 
 

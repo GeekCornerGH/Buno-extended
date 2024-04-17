@@ -1,8 +1,8 @@
 import { configDotenv } from "dotenv";
 import { readdirSync, readFileSync } from "fs";
 
-import { unoSettings } from "../../typings/unoGame.js";
 import { Buno } from "../database/models/buno.js";
+import { unoSettings } from "../typings/unoGame.js";
 
 configDotenv();
 

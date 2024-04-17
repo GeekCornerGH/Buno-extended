@@ -1,8 +1,8 @@
 import { EmbedBuilder } from "discord.js";
 
-import { button } from "../../../typings/button.js";
-import { unoCard } from "../../../typings/unoGame.js";
 import backToAdminAbuseHome from "../../components/backToAdminAbuseHome.js";
+import { button } from "../../typings/button.js";
+import { unoCard } from "../../typings/unoGame.js";
 import { config } from "../../utils/config.js";
 import { ButtonIDs, cardEmojis, cardEmotes } from "../../utils/constants.js";
 import digitsToEmotes from "../../utils/game/digitsToEmotes.js";

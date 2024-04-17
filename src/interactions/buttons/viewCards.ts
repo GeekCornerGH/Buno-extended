@@ -1,5 +1,5 @@
-import { button } from "../../../typings/button.js";
-import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
+import { button } from "../../typings/button.js";
+import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 import { config } from "../../utils/config.js";
 import { ButtonIDs, cardEmojis, cardEmotes } from "../../utils/constants.js";
 import { cardArrayToCount } from "../../utils/game/cardArrayToCount.js";

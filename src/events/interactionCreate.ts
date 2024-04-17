@@ -1,7 +1,7 @@
 import { BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, ModalSubmitInteraction, RepliableInteraction, StringSelectMenuInteraction } from "discord.js";
 
-import { event } from "../../typings/event.js";
 import { Blacklisted } from "../database/models/blacklisted.js";
+import { event } from "../typings/event.js";
 import { config } from "../utils/config.js";
 
 export const e: event = async (client, interaction: BaseInteraction) => {

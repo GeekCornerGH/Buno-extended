@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { command } from "../../typings/command.js";
 import leaderboard from "../components/leaderboard.js";
 import { Buno } from "../database/models/buno.js";
+import { command } from "../typings/command.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()

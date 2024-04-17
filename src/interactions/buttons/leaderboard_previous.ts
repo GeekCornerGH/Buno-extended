@@ -1,4 +1,4 @@
-import { button } from "../../../typings/button";
+import { button } from "../../typings/button";
 import { ButtonIDs } from "../../utils/constants.js";
 import { b as nextBtn } from "./leaderboard_next.js";
 

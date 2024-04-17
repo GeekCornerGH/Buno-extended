@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder, version as djsVersion } from "discord.js";
 
-import { command } from "../../typings/command.js";
+import { command } from "../typings/command.js";
 import toHumanReadableTime from "../utils/toHumanReadableTime.js";
 
 export const c: command = {

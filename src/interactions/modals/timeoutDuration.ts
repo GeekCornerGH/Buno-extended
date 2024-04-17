@@ -1,6 +1,6 @@
-import { modal } from "../../../typings/modal.js";
 import editSettings from "../../components/editSettings.js";
 import { Buno } from "../../database/models/buno.js";
+import { modal } from "../../typings/modal.js";
 import { config } from "../../utils/config.js";
 import { defaultSettings, SettingsIDs } from "../../utils/constants.js";
 

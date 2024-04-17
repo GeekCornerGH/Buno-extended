@@ -2,12 +2,12 @@ import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { configDotenv } from "dotenv";
 import { readdirSync } from "fs";
 
-import { buttonFile } from "../typings/button.js";
-import { customClient } from "../typings/client.js";
-import { commandFile } from "../typings/command.js";
-import { eventFile } from "../typings/event.js";
-import { modalFile } from "../typings/modal.js";
-import { stringSelectFile } from "../typings/stringSelect.js";
+import { buttonFile } from "./typings/button.js";
+import { customClient } from "./typings/client.js";
+import { commandFile } from "./typings/command.js";
+import { eventFile } from "./typings/event.js";
+import { modalFile } from "./typings/modal.js";
+import { stringSelectFile } from "./typings/stringSelect.js";
 
 configDotenv();
 

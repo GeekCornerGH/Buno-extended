@@ -1,9 +1,9 @@
 
 import { InteractionReplyOptions } from "discord.js";
 
-import { button } from "../../../typings/button.js";
 import editSettings from "../../components/editSettings.js";
 import { Buno } from "../../database/models/buno.js";
+import { button } from "../../typings/button.js";
 import { config } from "../../utils/config.js";
 import { ButtonIDs, defaultSettings } from "../../utils/constants.js";
 

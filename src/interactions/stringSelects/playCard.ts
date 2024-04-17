@@ -1,10 +1,10 @@
 import { GuildMember, InteractionUpdateOptions } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect.js";
-import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
 import chooseColor from "../../components/chooseColor.js";
 import pickPlayer from "../../components/pickPlayer.js";
 import playCard from "../../components/playCard.js";
+import { stringSelect } from "../../typings/stringSelect.js";
+import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 import { colors, maxDrawAsSabotage, SelectIDs, uniqueVariants, variants } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";

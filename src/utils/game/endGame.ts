@@ -1,8 +1,8 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
 
-import { customClient } from "../../../typings/client.js";
-import { runningUnoGame, unoLog } from "../../../typings/unoGame.js";
 import { Buno } from "../../database/models/buno.js";
+import { customClient } from "../../typings/client.js";
+import { runningUnoGame, unoLog } from "../../typings/unoGame.js";
 import { ButtonIDs, cardEmotes, defaultSettings } from "../constants.js";
 import toHumanReadableTime from "../toHumanReadableTime.js";
 import toTitleCase from "./toTitleCase.js";

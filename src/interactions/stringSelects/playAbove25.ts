@@ -1,5 +1,5 @@
 
-import { stringSelect } from "../../../typings/stringSelect.js";
+import { stringSelect } from "../../typings/stringSelect.js";
 import { SelectIDs } from "../../utils/constants.js";
 import { s as play } from "./playCard.js";
 

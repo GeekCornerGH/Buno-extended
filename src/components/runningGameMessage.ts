@@ -1,6 +1,6 @@
 import { ActionRowBuilder, AllowedMentionsTypes, ButtonBuilder, ButtonStyle, EmbedBuilder, Guild, MessageCreateOptions, } from "discord.js";
 
-import { runningUnoGame } from "../../typings/unoGame";
+import { runningUnoGame } from "../typings/unoGame";
 import { config } from "../utils/config";
 import { ButtonIDs, cardEmojis, cardEmotes, coloredUniqueCards, colorEmotes, uniqueVariants } from "../utils/constants";
 import canJoinMidGame from "../utils/game/canJoinMidGame";

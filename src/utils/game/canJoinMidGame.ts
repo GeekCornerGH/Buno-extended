@@ -1,4 +1,4 @@
-import { runningUnoGame } from "../../../typings/unoGame.js";
+import { runningUnoGame } from "../../typings/unoGame.js";
 import { maxRejoinableTurnCount } from "../constants.js";
 
 export default (game: runningUnoGame) => {

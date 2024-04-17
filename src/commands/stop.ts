@@ -1,6 +1,6 @@
 import { EmbedBuilder, PermissionFlagsBits, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 
-import { command } from "../../typings/command.js";
+import { command } from "../typings/command.js";
 import { config } from "../utils/config.js";
 
 export const c: command = {

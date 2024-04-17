@@ -1,8 +1,8 @@
 import { GuildMember, GuildTextBasedChannel } from "discord.js";
 
-import { customClient } from "../../../typings/client.js";
-import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
 import runningGameMessage from "../../components/runningGameMessage.js";
+import { customClient } from "../../typings/client.js";
+import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 import { config } from "../config.js";
 import { cardEmotes, coloredUniqueCards, colorEmotes, colors, uniqueVariants } from "../constants.js";
 import draw from "./draw.js";

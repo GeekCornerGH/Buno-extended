@@ -1,4 +1,4 @@
-import { runningUnoGame, unoCard } from "../../../typings/unoGame.js";
+import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 
 export default (game: runningUnoGame, card: unoCard, player: string) => {
     game.cardsQuota[card] += 1;

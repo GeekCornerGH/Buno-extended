@@ -1,8 +1,8 @@
 import { ActionRowBuilder, InteractionUpdateOptions, ModalActionRowComponentBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect.js";
 import editSettings from "../../components/editSettings.js";
 import { Buno } from "../../database/models/buno.js";
+import { stringSelect } from "../../typings/stringSelect.js";
 import { config } from "../../utils/config.js";
 import { defaultSettings, SelectIDs, SettingsIDs } from "../../utils/constants.js";
 

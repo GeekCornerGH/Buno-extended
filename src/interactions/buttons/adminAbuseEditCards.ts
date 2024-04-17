@@ -1,7 +1,7 @@
 import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 
-import { button } from "../../../typings/button.js";
 import backToAdminAbuseHome from "../../components/backToAdminAbuseHome.js";
+import { button } from "../../typings/button.js";
 import { ButtonIDs, SelectIDs } from "../../utils/constants.js";
 
 export const b: button = {

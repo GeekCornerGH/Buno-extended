@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonInteraction, InteractionReplyOptions, SelectMenuComponentOptionData, StringSelectMenuBuilder, StringSelectMenuInteraction } from "discord.js";
 
-import { customClient } from "../../typings/client.js";
-import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
+import { customClient } from "../typings/client.js";
+import { runningUnoGame, unoCard } from "../typings/unoGame.js";
 import { config } from "../utils/config.js";
 import { cardEmojis, cardEmotes, SelectIDs } from "../utils/constants.js";
 import { cardArrayToCount } from "../utils/game/cardArrayToCount.js";

@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
 
-import { customClient } from "../../../typings/client.js";
-import { runningUnoGame, unoGame } from "../../../typings/unoGame.js";
 import runningGameMessage from "../../components/runningGameMessage.js";
 import { Buno } from "../../database/models/buno.js";
+import { customClient } from "../../typings/client.js";
+import { runningUnoGame, unoGame } from "../../typings/unoGame.js";
 import { averageUnoGameCount, defaultSettings } from "../constants.js";
 import timeouts from "../timeoutManager.js";
 import draw from "./draw.js";

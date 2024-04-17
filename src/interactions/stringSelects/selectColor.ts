@@ -1,7 +1,7 @@
 import { GuildMember } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect.js";
-import { runningUnoGame } from "../../../typings/unoGame.js";
+import { stringSelect } from "../../typings/stringSelect.js";
+import { runningUnoGame } from "../../typings/unoGame.js";
 import { colors, SelectIDs, variants } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";

@@ -1,5 +1,5 @@
-import { stringSelect } from "../../../typings/stringSelect.js";
-import { runningUnoGame } from "../../../typings/unoGame.js";
+import { stringSelect } from "../../typings/stringSelect.js";
+import { runningUnoGame } from "../../typings/unoGame.js";
 import { SelectIDs } from "../../utils/constants.js";
 import endTurn from "../../utils/game/endTurn.js";
 import next from "../../utils/game/next.js";

@@ -3,8 +3,8 @@ import { inspect } from "node:util";
 import { execSync } from "child_process";
 import { AttachmentBuilder, SlashCommandBuilder } from "discord.js";
 
-import { command } from "../../typings/command.js";
 import { Buno } from "../database/models/buno.js";
+import { command } from "../typings/command.js";
 import { config } from "../utils/config.js";
 const MAX_RESPONSE_LENGTH = 1980;
 const regex = new RegExp(/(([A-Z]:\\Users\\)|(\/Users\/)|(\/home\/))([^/\\]*)/ig);

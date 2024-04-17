@@ -1,4 +1,4 @@
-import { button } from "../../../typings/button.js";
+import { button } from "../../typings/button.js";
 import { config } from "../../utils/config.js";
 import { ButtonIDs } from "../../utils/constants.js";
 import startGame from "../../utils/game/startGame.js";

@@ -1,4 +1,4 @@
-import { button } from "../../../typings/button.js";
+import { button } from "../../typings/button.js";
 import { ButtonIDs } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";

@@ -1,6 +1,6 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 
-import { unoSettings } from "../../../typings/unoGame.js";
+import { unoSettings } from "../../typings/unoGame.js";
 import { sequelize } from "../manager.js";
 
 class Buno extends Model<InferAttributes<Buno>, InferCreationAttributes<Buno>> {

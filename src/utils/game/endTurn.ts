@@ -1,8 +1,8 @@
 import { ButtonInteraction, GuildMember, StringSelectMenuInteraction } from "discord.js";
 
-import { customClient } from "../../../typings/client.js";
-import { runningUnoGame } from "../../../typings/unoGame.js";
 import runningGameMessage from "../../components/runningGameMessage.js";
+import { customClient } from "../../typings/client.js";
+import { runningUnoGame } from "../../typings/unoGame.js";
 import { config } from "../config.js";
 import { cardEmotes, coloredUniqueCards, colorEmotes, uniqueVariants } from "../constants.js";
 import timeouts from "../timeoutManager.js";

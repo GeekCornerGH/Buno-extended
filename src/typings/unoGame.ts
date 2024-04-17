@@ -1,4 +1,4 @@
-import { colors, uniqueVariants, variants } from "../src/utils/constants.js";
+import { colors, uniqueVariants, variants } from "../utils/constants.js";
 
 type waitingUnoGame = {
     state: "waiting",

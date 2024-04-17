@@ -1,4 +1,4 @@
-import { modal } from "../../../typings/modal.js";
+import { modal } from "../../typings/modal.js";
 import { ModalsIDs } from "../../utils/constants.js";
 
 export const m: modal = {

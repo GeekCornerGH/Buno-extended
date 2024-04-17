@@ -1,7 +1,7 @@
 import { EmbedBuilder, GuildMember, InteractionUpdateOptions } from "discord.js";
 
-import { button } from "../../../typings/button";
 import lobbyGameMessage from "../../components/lobbyGameMessage.js";
+import { button } from "../../typings/button";
 import { ButtonIDs } from "../../utils/constants.js";
 
 export const b: button = {

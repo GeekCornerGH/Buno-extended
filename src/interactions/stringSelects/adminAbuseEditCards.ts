@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 
-import { stringSelect } from "../../../typings/stringSelect.js";
+import { stringSelect } from "../../typings/stringSelect.js";
 import { ModalsIDs, SelectIDs } from "../../utils/constants.js";
 
 export const s: stringSelect = {

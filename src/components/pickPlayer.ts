@@ -1,7 +1,7 @@
 import { ActionRowBuilder, InteractionReplyOptions, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 
-import { customClient } from "../../typings/client.js";
-import { runningUnoGame } from "../../typings/unoGame.js";
+import { customClient } from "../typings/client.js";
+import { runningUnoGame } from "../typings/unoGame.js";
 import { SelectIDs } from "../utils/constants.js";
 
 export default (client: customClient, game: runningUnoGame, player: string): InteractionReplyOptions => {

@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
-import { button } from "../../../typings/button.js";
+import { button } from "../../typings/button.js";
 import { ButtonIDs } from "../../utils/constants.js";
 
 export const b: button = {

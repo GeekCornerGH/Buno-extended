@@ -1,6 +1,6 @@
-import { button } from "../../../typings/button";
 import leaderboard from "../../components/leaderboard.js";
 import { Buno } from "../../database/models/buno.js";
+import { button } from "../../typings/button";
 import { ButtonIDs } from "../../utils/constants.js";
 
 export const b: button = {

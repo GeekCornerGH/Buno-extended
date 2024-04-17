@@ -1,8 +1,8 @@
 import { ActivityType, PresenceUpdateStatus } from "discord.js";
 
-import { customClient } from "../../typings/client.js";
-import { event } from "../../typings/event.js";
-import { status, streamingStatus } from "../../typings/statuses.js";
+import { customClient } from "../typings/client.js";
+import { event } from "../typings/event.js";
+import { status, streamingStatus } from "../typings/statuses.js";
 
 export const e: event = async client => {
     if (!client.user) return;
