@@ -3,7 +3,7 @@
 import { readFileSync } from "fs";
 
 import { unoCard, unoSettings } from "../typings/unoGame.js";
-import { config } from "./config";
+import { config } from "./config.js";
 
 export const colors = ["red", "yellow", "green", "blue",] as const;
 // eslint-disable-next-line no-unused-vars
