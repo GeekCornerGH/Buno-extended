@@ -16,7 +16,7 @@ export const e: event = async (client, message: Message) => {
         "lb": "leaderboard"
     };
     const cmd = message.content.split(" ")[0].substring(1);
-    if (commandMap[cmd]) {
+    if (message.content.startsWith("]") && commandMap[cmd]) {
         const slashCmd = client.application.commands.cache.find(c => c.name === commandMap[cmd]);
         if (!slashCmd) return;
         return message.reply(`Hey! This bot is now running Buno v2. All commands are now using Discord's slash commands. To run the command you meant, please run </${slashCmd.name}:${slashCmd.id}>`);
