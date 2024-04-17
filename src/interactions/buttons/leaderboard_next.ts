@@ -17,6 +17,9 @@ export const b: button = {
         const offset = parseInt(interaction.customId.split("_")[1]);
         await interaction.deferUpdate();
         const dbReq = await Buno.findAndCountAll({
+            where: {
+                guildId: interaction.guildId
+            },
             order: [["wins", "DESC"]],
             limit: 14,
             offset: offset * 14
