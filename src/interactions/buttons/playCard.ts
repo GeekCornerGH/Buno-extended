@@ -27,14 +27,6 @@ export const b: button = {
         await interaction.deferReply({
             ephemeral: true
         });
-        if ((game.settings.allowStacking || game.settings.reverseAnything) && game.drawStack > 0) {
-            const toSend = forceDraw(client, interaction, game, interaction.user.id);
-            if (Object.keys(toSend).length === 0) return;
-            return interaction.editReply({
-                ...toSend,
-                content: `${game.settings.allowContest && game.currentCard.endsWith("+4") && game.drawStack === 4 ? "Allow +4 contest rule is enabled. You may contest the card through the Actions menu." : ""}`,
-            });
-        }
         if (game.turnProgress === "chooseColor") {
             return interaction.editReply({
                 ...chooseColor(game.playedCard as typeof uniqueVariants[number]) as InteractionReplyOptions
@@ -43,6 +35,14 @@ export const b: button = {
         else if (game.turnProgress === "pickPlayer") {
             return interaction.editReply({
                 ...pickPlayer(client, game, interaction.user.id)
+            });
+        }
+        else if ((game.settings.allowStacking || game.settings.reverseAnything) && game.drawStack > 0) {
+            const toSend = forceDraw(client, interaction, game, interaction.user.id);
+            if (Object.keys(toSend).length === 0) return;
+            return interaction.editReply({
+                ...toSend,
+                content: `${game.settings.allowContest && game.currentCard.endsWith("+4") && game.drawStack === 4 ? "Allow +4 contest rule is enabled. You may contest the card through the Actions menu." : ""}`,
             });
         }
         const toSend = playCard(client, interaction, game, interaction.user.id, game.canSkip);
