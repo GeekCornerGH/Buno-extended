@@ -9,7 +9,7 @@ configDotenv();
 const path = import.meta.dirname + "/../../database/";
 
 const folder = readdirSync(path).filter(f => f.endsWith(".json"));
-folder.forEach(fileName => {
+for (const fileName of folder) {
     const file = readFileSync(path + fileName, "utf-8");
     const guildId = fileName.split(".")[0];
     const data = JSON.parse(file) as jsonDb;
@@ -21,21 +21,22 @@ folder.forEach(fileName => {
         const req = await Buno.findOne({
             where: {
                 userId: e[0],
+                guildId
             }
         });
-        if (req) return console.error("This user/guild pair already exists");
+        if (req) return console.log("This user/guild pair already exists");
         await Buno.create({
             userId: e[0],
             guildId,
             wins: e[1].wins,
             losses: e[1].losses,
             settings: {
-                ...e[1.].preferredSettings
+                ...e[1].preferredSettings
             }
         });
         console.log("Migrated user " + e[0] + " from guild " + guildId);
     });
-});
+}
 
 type jsonDb = {
     [user: string]: {
