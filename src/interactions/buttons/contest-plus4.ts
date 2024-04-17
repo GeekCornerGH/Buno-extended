@@ -23,6 +23,10 @@ export const b: button = {
             content: "You can't use this button right now.",
             ephemeral: true
         });
+        if (game.drawStack === 0) return interaction.reply({
+            content: "You can't do this now.",
+            ephemeral: true
+        });
         const [pColor] = game.log[game.log.length - 2].card.split("-");
         let toAppend: string = "";
         const prevPlayer = game.log[game.log.length - 1].player;
