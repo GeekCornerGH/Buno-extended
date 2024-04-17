@@ -19,6 +19,10 @@ export const s: stringSelect = {
             content: "Only the host can change settings.",
             ephemeral: true
         });
+        if (game.state === "inProgress") return interaction.reply({
+            content: "nuh uh ☝️",
+            ephemeral: true
+        });
         const req = await Buno.findOne({
             where: {
                 guildId: interaction.guildId,
