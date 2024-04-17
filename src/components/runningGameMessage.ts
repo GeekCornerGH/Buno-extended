@@ -1,12 +1,12 @@
 import { ActionRowBuilder, AllowedMentionsTypes, ButtonBuilder, ButtonStyle, EmbedBuilder, Guild, MessageCreateOptions, } from "discord.js";
 
-import { runningUnoGame } from "../typings/unoGame";
-import { config } from "../utils/config";
-import { ButtonIDs, cardEmojis, cardEmotes, coloredUniqueCards, colorEmotes, uniqueVariants } from "../utils/constants";
-import canJoinMidGame from "../utils/game/canJoinMidGame";
-import generatePlayerList from "../utils/game/generatePlayerList";
-import toTitleCase from "../utils/game/toTitleCase";
-import toHumanReadableTime from "../utils/toHumanReadableTime";
+import { runningUnoGame } from "../typings/unoGame.js";
+import { config } from "../utils/config.js";
+import { ButtonIDs, cardEmojis, cardEmotes, coloredUniqueCards, colorEmotes, uniqueVariants } from "../utils/constants.js";
+import canJoinMidGame from "../utils/game/canJoinMidGame.js";
+import generatePlayerList from "../utils/game/generatePlayerList.js";
+import toTitleCase from "../utils/game/toTitleCase.js";
+import toHumanReadableTime from "../utils/toHumanReadableTime.js";
 
 export default async (game: runningUnoGame, guild: Guild): Promise<MessageCreateOptions> => {
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
