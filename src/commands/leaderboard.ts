@@ -21,7 +21,7 @@ export const c: command = {
             limit: 25,
             offset: 0
         });
-        const count = await Buno.count();
+        const { count } = dbReq;
         if (dbReq.count === 0) return interaction.editReply(`No one played Buno in this channel! Run </${cmd.name}:${cmd.id}> to start a new game.`);
         interaction.editReply(await leaderboard(dbReq.rows, interaction, count));
     }

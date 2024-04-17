@@ -24,7 +24,7 @@ export const b: button = {
             limit: 14,
             offset: offset * 14
         });
-        const count = await Buno.count();
+        const { count } = dbReq;
         interaction.editReply(await leaderboard(dbReq.rows, interaction, count, offset));
     }
 };

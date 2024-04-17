@@ -15,16 +15,18 @@ for (const fileName of folder) {
     const data = JSON.parse(file) as jsonDb;
     if (!data) throw new Error(fileName + " is not a proper JSON file, please fix that");
     const array = Object.entries(data);
-    array.forEach(async e => {
-        if (e[0] === "settingsVersion") return;
-        if (process.env.IGNORED_PLAYERS && process.env.IGNORED_PLAYERS.split(",").includes(e[0])) return;
+    for (const e of array) {
+        console.log(guildId, e[0]);
+        if (e[0] !== "settingsVersion") continue;
+        if (!(process.env.IGNORED_PLAYERS && process.env.IGNORED_PLAYERS.split(",").includes(e[0]))) continue;
         const req = await Buno.findOne({
             where: {
                 userId: e[0],
                 guildId
             }
         });
-        if (req) return console.log("This user/guild pair already exists");
+        if (req) console.log("This user/guild pair already exists");
+        else continue;
         await Buno.create({
             userId: e[0],
             guildId,
@@ -35,7 +37,7 @@ for (const fileName of folder) {
             }
         });
         console.log("Migrated user " + e[0] + " from guild " + guildId);
-    });
+    }
 }
 
 type jsonDb = {
