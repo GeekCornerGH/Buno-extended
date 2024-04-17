@@ -20,7 +20,11 @@ export const c: command = {
         if (!config.developerIds.includes(interaction.user.id)) return interaction.reply("nuh uh ☝️");
         const showPublic = interaction.options.getBoolean("public", false) || false;
         const bash = (cmd: string) => execSync(cmd, { encoding: "utf8" }).replace(regex, "$1amogus");
-        const update = () => bash("git pull && pnpm install && pnpm build");
+        const update = () => {
+            bash("git pull && pnpm install && pnpm build");
+            process.exit(1);
+
+        };
         const game = client.games.find(g => g.channelId === interaction.channelId);
         // eslint-disable-next-line no-unused-expressions
         game;
