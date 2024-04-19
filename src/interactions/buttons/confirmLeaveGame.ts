@@ -1,7 +1,9 @@
 
+import runningGameMessage from "../../components/runningGameMessage.js";
 import { button } from "../../typings/button.js";
+import { customClient } from "../../typings/client.js";
 import { ButtonIDs } from "../../utils/constants.js";
-import endTurn from "../../utils/game/endTurn.js";
+import endGame from "../../utils/game/endGame.js";
 import next from "../../utils/game/next.js";
 import onTimeout from "../../utils/game/onTimeout.js";
 import timeouts from "../../utils/timeoutManager.js";
@@ -24,7 +26,6 @@ export const b: button = {
         });
         await interaction.deferUpdate();
         const index = game.players.findIndex(p => p === interaction.user.id);
-        const holder = game.currentPlayer;
         if (game.currentPlayer === interaction.user.id) game.currentPlayer = game.players[next(game.players, index)];
         game.players.splice(index, 1);
         await interaction.deleteReply();
@@ -32,6 +33,10 @@ export const b: button = {
         timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);
         await interaction.channel.messages.cache.get(game.messageId).delete();
         await interaction.channel.send(`**${interaction.guild.members.cache.get(interaction.user.id).displayName}** has left the game.`);
-        endTurn(client, game, interaction, holder, "misc", undefined, false);
+        await interaction.channel.messages.cache.get(game.messageId).delete();
+        await interaction.deleteReply();
+        if ((game._modified && game.players.length === 0) || (!game._modified && game.players.length === 1)) return endGame(game, interaction.client as customClient, "notEnoughPeople");
+        const msg = await interaction.channel.send(await runningGameMessage(game, interaction.guild));
+        game.messageId = msg.id;
     }
 };
