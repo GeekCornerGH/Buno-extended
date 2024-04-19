@@ -21,8 +21,8 @@ export const c: command = {
         const showPublic = interaction.options.getBoolean("public", false) || false;
         const bash = (cmd: string) => execSync(cmd, { encoding: "utf8" }).replace(regex, "$1amogus");
         const update = () => {
-            bash("git pull && pnpm install && pnpm build");
-            process.exit(1);
+            const data = bash("git pull && pnpm install && pnpm build");
+            if (!data.includes("up to date")) process.exit(1);
 
         };
         const game = client.games.find(g => g.channelId === interaction.channelId);
