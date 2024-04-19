@@ -23,6 +23,7 @@ export const c: command = {
         const update = () => {
             const data = bash("git pull && pnpm install && pnpm build");
             if (!data.includes("up to date")) process.exit(1);
+            else return data;
 
         };
         const game = client.games.find(g => g.channelId === interaction.channelId);
