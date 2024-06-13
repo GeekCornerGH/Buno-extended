@@ -33,7 +33,6 @@ export const b: button = {
         timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);
         await interaction.channel.messages.cache.get(game.messageId).delete();
         await interaction.channel.send(`**${interaction.guild.members.cache.get(interaction.user.id).displayName}** has left the game.`);
-        await interaction.channel.messages.cache.get(game.messageId).delete();
         await interaction.deleteReply();
         if ((game._modified && game.players.length === 0) || (!game._modified && game.players.length === 1)) return endGame(game, interaction.client as customClient, "notEnoughPeople");
         const msg = await interaction.channel.send(await runningGameMessage(game, interaction.guild));
