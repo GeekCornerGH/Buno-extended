@@ -29,6 +29,7 @@ export const b: button = {
         if (game.currentPlayer === interaction.user.id) game.currentPlayer = game.players[next(game.players, index)];
         game.players.splice(index, 1);
         await interaction.deleteReply();
+        game.playersWhoLeft.push(interaction.user.id) return;
         timeouts.delete(game.channelId);
         timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);
         await interaction.channel.messages.cache.get(game.messageId).delete();
