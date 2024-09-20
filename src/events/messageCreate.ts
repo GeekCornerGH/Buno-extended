@@ -28,8 +28,8 @@ export const e: event = async (client, message: Message) => {
         const scrolledWeight = message.channel.messages.cache.filter(m => BigInt(m.id) > BigInt(game.messageId)).reduce((weight, msg2) => (msg2.content.length > 800 || msg2.attachments.size > 0 || msg2.embeds.length ? 2 : 1) + weight, 0);
         if (scrolledWeight > maxWeightBeforeResend) {
             const msg = message.channel.messages.cache.get(game.messageId);
-            await msg.delete();
-            const sent = await msg.channel.send(await runningGameMessage(game, message.guild));
+            if (msg) await msg.delete();
+            const sent = await message.channel.send(await runningGameMessage(game, message.guild));
             game.messageId = sent.id;
         }
     }
