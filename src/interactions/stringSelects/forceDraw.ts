@@ -63,9 +63,9 @@ export const s: stringSelect = {
             game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
             if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
             if (game.players.length > 2) game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer), 2);
-            game.drawStack = 0;
             toAppend += `**${interaction.guild.members.cache.get(next(game.players, game.players.findIndex(p => p === interaction.user.id))).displayName}** drew ${game.drawStack} cards and has been skipped, thanks to the reverse card power.`;
             toAppend += "\nThe player order has been reversed.";
+            game.drawStack = 0;
             endTurn(client, game, interaction, interaction.user.id, "played", toAppend);
         }
         else if (playedCard === "draw") {
