@@ -49,6 +49,7 @@ export default async (client: customClient, game: runningUnoGame, player: string
     if (game.settings.kickOnTimeout) {
         game.players.splice(game.players.findIndex(p => p === previousPlayer), 1);
         delete game.cards[previousPlayer];
+        game.playersWhoLeft.push(previousPlayer);
     }
     toAppend += `\n**${(client.guilds.cache.get(game.guildId).members.cache.get(previousPlayer)).displayName}** was inactive and has been ${game.settings.kickOnTimeout ? "kicked" : "skipped"}.`;
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
