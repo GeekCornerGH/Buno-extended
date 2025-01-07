@@ -14,7 +14,7 @@
     },
     "keywords": [],
     "author": "",
-    "license": "MIT",
+    "license": "AGPL-3.0-only",
     "dependencies": {
         "discord.js": "^14.14.1",
         "dotenv": "^16.4.5",
