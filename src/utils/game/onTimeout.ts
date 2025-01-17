@@ -56,7 +56,7 @@ export default async (client: Client, game: runningUnoGame, player: string) => {
     toAppend += `\n${game.settings.kickOnTimeout ? t("strings:game.afk.kicked", { lng, name: await getUsername(client, game.guildId, previousPlayer) }) : t("strings:game.afk.skipped", { lng, name: await getUsername(client, game.guildId, previousPlayer) })}`;
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
     const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
-    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(t("strings:game.played", { name: await getUsername(client, game.guildId, previousPlayer), lng, currentCardEmote, card: toTitleCase(game.currentCard, lng) } + toAppend));
+    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(t("strings:game.played", { name: await getUsername(client, game.guildId, previousPlayer), lng, currentCardEmote, card: toTitleCase(game.currentCard, lng) }) + toAppend);
     if (game.settings.kickOnTimeout) {
         if (game._modified && game.players.length === 0) return endGame(game, client, "notEnoughPeople");
         else if (game.players.length === 1) return endGame(game, client, "win", game.currentPlayer);
