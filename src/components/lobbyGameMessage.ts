@@ -7,8 +7,10 @@ import generatePlayerList from "../utils/game/generatePlayerList.js";
 
 export default async (client: Client, game: waitingUnoGame, guild: Guild): Promise<MessageCreateOptions | InteractionUpdateOptions> => {
     const lng = game.locale;
+    const embed = new EmbedBuilder().setColor("Random").setTitle("Da Buno!").setDescription(t("strings:game.lobby.body", { timer: `<t:${Math.round(game.startsAt / 1000)}:R>`, host: guild.members.cache.get(game.hostId)?.toString(), playerList: await generatePlayerList(client, game), lng }));
+    if (game._modified) embed.setFooter({ text: t("strings:game.lobby.modified") });
     return {
-        embeds: [new EmbedBuilder().setColor("Random").setTitle("Da Buno!").setDescription(t("strings:game.lobby.body", { timer: `<t:${Math.round(game.startsAt / 1000)}:R>`, host: guild.members.cache.get(game.hostId)?.toString(), playerList: await generatePlayerList(client, game), lng })).setFooter({ text: game._modified ? t("strings:game.lobby.modified") : "" })],
+        embeds: [embed],
         components: [
             new ActionRowBuilder<ButtonBuilder>().setComponents(
                 [
