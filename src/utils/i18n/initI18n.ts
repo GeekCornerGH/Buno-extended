@@ -5,7 +5,7 @@ import frStrings from "../../i18n/fr/strings.json" with {type: "json"};
 
 export default function () {
     i18next.init({
-        fallbackLng: "en, fr",
+        fallbackLng: "en",
         resources: {
             en: {
                 strings: enStrings
