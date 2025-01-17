@@ -1,5 +1,5 @@
 {
-    "aprilFools": "Joyeux poisson d'avril !",
+    "aprilFools": "Joyeux premier avril !",
     "colors": {
         "blue": "Bleu",
         "green": "Vert",
@@ -15,11 +15,11 @@
             "message": {
                 "title": "Salut, je suis Buno !",
                 "description": "Je suis un bot qui tente de recréer le Uno :tm:, le célèbre jeu de cartes de Mattel, Inc. Tous les actifs sont la propriété de cette société, et ce bot n'est EN AUCUN CAS officiel.",
-                "node": "Je suis actuellement allumé",
-                "discordjs": "Je suis fais par",
-                "uptime-title": "Je suis allumé depuis",
-                "uptime-desc": "{duration} (Depuis {date} {time})",
-                "stats-title": "Je regarde",
+                "node": "J'utilise",
+                "discordjs": "Je suis propulsé par",
+                "uptime-title": "Je suis en ligne depuis",
+                "uptime-desc": "{{duration}} (Depuis {{date}} {{time}})",
+                "stats-title": "J'observe",
                 "invite-title": "Vous voulez m'inviter ?",
                 "invite-desc": "Désolé, vous ne pouvez probablement pas. Ce bot est privé et n'est pas hébergé sur un serveur puissant.\nLe seul moyen de m'avoir sur votre serveur est d'être ami avec le développeur actuel.\n Oh, attendez, n'oubliez pas que vous pouvez cliquer sur le bouton d'invitation ci-dessous.",
                 "sourcecode": "Code source",
@@ -29,39 +29,39 @@
         "blacklist": {
             "command": {
                 "name": "blacklist",
-                "description": "Gestion de la liste noire",
+                "description": "Gestion de la blacklist",
                 "subcommands": {
                     "add": {
                         "name": "ajouter",
-                        "description": "Ajouter un utilisateur à la liste noire",
+                        "description": "Ajouter un utilisateur à la blacklist",
                         "options": {
                             "target": {
                                 "name": "cible",
-                                "description": "L'utilisateur à ajouter à la liste noire"
+                                "description": "L'utilisateur à ajouter à la blacklist"
                             },
                             "reason": {
                                 "name": "raison",
-                                "description": "Raison de l'ajout à la liste noire"
+                                "description": "Raison de l'ajout à la blacklist"
                             }
                         }
                     },
                     "remove": {
                         "name": "retirer",
-                        "description": "Retirer un utilisateur de la liste noire",
+                        "description": "Retirer un utilisateur de la blacklist",
                         "options": {
                             "target": {
                                 "name": "cible",
-                                "description": "L'utilisateur à retirer de la liste noire"
+                                "description": "L'utilisateur à retirer de la blacklist"
                             }
                         }
                     }
                 }
             },
             "message": {
-                "already-blacklisted": "Cet utilisateur est déjà dans la liste noire",
-                "not-blacklisted": "Cet utilisateur n'est pas dans la liste noire",
-                "success": "{target} a été mis sur la liste noire pour la raison:\n{reason}",
-                "success-unbl": "{target} a été mis sur la liste noire"
+                "already-blacklisted": "Cet utilisateur est déjà dans la blacklist",
+                "not-blacklisted": "Cet utilisateur n'est pas dans la blacklist",
+                "success": "{{target}} a été mis sur la blacklist pour la raison:\n{{reason}}",
+                "success-unbl": "{{target}} a été mis sur la blacklist"
             }
         },
         "blocklist": "blocklist",
@@ -83,11 +83,11 @@
         },
         "leaderboard": {
             "command": {
-                "name": "leaderboard",
+                "name": "classement",
                 "description": "Afficher les meilleurs joueurs"
             },
             "message": {
-                "no-data": "Personne n'a joué à Buno sur ce serveur ! Lancez </{name}:{id}> pour lancer une nouvelle partie."
+                "no-data": "Personne n'a joué à Buno sur ce serveur ! Lancez </{{name}}:{{id}}> pour lancer une nouvelle partie."
             }
         },
         "ping": {
@@ -97,7 +97,7 @@
             },
             "message": {
                 "pre-pong": "🏓 Pong !",
-                "pong": "🏓 Pong !\nLatence de l'API: {WSPingEmote} {WSPing}ms\nLatence du bot: {pingEmote} {ping}ms"
+                "pong": "🏓 Pong !\nLatence de l'API: {{WSPingEmote}} {{WSPing}}ms\nLatence du bot: {{pingEmote}} {{ping}}ms"
             }
         },
         "stop": {
@@ -109,17 +109,17 @@
         "uno": {
             "command": {
                 "name": "uno",
-                "description": "Démarrer une partie Buno"
+                "description": "Démarrer une partie de Buno"
             }
         }
     },
     "errors": {
         "alone": "Vous ne pouvez pas commencer une partie seul",
-        "blacklisted": "Vous êtes sur la liste noire pour la raison:\n{reason}",
+        "blacklisted": "Vous êtes sur la blacklist pour la raison:\n{{reason}}",
         "cantContestYourOwn": "Vous ne pouvez pas contester votre propre +4",
         "execution": "Une erreur est survenue dans l'exécution de la commande.",
         "forbidden": "Vous n'avez pas le droit d'arrêter le jeu.",
-        "gameInChannel": "Un jeu existe déjà sur ce salon :point_right: {url}",
+        "gameInChannel": "Un jeu existe déjà sur ce salon :point_right: {{url}}",
         "gameJustStarted": "Le jeu vient de commencer, vous ne pouvez pas faire ça maintenant.",
         "gameNotFound": "Je n'ai malheureusement pas trouvé le jeu dont vous parlez..",
         "inProgress": "Le jeu est en cours",
@@ -137,23 +137,23 @@
         "paginationForbidden": "Vous n'êtes pas autorisé à contrôler cette pagination.",
         "paginationTooOld": "La pagination est trop vieille.",
         "playerLeft": "Vous ne pouvez pas rejoindre un jeu que vous avez quitté.",
-        "tooManyInGame": "Le jeu a atteint sa capacité maximale de joueurs ({count} joueurs)",
+        "tooManyInGame": "Le jeu a atteint sa capacité maximale de joueurs ({{count}} joueurs)",
         "unusable": "Vous ne pouvez pas utiliser ce bouton pour le moment.",
         "waiting": "Le jeu n'est pas encore lancé."
     },
     "game": {
         "aa": {
             "components": {
-                "back": "Retour à la page d'accueil du panel des abus"
+                "back": "Retour à la page d'accueil"
             },
             "edit": {
                 "embed": {
-                    "title": "Modifier la carte d'un joueur",
+                    "title": "Modifier les cartes d'un joueur",
                     "description": "Vous ne pouvez pas:\n- retirer les cartes pour avoir moins de 3"
                 },
                 "modal": {
                     "label": "Cartes",
-                    "title": "Modifier les cartes de {name}"
+                    "title": "Modifier les cartes de {{name}}"
                 }
             },
             "menu": {
@@ -177,8 +177,8 @@
                 }
             },
             "messages": {
-                "contestAndFailed": "**{name}** a contesté l'abus de **{host}** et a échoué. Ils ont tiré **{count}** cartes.",
-                "contestAndKicked": "**{name}** a contesté l'abus de **{host}** et a gagné. **{host}** a été éjecté du jeu."
+                "contestAndFailed": "**{{name}}** a contesté l'abus de **{{host}}** et a perdu. **{{name}}** a tiré **{{count}}** cartes.",
+                "contestAndKicked": "**{{name}}** a contesté l'abus de **{{host}}** et a gagné. **{{host}}** a été éjecté du jeu."
             },
             "swap": {
                 "from": {
@@ -200,76 +200,76 @@
                         "value": "Utilisez-le lorsque vous êtes l'hôte et que vous souhaitez administrer les abus."
                     },
                     "challenge": {
-                        "name": "🃏 - Défier le joueur précédent qui n'a pas crié \"Buno out!\"",
-                        "value": "Utilisez-le lorsque le joueur précédent a oublié de crier. \"Buno out\""
+                        "name": "🃏 - Défier le joueur précédent qui n'a pas crié \"Buno!\"",
+                        "value": "Utilisez-le lorsque le joueur précédent a oublié de crier. \"Buno\""
                     },
                     "contestAa": {
                         "name": "🔨 - Contester l'abus",
-                        "value": "Utilisez-le chaque fois que vous pensez que l'administrateur de l'hôte a commis un abus.."
+                        "value": "Utilisez-le chaque fois que vous pensez que l'hôte du jeu utilise la fonction Admin Abuse.."
                     },
                     "contestDraw": {
-                        "name": "❗ - Concours du tirage forcé +4",
+                        "name": "❗ - Contester le +4",
                         "value": "Utilisez-le lorsque vous pensez que le joueur précédent pourrait jouer autre chose que +4."
                     },
                     "yell": {
-                        "name": "📣 - Crier \"Buno out!\"",
+                        "name": "📣 - Crier \"Buno!\"",
                         "value": "Utilisez-le juste avant de jouer votre avant-dernière carte."
                     }
                 }
             }
         },
         "afk": {
-            "kicked": "**{name}** était inactif et a été exclu.",
-            "skipped": "**{name}** était inactif et a été ignoré."
+            "kicked": "**{{name}}** était inactif et a été expulsé.",
+            "skipped": "**{{name}}** était inactif et a été ignoré."
         },
         "buno": {
             "contest": {
-                "alreadyYelled": "**{name}** a déjà crié \"Buno out!\"",
-                "drew": "**{name}** a souligné que **{drawer}** a oublié de crier \"Buno out!\"\n**{drawer}** a tiré des cartes.",
-                "tooManyCards": "**{name} a trop de cartes pour pouvoir crier \"Buno out!\""
+                "alreadyYelled": "**{{name}}** a déjà crié \"Buno!\"",
+                "drew": "**{{name}}** a fait remarquer que **{{drawer}}** a oublié de crier \"Buno!\"\n**{{drawer}}** a tiré des cartes.",
+                "tooManyCards": "**{{name}} a trop de cartes pour pouvoir crier \"Buno!\""
             },
             "yell": {
-                "already": "Vous avez déjà crié \"Buno Out!\".",
-                "message": "**{name}** crie\n# {yell}!",
+                "already": "Vous avez déjà crié \"Buno!\".",
+                "message": "**{{name}}** crie\n# {{yell}}!",
                 "notEnough": "Vous ne pouvez que crier \"Buno out!\" Quand vous avez 2 cartes."
             }
         },
-        "cancelled": "Le jeu a été annulé par **{name}**",
+        "cancelled": "Le jeu a été annulé par **{{name}}**",
         "card": {
-            "avoidDraw": "**{name}** a essayé d'éviter de tirer des cartes :clown:",
+            "avoidDraw": "**{{name}}** a essayé d'éviter de tirer des cartes :clown:",
             "allSwapped": "Toutes les cartes des joueurs ont été échangées !",
             "reversed": "L'ordre des joueurs a été inversé.",
             "seven": "Vous avez joué une carte 7 et vous devez maintenant choisir un joueur avec qui échanger vos cartes.",
-            "skippedPlayer": "**{name}** ha été ignoré.",
-            "swapped": "**{from}** a échangé des cartes avec **{to}**",
-            "unknown": "**{name}** a essayé de jouer une carte inexistante :clown:",
-            "unknownColor": "**{name}** a essayé de choisir une couleur qui n'existe pas :clown:"
+            "skippedPlayer": "**{{name}}** ha été ignoré.",
+            "swapped": "**{{from}}** a échangé des cartes avec **{{to}}**",
+            "unknown": "**{{name}}** a essayé de jouer une carte inexistante :clown:",
+            "unknownColor": "**{{name}}** a essayé de choisir une couleur qui n'existe pas :clown:"
         },
         "color": {
             "pick": "Choisissez une couleur ici !",
-            "switched": "La couleur est passée à **{color}**",
+            "switched": "La couleur est passée à **{{color}}**",
             "text": "Veuillez sélectionner une couleur"
         },
         "draw": {
-            "drew": "**{name}** da tiré une carte.",
-            "drewAndSkipped": "**{name}** a tiré **{stack}** cartes et a été ignoré.",
-            "ephemeral": "Vous avez tiré: {card}",
-            "sab": "**{name}** a été supprimé pour avoir tenté de saboter le jeu",
+            "drew": "**{{name}}** da tiré une carte.",
+            "drewAndSkipped": "**{{name}}** a tiré **{{stack}}** cartes et a été ignoré.",
+            "ephemeral": "Vous avez tiré: {{card}}",
+            "sab": "**{{name}}** a été supprimé pour avoir tenté de saboter le jeu",
             "select": {
                 "draw": "Tirer une carte",
                 "skip": "Passez votre tour"
             },
-            "skip": "**{name}** ont passé leur tour."
+            "skip": "**{{name}}** ont passé leur tour."
         },
         "end": {
-            "default": "**{name}** a gagné le match {default}.",
+            "default": "**{{name}}** a gagné le match{{default}}.",
             "embed": {
                 "stats": {
                     "duration": "⏱️ Le jeu a duré",
                     "mostActivePlayer": "👤  Joueur le plus actif",
                     "mostPlayedCard": "🃏 Carte la plus jouée",
                     "players": "👥 Joueurs ayant participé au jeu",
-                    "playersDesc": "{players} (**{amount}** joueurs)",
+                    "playersDesc": "{{players}} (**{{amount}}** joueurs)",
                     "winner": "🏆 Gagnant"
                 }
             },
@@ -277,70 +277,70 @@
             "noWinner": "Aucun gagnant"
         },
         "forceDraw": {
-            "contestPlus4": "**{name}** a contesté la carte +4 de  **{cardPlayer}** et a gagné.\n**{cardPlayer}** a tiré **{stack}** cartes",
-            "contestPlus4AndFail": "**{name}** a contesté la carte +4 de **{cardPlayer}** et a échoué.\n**{name}** a tiré {stack} cartes",
-            "draw": "**{name}** a tiré **{stack}** cartes et a été ignoré.",
+            "contestPlus4": "**{{name}}** a contesté la carte +4 de  **{{cardPlayer}}** et a gagné.\n**{{cardPlayer}}** a tiré **{{stack}}** cartes",
+            "contestPlus4AndFail": "**{{name}}** a contesté la carte +4 de **{{cardPlayer}}** et a échoué.\n**{{name}}** a tiré {{stack}} cartes",
+            "draw": "**{{name}** a tiré **{{stack}** cartes et a été ignoré.",
             "noCard": "You don't have any card to play",
             "noStacking": "La règle Allow Stacking est désactivée",
-            "noReverse": "La règle de la carte inversée est désactivée",
-            "playACard": "v",
+            "noReverse": "La règle de la carte Inversion est désactivée",
+            "playACard": "Veuillez jouer une carte",
             "reverse": {
-                "reverseMessage": "**{name}** a tiré **{stack}** cartes et a été ignoré, grâce au pouvoir d'inversion des cartes. L'ordre des joueurs a été inversé."
+                "reverseMessage": "**{{name}** a tiré **{{stack}** cartes et a été ignoré, grâce au pouvoir de la carte Inversion.\nL'ordre des joueurs a été inversé."
             },
             "select": {
-                "title": "Tirer {stack} cartes",
-                "description": "..et prendre le L.",
+                "title": "Tirer {{stack}} cartes",
+                "description": "..et reconnaître sa défaite.",
                 "placeholder": "Choisir une carte"
             },
-            "text": "Vous devez répondre ou tirer {stack} cartes."
+            "text": "Vous devez répondre ou tirer {stack}} cartes."
         },
-        "joined": "**{name}** a rejoint le jeu.",
-        "left": "`**{name}** a quitté le jeu.`",
+        "joined": "**{{name}}** a rejoint le jeu.",
+        "left": "`**{{name}}** a quitté le jeu.`",
         "lobby": {
-            "body": "Le jeu démarre automatiquement {timer}\nL'hôte actuel du jeu: {host}\n{playerList}",
-            "modified": "Ce jeu ne sera pas pris en compte dans le classement des jeux."
+            "body": "Le jeu démarre automatiquement {{timer}}\nL'hôte actuel du jeu: {{host}}\n{{playerList}}",
+            "modified": "Ce jeu ne sera pas pris en compte dans le lederboard."
         },
         "message": {
             "embed": {
                 "cards": "carte",
                 "cards_plural": "cartes",
-                "currentCard": "Carte actuelle: {currentCardEmote} **{currentCard}**",
-                "currentPlayer": "Actuellement en cours: **{name}**",
-                "drawStack": "**{stack}** cartes à tirer",
+                "currentCard": "Carte actuelle: {{currentCardEmote}} **{{currentCard}}**",
+                "currentPlayer": "Personne jouant actuellement: **{{name}}**",
+                "drawStack": "**{{stack}}** cartes à tirer",
                 "footer": {
-                    "timeout": "Le délai actuel est de {timeout}."
+                    "timeout": "Le délai actuel est de {{timeout}}."
                 },
-                "playerList": "{plus} {name}{cards} $t(cartes, {\"count\":{{count}})\n"
+                "playerList": "{{plus}} {{name}}{{cards}} $t(cartes, {\"count\":{{count}})\n"
             }
         },
         "notPlayable": "Vous ne pouvez pas jouer cette carte.",
         "notYourTurn": "Ce n'est pas votre tour.",
-        "played": "**{name}** a joué {currentCardEmote} {card}",
+        "played": "**{{name}}** a joué {{currentCardEmote}} {{card}}",
         "playerPicker": "Choisissez un joueur",
         "started": "**Le jeu est lancé !**",
         "startedAA": "\nLe mode de jeu « abus de l'administrateur » est activé pour ce jeu. Vous pouvez éjecter l'hôte si vous pensez qu'il abuse en ouvrant le menu Actions.",
         "states": {
-            "stopped": "{user} a arrêté le jeu"
+            "stopped": "{{user}} a arrêté le jeu"
         },
-        "tooManyCards": "Retrait de **{name}** pour abus de jeu."
+        "tooManyCards": "Retrait de **{{name}}** pour abus de jeu."
     },
     "leaderboard": {
         "embed": {
-            "title": "Classement de **{guild}**",
-            "description": "Page {currentPage} sur {totalPages}.{userRank}",
-            "yourRank": "\nVotre rang: {rank}",
-            "fieldName": "{rank} - {member}",
+            "title": "Classement de **{{guild}}**",
+            "description": "Page {{currentPage}} sur {{totalPages}}.{{userRank}}",
+            "yourRank": "\nVotre rang: {{rank}}",
+            "fieldName": "{{rank}} - {{member}}",
             "fieldValues": {
-                "wins_zero": "{count} victoire",
-                "wins_one": "{count} victoire",
-                "wins_other": "{count} victoires",
-                "losses_zero": "{count} perte",
-                "losses_one": "{count} perte",
-                "losses_other": "{count} pertes",
-                "noLoss": "Aucune perte",
-                "wlr": "{winLossRatio} W/L Ratio"
+                "wins_zero": "{{count}} victoire",
+                "wins_one": "{{count}} victoire",
+                "wins_other": "{{count}} victoires",
+                "losses_zero": "{count}} défaite",
+                "losses_one": "{count}} défaite",
+                "losses_other": "{count}} défaite",
+                "noLoss": "Aucune défaite",
+                "wlr": "{winLossRatio}} W/L Ratio"
             },
-            "noLosses": "Aucune perte"
+            "noLosses": "Aucune défaite"
         }
     },
     "leave": {
@@ -348,7 +348,7 @@
         "prompt": "Êtes-vous sûr de vouloir quitter le jeu ? Vous ne pourrez pas revenir dans le jeu."
     },
     "settings": {
-        "currentValue": "Valeur actuelle: {value}",
+        "currentValue": "Valeur actuelle: {{value}}",
         "embed": {
             "title": "Paramètres du jeu",
             "footer": "Les paramètres sont automatiquement sauvegardés par serveur et par membre."
@@ -364,9 +364,9 @@
             "canJoinMidgame": "Autoriser les joueurs à rejoindre en cours de partie",
             "sevenAndZero": "Échanger les cartes sur 7 et 0",
             "shouldYellBUNO": "Les utilisateurs doivent crier « Buno Out ! » pour gagner.",
-            "reverseAnything": "La carte inversée peut inverser les tirages de force",
+            "reverseAnything": "La carte Invesion peut inverser les tirages de force",
             "allowContest": "Permettre un défi de +4",
-            "adminabusemode": "Mode abus de l'administrateur"
+            "adminabusemode": "Mode Admin Abuse"
         },
         "timeoutDuration": {
             "modal": {
@@ -383,10 +383,10 @@
     },
     "time": {
         "disabled": "Désactivé",
-        "dhms": "$t(jours, {\"count\":{{days}}), $t(heures, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(secondes, {\"count\":{{seconds}})",
-        "hms": "$t(heures, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(secondes, {\"count\":{{seconds}})",
-        "ms": "$t(minutes, {\"count\":{{minutes}}) and $t(secondes, {\"count\":{{seconds}})",
-        "s": "$t(secondes, {\"count\":{{seconds}})",
+        "dhms": "{{days}}$t(days, {\"count\":{{days}}), {{hours}} $t(hours, {\"count\":{{hours}}), {{minutes}} $t(minutes, {\"count\":{{minutes}}) et {{seconds}} $t(seconds, {\"count\":{{seconds}})",
+        "hms": "{{hours}} $t(hours, {\"count\":{{hours}}), {{minutes}} $t(minutes, {\"count\":{{minutes}}) et {{seconds}} $t(seconds, {\"count\":{{seconds}})",
+        "ms": "{{minutes}} $t(minutes, {\"count\":{{minutes}}) et {{seconds}} $t(seconds, {\"count\":{{seconds}})",
+        "s": "{{seconds}} $t(seconds, {\"count\":{{seconds}})",
         "days": "jour",
         "days_plural": "jours",
         "hours": "heure",
@@ -413,12 +413,12 @@
     },
     "words": {
         "and": "et",
-        "channels_zero": "**{count}** salon",
-        "channels_one": "**{count}** salons",
-        "channels_other": "**{count}** salons",
-        "servers": "**{count}** serveur",
-        "servers_plural": "**{count}** serveurs",
-        "users": "**{count}** utilisateur",
-        "users_plural": "**{count}** utilisateurs"
+        "channels_zero": "**{{count}}** salon",
+        "channels_one": "**{{count}}** salons",
+        "channels_other": "**{{count}}** salons",
+        "servers": "**{{count}}** serveur",
+        "servers_plural": "**{{count}}** serveurs",
+        "users": "**{{count}}** utilisateur",
+        "users_plural": "**{{count}}** utilisateurs"
     }
 }

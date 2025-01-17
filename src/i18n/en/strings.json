@@ -18,7 +18,7 @@
                 "node": "I'm currently running on",
                 "discordjs": "I'm powered by",
                 "uptime-title": "I've been running for",
-                "uptime-desc": "{duration} (since {date} {time})",
+                "uptime-desc": "{{duration}} (since {{date}} {{time}})",
                 "stats-title": "I'm watching",
                 "invite-title": "Want to invite me?",
                 "invite-desc": "Sorry, you probably can't. This bot is private, and is not hosted on a powerful server. It would get rate-limited quite quickly too.\nThe only way to get it on your server is to be friend with the current developer.\n Oh wait nvm, maybe click the invite button below?",
@@ -60,8 +60,8 @@
             "message": {
                 "already-blacklisted": "This user is already blacklisted",
                 "not-blacklisted": "This user is not blacklisted",
-                "success": "{target} has been blacklisted for the reason:\n{reason}",
-                "success-unbl": "{target} has been unblacklisted"
+                "success": "{{target}} has been blacklisted for the reason:\n{{reason}}",
+                "success-unbl": "{{target}} has been unblacklisted"
             }
         },
         "blocklist": "blocklist",
@@ -87,7 +87,7 @@
                 "description": "Show top players"
             },
             "message": {
-                "no-data": "No one played Buno in this server! Run </{name}:{id}> to start a new game."
+                "no-data": "No one played Buno in this server! Run </{{name}}:{{id}}> to start a new game."
             }
         },
         "ping": {
@@ -97,7 +97,7 @@
             },
             "message": {
                 "pre-pong": "🏓 Pong!",
-                "pong": "🏓 Pong!\nAPI latency: {WSPingEmote} {WSPing}ms\nBot latency: {pingEmote} {ping}ms"
+                "pong": "🏓 Pong!\nAPI latency: {{WSPingEmote}} {{WSPing}}ms\nBot latency: {{pingEmote}} {{ping}}ms"
             }
         },
         "stop": {
@@ -119,7 +119,7 @@
         "cantContestYourOwn": "You can't contest your own +4",
         "execution": "An error occured while executing this command.",
         "forbidden": "You are not allowed to stop the game.",
-        "gameInChannel": "A game already exists on this channel :point_right: {url}",
+        "gameInChannel": "A game already exists on this channel :point_right: {{url}}",
         "gameJustStarted": "The game just started, you can't do this now.",
         "gameNotFound": "I'm sadly unable to find the game you're talking about.",
         "inProgress": "The game is in progress",
@@ -137,7 +137,7 @@
         "paginationForbidden": "You are not allowed to control this pagination.",
         "paginationTooOld": "The pagination is too old.",
         "playerLeft": "You can't join a game you left.",
-        "tooManyInGame": "The game reached its maximum capacity ({count} players)",
+        "tooManyInGame": "The game reached its maximum capacity ({{count}} players)",
         "unusable": "You can't use this button right now.",
         "waiting": "The game isn't running yet."
     },
@@ -153,7 +153,7 @@
                 },
                 "modal": {
                     "label": "Cards",
-                    "title": "Edit {name}'s cards"
+                    "title": "Edit {{name}}'s cards"
                 }
             },
             "menu": {
@@ -177,8 +177,8 @@
                 }
             },
             "messages": {
-                "contestAndFailed": "**{name}** contested **{host}** admin abuse and failed. They drew **{count}** cards.",
-                "contestAndKicked": "**{name}** contested **{host}**'s admin abuse and won. **{host}** has been ejected from the game."
+                "contestAndFailed": "**{{name}}** contested **{{host}}** admin abuse and failed. They drew **{{count}}** cards.",
+                "contestAndKicked": "**{{name}}** contested **{{host}}**'s admin abuse and won. **{{host}}** has been ejected from the game."
             },
             "swap": {
                 "from": {
@@ -219,57 +219,57 @@
             }
         },
         "afk": {
-            "kicked": "**{name}** was inactive and has been kicked.",
-            "skipped": "**{name}** was inactive and has been skipped."
+            "kicked": "**{{name}}** was inactive and has been kicked.",
+            "skipped": "**{{name}}** was inactive and has been skipped."
         },
         "buno": {
             "contest": {
-                "alreadyYelled": "**{name}** already yelled \"Buno out!\"",
-                "drew": "**{name}** pointed out that **{drawer}** forgot to yell \"Buno out!\"\n**{drawer}** drew {stack} cards.",
-                "tooManyCards": "**{name} has too many cards to be able to yell \"Buno out!\""
+                "alreadyYelled": "**{{name}}** already yelled \"Buno out!\"",
+                "drew": "**{{name}}** pointed out that **{{drawer}}** forgot to yell \"Buno out!\"\n**{{drawer}}** drew {{stack}} cards.",
+                "tooManyCards": "**{{name}} has too many cards to be able to yell \"Buno out!\""
             },
             "yell": {
                 "already": "You yelled \"Buno Out!\" before.",
-                "message": "**{name}** yelled\n# {yell}!",
+                "message": "**{{name}}** yelled\n# {{yell}}!",
                 "notEnough": "You can only yell \"Buno out!\" when you have 2 cards."
             }
         },
-        "cancelled": "Game has been cancelled by **{name}**",
+        "cancelled": "Game has been cancelled by **{{name}}**",
         "card": {
-            "avoidDraw": "**{name}** tried to avoid drawing cards :clown:",
+            "avoidDraw": "**{{name}}** tried to avoid drawing cards :clown:",
             "allSwapped": "All the players' cards have been swapped!",
             "reversed": "The player order has been reversed.",
             "seven": "You played a 7 card and shall now select a player to exchange your cards with.",
-            "skippedPlayer": "**{name}** has been skipped.",
-            "swapped": "**{from}** swapped cards with **{to}**",
-            "unknown": "**{name}** tried to play a non-existant card :clown:",
-            "unknownColor": "**{name}** tried to set the collor a non-existant one :clown:"
+            "skippedPlayer": "**{{name}}** has been skipped.",
+            "swapped": "**{{from}}** swapped cards with **{to}**",
+            "unknown": "**{{name}}** tried to play a non-existant card :clown:",
+            "unknownColor": "**{{name}}** tried to set the collor a non-existant one :clown:"
         },
         "color": {
             "pick": "Pick a color here!",
-            "switched": "The color switched to **{color}**",
+            "switched": "The color switched to **{{color}}**",
             "text": "Please select a color"
         },
         "draw": {
-            "drew": "**{name}** drew a card.",
-            "drewAndSkipped": "**{name}** drew **{stack}** cards and has been skipped.",
-            "ephemeral": "You drew: {card}",
-            "sab": "**{name}** has been removed for attempting to sabotage the game",
+            "drew": "**{{name}}** drew a card.",
+            "drewAndSkipped": "**{{name}}** drew **{{stack}}** cards and has been skipped.",
+            "ephemeral": "You drew: {{card}}",
+            "sab": "**{{name}}** has been removed for attempting to sabotage the game",
             "select": {
                 "draw": "Draw a card",
                 "skip": "Skip your turn"
             },
-            "skip": "**{name}** skipped their turn."
+            "skip": "**{{name}}** skipped their turn."
         },
         "end": {
-            "default": "**{name}** has won the game{default}.",
+            "default": "**{{name}}** has won the game{{default}}.",
             "embed": {
                 "stats": {
                     "duration": "⏱️ The game lasted for",
                     "mostActivePlayer": "👤 Most active player",
                     "mostPlayedCard": "🃏 Most played card",
                     "players": "👥 Players who took part in the game",
-                    "playersDesc": "{players} (**{amount}** players)",
+                    "playersDesc": "{{players}} (**{{amount}}** players)",
                     "winner": "🏆 Winner"
                 }
             },
@@ -277,68 +277,68 @@
             "noWinner": "No winner"
         },
         "forceDraw": {
-            "contestPlus4": "**{name}** contested **{cardPlayer}**'s +4 card and won.\n**{cardPlayer}** drew **{stack}** cards",
-            "contestPlus4AndFail": "**{name}** contested **{cardPlayer}**'s +4 card and failed.\n**{name}** drew {stack} cards",
+            "contestPlus4": "**{{name}}** contested **{cardPlayer}**'s +4 card and won.\n**{{cardPlayer}}** drew **{{stack}}** cards",
+            "contestPlus4AndFail": "**{{name}}** contested **{{cardPlayer}}**'s +4 card and failed.\n**{{name}}** drew {{stack}} cards",
             "draw": "**{name}** drew **{stack}** cards and has been skipped.",
             "noCard": "You don't have any card to play",
             "noStacking": "The Allow Stacking rule is disabled",
             "noReverse": "The Reverse Card rule is disabled",
             "playACard": "Please play a card",
             "reverse": {
-                "reverseMessage": "**{name}** drew **{stack}** cards and has been skipped, thanks to the reverse card power.\nThe player order has been reversed."
+                "reverseMessage": "**{{name}}** drew **{{stack}}** cards and has been skipped, thanks to the reverse card power.\nThe player order has been reversed."
             },
             "select": {
-                "title": "Draw {stack} cards",
+                "title": "Draw {{stack}} cards",
                 "description": "...and take the L.",
                 "placeholder": "Choose a card"
             },
-            "text": "You have to respond, or draw {stack} cards."
+            "text": "You have to respond, or draw {{stack}} cards."
         },
-        "joined": "**{name}** has joined the game.",
-        "left": "`**{name}** has left the game.`",
+        "joined": "**{{name}}** has joined the game.",
+        "left": "`**{{name}}** has left the game.`",
         "lobby": {
-            "body": "Game will start automatically {timer}\nCurrent game host: {host}\n{playerList}",
+            "body": "Game will start automatically {{timer}}\nCurrent game host: {{host}}\n{{playerList}}",
             "modified": "This game won't count towards the game leaderboard"
         },
         "message": {
             "embed": {
                 "cards": "card",
                 "cards_plural": "cards",
-                "currentCard": "Current card: {currentCardEmote} **{currentCard}**",
-                "currentPlayer": "Currently playing: **{name}**",
-                "drawStack": "**{stack}** cards to draw",
+                "currentCard": "Current card: {{currentCardEmote}} **{{currentCard}}**",
+                "currentPlayer": "Currently playing: **{{name}}**",
+                "drawStack": "**{{stack}}** cards to draw",
                 "footer": {
-                    "timeout": "Current timeout is {timeout}."
+                    "timeout": "Current timeout is {{timeout}}."
                 },
-                "playerList": "{plus} {name}{cards} $t(cards, {\"count\":{{count}})\n"
+                "playerList": "{{plus}} {{name}}{{cards}} $t(cards, {\"count\":{{count}})\n"
             }
         },
         "notPlayable": "You can't play this card.",
         "notYourTurn": "It's not your turn",
-        "played": "**{name}** played {currentCardEmote} {card}",
+        "played": "**{{name}}** played {{currentCardEmote}} {{card}}",
         "playerPicker": "Choose a player",
         "started": "**The game has just started!**",
         "startedAA": "\nThe admin abuse gamemode is enabled for this game. You can eject the host if you think they are abusing by opening the Actions menu",
         "states": {
-            "stopped": "{user} has stopped the game"
+            "stopped": "{{user}} has stopped the game"
         },
-        "tooManyCards": "Removed **{name}** for abusing the game."
+        "tooManyCards": "Removed **{{name}}** for abusing the game."
     },
     "leaderboard": {
         "embed": {
-            "title": "Leaderboard for **{guild}**",
-            "description": "Page {currentPage} of {totalPages}.{userRank}",
-            "yourRank": "\nYour rank: {rank}",
-            "fieldName": "{rank} - {member}",
+            "title": "Leaderboard for **{{guild}}**",
+            "description": "Page {{currentPage}} of {{totalPages}}.{{userRank}}",
+            "yourRank": "\nYour rank: {{rank}}",
+            "fieldName": "{{rank} - {{member}",
             "fieldValues": {
-                "wins_zero": "{count} win",
-                "wins_one": "{count} win",
-                "wins_other": "{count} wins",
-                "losses_zero": "{count} loss",
-                "losses_one": "{count} loss",
-                "losses_other": "{count} losses",
+                "wins_zero": "{{count}} win",
+                "wins_one": "{{count}} win",
+                "wins_other": "{{count}} wins",
+                "losses_zero": "{{count}} loss",
+                "losses_one": "{{count}} loss",
+                "losses_other": "{{count}} losses",
                 "noLoss": "No loss",
-                "wlr": "{winLossRatio} W/L Ratio"
+                "wlr": "{{winLossRatio}} W/L Ratio"
             },
             "noLosses": "No losses"
         }
@@ -348,7 +348,7 @@
         "prompt": "Are you sure you want to leave the game? You won't be able to rejoin the game."
     },
     "settings": {
-        "currentValue": "Current value: {value}",
+        "currentValue": "Current value: {{value}}",
         "embed": {
             "title": "Game settings",
             "footer": "Settings are automatically saved per guild, and per member."
@@ -383,10 +383,10 @@
     },
     "time": {
         "disabled": "Disabled",
-        "dhms": "$t(days, {\"count\":{{days}}), $t(hours, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(seconds, {\"count\":{{seconds}})",
-        "hms": "$t(hours, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(seconds, {\"count\":{{seconds}})",
-        "ms": "$t(minutes, {\"count\":{{minutes}}) and $t(seconds, {\"count\":{{seconds}})",
-        "s": "$t(seconds, {\"count\":{{seconds}})",
+        "dhms": "{{days}} $t(days, {\"count\":{{days}}), {{hours}} $t(hours, {\"count\":{{hours}}), {{minutes}} $t(minutes, {\"count\":{{minutes}}) and {{seconds}} $t(seconds, {\"count\":{{seconds}})",
+        "hms": "{{hours}} $t(hours, {\"count\":{{hours}}), {{minutes}} $t(minutes, {\"count\":{{minutes}}) and {{seconds}} $t(seconds, {\"count\":{{seconds}})",
+        "ms": "{{minutes}} $t(minutes, {\"count\":{{minutes}}) and {{seconds}} $t(seconds, {\"count\":{{seconds}})",
+        "s": "{{seconds}} $t(seconds, {\"count\":{{seconds}})",
         "days": "day",
         "days_plural": "days",
         "hours": "hour",
@@ -413,12 +413,12 @@
     },
     "words": {
         "and": "and",
-        "channels_zero": "**{count}** channel",
-        "channels_one": "**{count}** channel",
-        "channels_other": "**{count}** channels",
-        "servers": "**{count}** server",
-        "servers_plural": "**{count}** servers",
-        "users": "**{count}** user",
-        "users_plural": "**{count}** users"
+        "channels_zero": "**{{count}}** channel",
+        "channels_one": "**{{count}}** channel",
+        "channels_other": "**{{count}}** channels",
+        "servers": "**{{count}}** server",
+        "servers_plural": "**{{count}}** servers",
+        "users": "**{{count}}** user",
+        "users_plural": "**{{count}}** users"
     }
 }
