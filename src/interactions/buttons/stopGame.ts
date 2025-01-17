@@ -4,6 +4,7 @@ import { t } from "i18next";
 import { button } from "../../typings/button.js";
 import { config } from "../../utils/config.js";
 import { ButtonIDs } from "../../utils/constants.js";
+import timeouts from "../../utils/timeoutManager.js";
 
 export const b: button = {
     name: ButtonIDs.DELETE_GAME,
@@ -24,6 +25,7 @@ export const b: button = {
             flags: MessageFlags.Ephemeral
         });
         client.games.splice(client.games.findIndex(g => g === game), 1);
+        timeouts.delete(game.channelId);
         return interaction.update({ content: t("strings:game.cancelled", { lng, name: interaction.user.toString() }), embeds: [], components: [] });
     }
 };
