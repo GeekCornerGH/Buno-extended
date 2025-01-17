@@ -310,7 +310,7 @@
                 "footer": {
                     "timeout": "Le délai actuel est de {{timeout}}."
                 },
-                "playerList": "{{plus}} {{name}}{{cards}} $t(cartes, {\"count\":{{count}})\n"
+                "playerList": "{{plus}}{{name}}{{cards}} $t(cartes, {\"count\":{{count}})\n"
             }
         },
         "notPlayable": "Vous ne pouvez pas jouer cette carte.",

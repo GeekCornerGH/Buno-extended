@@ -310,7 +310,7 @@
                 "footer": {
                     "timeout": "Current timeout is {{timeout}}."
                 },
-                "playerList": "{{plus}} {{name}}{{cards}} $t(cards, {\"count\":{{count}})\n"
+                "playerList": "{{plus}}{{name}}{{cards}} $t(cards, {\"count\":{{count}})\n"
             }
         },
         "notPlayable": "You can't play this card.",
