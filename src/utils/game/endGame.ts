@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, GuildTextBasedChannel, Snowflake } from "discord.js";
 import { t } from "i18next";
 
 import { Buno } from "../../database/models/buno.js";
@@ -77,6 +77,14 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
         return `${client.guilds.cache.get(game.guildId)?.members.cache.get(mostUsed)}`;
     };
     const players = [...game.players, ...game.playersWhoLeft];
+    const playerNames: { [id: Snowflake]: string } = {};
+    (await Promise.all(players)).forEach(async (p: Snowflake) => {
+        const name = await getUsername(client, game.guildId, p);
+        playerNames[p] = name;
+    });
+    const playerList = () => {
+        t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(p => playerNames[p]).join(", "), lng });
+    };
     (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send({
         content: game.players.length === 0 ? t("strings:game.end.noOne", { lng }) : t("strings:game.end.default", {
             name: reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer) : "[This shouldn't be there]",
@@ -95,11 +103,11 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                         name: t("strings:game.end.embed.stats.mostPlayedCard", { lng }),
                         value: `${card()}`
                     }, {
-                        name: t("strings:game.end.embed.stats.mostPlayedCard", { lng }),
+                        name: t("strings:game.end.embed.stats.mostActivePlayer", { lng }),
                         value: `${player()}`
                     }, {
                         name: t("strings:game.end.embed.stats.players", { lng }),
-                        value: t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(async p => await getUsername(client, game.guildId, p)).join(", "), lng })
+                        value: `${playerList()}`
                     }, {
                         name: t("strings:game.end.embed.stats.duration", { lng }),
                         value: `${toHumanReadableTime(Math.round((calledTimestamp.getTime() - game.startingDate.getTime()) / 1000), lng)}`
