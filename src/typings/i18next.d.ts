@@ -1,6 +1,6 @@
 import "i18next";
 
-import strings from "../i18n/en/strings.json";
+import strings from "../i18n/en/strings.json" with {type: "json"};
 
 const resources = { strings } as const;
 

@@ -1,7 +1,7 @@
 import i18next from "i18next";
 
-import enStrings from "../../i18n/en/strings.json";
-import frStrings from "../../i18n/fr/strings.json";
+import enStrings from "../../i18n/en/strings.json" with {type: "json"};
+import frStrings from "../../i18n/fr/strings.json" with {type: "json"};
 
 export default function () {
     i18next.init({
