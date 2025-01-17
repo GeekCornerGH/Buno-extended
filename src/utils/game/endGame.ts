@@ -68,23 +68,17 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
             });
         }
     }
-    const card = () => {
-        const mostUsed = findMostProperty(game.log, "card");
-        return `${cardEmotes[mostUsed as unoCard] as unknown} ${toTitleCase(mostUsed, lng)}`;
-    };
-    const player = () => {
-        const mostUsed = findMostProperty(game.log, "player");
-        return `${client.guilds.cache.get(game.guildId)?.members.cache.get(mostUsed)}`;
-    };
+    const mostPlayedCardName = findMostProperty(game.log, "card");
+    const mostPlayedCard = `${cardEmotes[mostPlayedCardName as unoCard] as unknown} ${toTitleCase(mostPlayedCardName, lng)}`;
+    const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log, "player"));
     const players = [...game.players, ...game.playersWhoLeft];
     const playerNames: { [id: Snowflake]: string } = {};
     (await Promise.all(players)).forEach(async (p: Snowflake) => {
         const name = await getUsername(client, game.guildId, p);
         playerNames[p] = name;
     });
-    const playerList = () => {
-        t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(p => playerNames[p]).join(", "), lng });
-    };
+    const playerList = t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(p => playerNames[p]).join(", "), lng });
+
     (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send({
         content: game.players.length === 0 ? t("strings:game.end.noOne", { lng }) : t("strings:game.end.default", {
             name: reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer) : "[This shouldn't be there]",
@@ -101,13 +95,13 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                         value: `${reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer) : t("strings:game.end.noWinner", { lng })}`
                     }, {
                         name: t("strings:game.end.embed.stats.mostPlayedCard", { lng }),
-                        value: `${card()}`
+                        value: `${mostPlayedCard}`
                     }, {
                         name: t("strings:game.end.embed.stats.mostActivePlayer", { lng }),
-                        value: `${player()}`
+                        value: `${mostActivePlayer}`
                     }, {
                         name: t("strings:game.end.embed.stats.players", { lng }),
-                        value: `${playerList()}`
+                        value: `${playerList}`
                     }, {
                         name: t("strings:game.end.embed.stats.duration", { lng }),
                         value: `${toHumanReadableTime(Math.round((calledTimestamp.getTime() - game.startingDate.getTime()) / 1000), lng)}`
