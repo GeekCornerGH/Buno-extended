@@ -1,3 +1,5 @@
+import { MessageFlags } from "discord.js";
+
 import { button } from "../../typings/button.js";
 import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 import { config } from "../../utils/config.js";
@@ -11,11 +13,11 @@ export const b: button = {
         const game = client.games.find(g => g.messageId === interaction.message.id) as runningUnoGame;
         if (!game) return interaction.reply({
             content: "No game is currently running.",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
             content: "You're not part of the game.",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         const lng = game.locale;
         const cards = cardArrayToCount(game.cards[interaction.user.id] as unoCard[]);
@@ -27,7 +29,7 @@ export const b: button = {
                 seenCards.push(c);
                 return `${config.emoteless ? `${cardEmotes[c]} ${toTitleCase(c, lng)}${cards[c]! >= 2 ? ` x${cards[c]}` : ""}` : `${cardEmojis[c]}${cards[c]! >= 2 ? ` x${cards[c]!}` : ""}`}` as unoCard;
             }).filter(v => v !== undefined).join(config.emoteless ? ", " : " "),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
 
     }

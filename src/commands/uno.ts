@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { ApplicationIntegrationType, Guild, InteractionContextType, Message, MessageCreateOptions, SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, Guild, InteractionContextType, Message, MessageCreateOptions, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { t } from "i18next";
 
 import lobbyGameMessage from "../components/lobbyGameMessage.js";
@@ -24,7 +24,10 @@ export const c: command = {
         let lng = interaction.locale.split("-")[0];
         if (isGame) {
             lng = isGame.locale;
-            return await interaction.reply({ content: t("strings:errors.gameInChannel", { lng, url: "https://discord.com/channels/" + interaction.guildId + "/" + isGame.channelId + "/" + isGame.messageId }), ephemeral: true });
+            return await interaction.reply({
+                content: t("strings:errors.gameInChannel", { lng, url: "https://discord.com/channels/" + interaction.guildId + "/" + isGame.channelId + "/" + isGame.messageId }),
+                flags: MessageFlags.Ephemeral
+            });
         }
         const req = await Buno.findOne({
             where: {
@@ -57,7 +60,7 @@ export const c: command = {
         } as unoGame;
         client.games.push(game);
         const message = await interaction.channel?.send(await lobbyGameMessage(client, game as waitingUnoGame, interaction.guild as Guild) as MessageCreateOptions);
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
         await interaction.deleteReply();
         game.messageId = message?.id as string;
 

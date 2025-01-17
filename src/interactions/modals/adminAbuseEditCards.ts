@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { modal } from "../../typings/modal.js";
@@ -13,23 +14,23 @@ export const m: modal = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state === "waiting") return interaction.reply({
             content: t("strings:errors.waiting", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         else if (!game.settings.adminabusemode || game.hostId !== interaction.user.id) return interaction.reply({
             content: "nuh uh ☝️",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         else if (!game.cards[target]) return interaction.reply({
             content: "The user isn't in this game",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         let notMatched = null;
         const input = interaction.fields.getTextInputValue(ModalsIDs.ADMIN_ABUSE_EDIT_CARDS_FIELD);
@@ -40,15 +41,15 @@ export const m: modal = {
         }
         if (notMatched) return interaction.reply({
             content: `The ${notMatched} value is not a valid card.`,
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         else if (input.split("\n").length < 3 && game.cards[target].length > 3) return interaction.reply({
             content: "You can't give the target less than 3 cards",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         else if (game.cards[target].length < 3 && input.split("\n").length !== game.cards[target].length) return interaction.reply({
             content: "You need to give the target the same numbers of cards they had before, if they only have 2 cards or less.",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferUpdate();
         game.cards[target] = input.split("\n") as unoCard[];

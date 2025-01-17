@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
@@ -14,23 +15,23 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state === "waiting") return interaction.reply({
             content: t("strings:errors.waiting", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.cards[game.currentPlayer].length !== 2) return interaction.reply({
             content: t("strings:game.buno.yell.notEnough", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.unoPlayers.includes(interaction.user.id)) return interaction.reply({
             content: t("game.buno.yell.already", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferUpdate();
         game.unoPlayers.push(interaction.user.id);

@@ -16,9 +16,9 @@ export const c: command = {
         const lng = interaction.locale.split("-")[0];
         const msg = await interaction.reply({
             content: t("strings:commands.ping.message.pre-pong", { lng }),
-            fetchReply: true
+            withResponse: true
         });
-        const actualPing = msg.createdTimestamp - interaction.createdTimestamp;
+        const actualPing = msg.resource?.message?.createdTimestamp as number - interaction.createdTimestamp;
         return await interaction.editReply(t("strings:commands.ping.message.pong", { lng, WSPingEmote: pingToEmote(client.ws.ping), WSPing: client.ws.ping, pingEmote: pingToEmote(actualPing), ping: actualPing }));
     }
 };

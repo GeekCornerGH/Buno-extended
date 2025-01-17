@@ -1,4 +1,4 @@
-import { EmbedBuilder, Guild, GuildMember, InteractionUpdateOptions } from "discord.js";
+import { EmbedBuilder, Guild, GuildMember, InteractionUpdateOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import lobbyGameMessage from "../../components/lobbyGameMessage.js";
@@ -13,19 +13,19 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state === "inProgress") return interaction.reply({
             content: t("strings:errors.inProgress", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.inTheGame", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.players.length >= maxPlayerInGame) return interaction.reply({
             content: t("strings:errors.tooManyInGame", { lng, count: maxPlayerInGame }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         game.players.push((interaction.member as GuildMember).id);
         await interaction.update(await lobbyGameMessage(client, game, interaction.guild as Guild) as InteractionUpdateOptions);
@@ -37,7 +37,7 @@ export const b: button = {
                 .setTitle(t("strings:aprilFools", { lng }))
                 .setTimestamp()
                 .setColor("Red")],
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
     }
 };

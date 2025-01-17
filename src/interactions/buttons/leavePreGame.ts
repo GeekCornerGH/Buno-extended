@@ -1,4 +1,4 @@
-import { Guild, InteractionUpdateOptions } from "discord.js";
+import { Guild, InteractionUpdateOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import lobbyGameMessage from "../../components/lobbyGameMessage.js";
@@ -14,19 +14,19 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notInGame", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (game.state === "inProgress") return interaction.reply({
             content: t("strings:errors.notRunningWrongButton", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.hostId === interaction.user.id) return interaction.reply({
             content: t("strings:leave.leaveAsHost", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         game.players.splice(game.players.findIndex(p => p === interaction.user.id), 1);
         interaction.update({ ...await lobbyGameMessage(client, game, interaction.guild as Guild) as InteractionUpdateOptions });

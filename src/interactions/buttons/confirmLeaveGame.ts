@@ -1,5 +1,5 @@
 
-import { Guild, TextChannel } from "discord.js";
+import { Guild, MessageFlags, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
@@ -19,15 +19,15 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state !== "inProgress") return interaction.reply({
             content: t("strings:errors.notRunningWrongButton", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notInGame", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         await interaction.deferUpdate();
         const index = game.players.findIndex(p => p === interaction.user.id);

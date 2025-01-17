@@ -1,7 +1,7 @@
 import { inspect } from "node:util";
 
 import { execSync } from "child_process";
-import { ApplicationIntegrationType, AttachmentBuilder, InteractionContextType, SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, AttachmentBuilder, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { t } from "i18next";
 
 import { Buno } from "../database/models/buno.js";
@@ -45,7 +45,9 @@ export const c: command = {
         update;
         // eslint-disable-next-line no-unused-expressions
         Buno;
-        await interaction.deferReply({ ephemeral: !showPublic });
+        await interaction.deferReply({
+            flags: !showPublic ? MessageFlags.Ephemeral : undefined
+        });
         const reportError = async (e: Error): Promise<void> => {
             let stack: string;
             if (e.stack) {

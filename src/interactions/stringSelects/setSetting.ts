@@ -1,4 +1,4 @@
-import { ActionRowBuilder, InteractionUpdateOptions, ModalActionRowComponentBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, InteractionUpdateOptions, MessageFlags, ModalActionRowComponentBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { t } from "i18next";
 
 import editSettings from "../../components/editSettings.js";
@@ -18,15 +18,15 @@ export const s: stringSelect = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
             content: "Only the host can change settings.",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state === "inProgress") return interaction.reply({
             content: "nuh uh ☝️",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const req = await Buno.findOne({
             where: {

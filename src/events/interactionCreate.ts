@@ -1,4 +1,4 @@
-import { BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, ModalSubmitInteraction, RepliableInteraction, StringSelectMenuInteraction } from "discord.js";
+import { BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, MessageFlags, ModalSubmitInteraction, RepliableInteraction, StringSelectMenuInteraction } from "discord.js";
 import { t } from "i18next";
 
 import { Blacklisted } from "../database/models/blacklisted.js";
@@ -14,7 +14,7 @@ export const e: event = async (client, interaction: BaseInteraction) => {
     });
     if (blCheck && !config.developerIds.includes(interaction.user.id)) return (interaction as RepliableInteraction).reply({
         content: t("strings:errors.blacklisted", { lng, reason: blCheck.getDataValue("reason") }),
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     });
     if (interaction.isChatInputCommand()) {
         const i = interaction as ChatInputCommandInteraction;

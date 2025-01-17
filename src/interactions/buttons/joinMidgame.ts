@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { button } from "../../typings/button";
@@ -15,22 +16,22 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.playersWhoLeft.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.playerLeft", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.inTheGame", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.players.length >= 12) return interaction.reply({
             content: t("strings:errors.tooManyInGame", { lng, count: maxPlayerInGame }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferReply({
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         game.players.push(interaction.user.id);
         game.cards[interaction.user.id] = draw(game.cardsQuota, Math.ceil((Object.keys(game.cards).map(p => game.cards[p].length).reduce((a, b) => a + b, 0)) / Object.keys(game.cards).length));

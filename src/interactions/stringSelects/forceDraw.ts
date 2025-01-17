@@ -1,5 +1,5 @@
 
-import { InteractionUpdateOptions } from "discord.js";
+import { InteractionUpdateOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
@@ -23,34 +23,34 @@ export const s: stringSelect = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state === "waiting") return interaction.reply({
             content: t("strings:errors.waiting", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.drawStack === 0) return interaction.reply({
             content: t("strings:errors.noDrawStack", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const playedCard = interaction.values[0] as unoCard | "draw";
         if (!playedCard) return interaction.reply({
             content: t("strings:game.forceDraw.playACard", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const filtered = playableCard(game.cards[interaction.user.id] as unoCard[], game.currentCard).filter(c => (game.settings.allowStacking && (c === "+4" || c.endsWith("-+2")) || (game.settings.reverseAnything && (c.endsWith("-reverse")))));
         if (!filtered) return interaction.reply({
             content: t("strings:game.forceDraw.noCard", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const pushedFiltered = [...filtered, "draw"];
         if (!pushedFiltered.includes(playedCard as unoCard)) return interaction.reply({
             content: t("strings:game.notPlayable", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferUpdate();
         let toAppend = "";

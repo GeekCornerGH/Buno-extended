@@ -1,5 +1,5 @@
 
-import { InteractionReplyOptions } from "discord.js";
+import { InteractionReplyOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import editSettings from "../../components/editSettings.js";
@@ -16,11 +16,11 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notTheHost", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const req = await Buno.findOne({
             where: {
@@ -29,6 +29,6 @@ export const b: button = {
             }
         });
         game.settings = { ...defaultSettings, ...req?.getDataValue("settings") };
-        interaction.reply({ ephemeral: true, ...await editSettings(game) as InteractionReplyOptions });
+        interaction.reply({ flags: MessageFlags.Ephemeral, ...await editSettings(game) as InteractionReplyOptions });
     }
 };

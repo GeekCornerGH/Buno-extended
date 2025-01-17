@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
@@ -12,19 +12,19 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         else if (game.state === "waiting") return interaction.reply({
             content: t("strings:errors.notRunning", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         else if (!game.settings.adminabusemode && !game.settings.shouldYellBUNO && !game.settings.allowContest) return interaction.reply({
             content: t("strings:errors.noActions", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const embed = new EmbedBuilder()
             .setColor("Random")
@@ -77,7 +77,7 @@ export const b: button = {
         return interaction.reply({
             embeds: [embed],
             components: [row],
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
     }
 };

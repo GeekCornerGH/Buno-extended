@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
@@ -13,18 +14,18 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (game.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notTheHost", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.players.length < 2 && game._modified !== true) return interaction.reply({
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
             content: t("strings:errors.alone", { lng })
         });
         startGame(client, game, false, interaction.message);
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
         interaction.deleteReply();
     }
 };

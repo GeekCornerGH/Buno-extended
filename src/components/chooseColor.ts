@@ -1,4 +1,4 @@
-import { ActionRowBuilder, InteractionReplyOptions, InteractionUpdateOptions, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, InteractionReplyOptions, InteractionUpdateOptions, MessageFlags, StringSelectMenuBuilder } from "discord.js";
 import { t } from "i18next";
 
 import { colorEmotes, colors, SelectIDs, uniqueVariants } from "../utils/constants.js";
@@ -6,7 +6,7 @@ import { colorEmotes, colors, SelectIDs, uniqueVariants } from "../utils/constan
 export default (cardType: typeof uniqueVariants[number], lng: string): InteractionReplyOptions | InteractionUpdateOptions => {
     return {
         content: t("strings:game.color.text", { lng }),
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
         components: [
             new ActionRowBuilder<StringSelectMenuBuilder>().setComponents([
                 new StringSelectMenuBuilder().setCustomId(SelectIDs.CHOOSE_COLOR)

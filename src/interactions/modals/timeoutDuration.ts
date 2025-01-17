@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import editSettings from "../../components/editSettings.js";
@@ -15,19 +16,19 @@ export const m: modal = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state === "waiting") return interaction.reply({
             content: t("strings:errors.waiting", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notTheHost", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const req = await Buno.findOne({
             where: {

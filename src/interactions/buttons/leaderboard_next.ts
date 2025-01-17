@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import leaderboard from "../../components/leaderboard.js";
@@ -12,12 +13,12 @@ export const b: button = {
         const lng = interaction.locale.split("-")[0];
         if (interaction.message.interactionMetadata?.user.id !== interaction.user.id) return interaction.reply({
             content: t("strings:errors.paginationForbidden", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if ((interaction.message.editedTimestamp ?? interaction.message.createdTimestamp) < (Date.now() - (5 * 60 * 60 * 1000))) {
             return interaction.reply({
                 content: t("strings:errors.paginationTooOld", { lng }),
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
         }
         const offset = parseInt(interaction.customId.split("_")[1]);

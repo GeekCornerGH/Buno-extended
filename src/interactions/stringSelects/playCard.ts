@@ -1,4 +1,4 @@
-import { InteractionUpdateOptions, Snowflake, TextChannel } from "discord.js";
+import { InteractionUpdateOptions, MessageFlags, Snowflake, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
@@ -24,15 +24,15 @@ export const s: stringSelect = {
         await interaction.deferUpdate();
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state === "waiting") return interaction.reply({
             content: t("strings:errors.waiting", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const { currentCard } = game;
         const index = game.cards[interaction.user.id].findIndex(c => c === card);

@@ -1,4 +1,4 @@
-import { ApplicationIntegrationType, EmbedBuilder, InteractionContextType, PermissionFlagsBits, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, EmbedBuilder, InteractionContextType, MessageFlags, PermissionFlagsBits, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { t } from "i18next";
 
 import { command } from "../typings/command.js";
@@ -19,23 +19,23 @@ export const c: command = {
         const game = client.games.find(g => g.channelId === interaction.channelId);
         if (!config.developerIds.includes(interaction.user.id) && (interaction.member.permissions as PermissionsBitField).has(PermissionFlagsBits.ManageMessages)) return interaction.reply({
             content: "nuh uh ☝️",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state !== "waiting") return interaction.reply({
             content: t("strings:errors.inProgress", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const member = interaction.guild?.members.cache.get(interaction.user.id);
         if (!member || !member.permissions.has(PermissionFlagsBits.ManageMessages) && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.forbidden", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferReply({
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const msg = interaction.channel?.messages.cache.get(game.messageId);
         if (msg) await msg.delete();

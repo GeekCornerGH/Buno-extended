@@ -5,6 +5,7 @@ import { ButtonIDs } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";
 import { getUsername } from "../../utils/getUsername.js";
+import { MessageFlags } from "discord.js";
 
 export const b: button = {
     name: ButtonIDs.CONTEST_PLUS4,
@@ -14,34 +15,34 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state !== "inProgress") return interaction.reply({
             content: t("strings:errors.notRunningWrongButton", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notInGame", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.currentCard.endsWith("-+4")) return interaction.reply({
             content: t("strings:errors.unusable", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.drawStack === 0) return interaction.reply({
             content: t("strings:errors.unusable", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const [pColor] = game.log[game.log.length - 2].card.split("-");
         let toAppend: string = "";
         const prevPlayer = game.log[game.log.length - 1].player;
         if (interaction.user.id === prevPlayer) return interaction.reply({
             content: t("strings:errors.cantContestYourOwn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferUpdate();
         if (game.cards[prevPlayer].findIndex(c => c.startsWith(pColor)) !== -1) {

@@ -1,5 +1,5 @@
 
-import { InteractionReplyOptions } from "discord.js";
+import { InteractionReplyOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import editSettings from "../../components/editSettings.js";
@@ -13,8 +13,8 @@ export const b: button = {
         const lng = interaction.locale.split("-")[0];
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
-        interaction.reply({ ephemeral: true, ...await editSettings(game) as InteractionReplyOptions, components: [] });
+        interaction.reply({ flags: MessageFlags.Ephemeral, ...await editSettings(game) as InteractionReplyOptions, components: [] });
     }
 };

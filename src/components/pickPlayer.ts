@@ -1,4 +1,4 @@
-import { ActionRowBuilder, Client, InteractionReplyOptions, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { ActionRowBuilder, Client, InteractionReplyOptions, MessageFlags, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 import { t } from "i18next";
 
 import { runningUnoGame } from "../typings/unoGame.js";
@@ -29,6 +29,6 @@ export default async (client: Client, game: runningUnoGame, player: string): Pro
     return {
         components: [await createRow()],
         content: t("strings:game.card.seven", { lng }),
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     };
 };

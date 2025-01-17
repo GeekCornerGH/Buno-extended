@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
@@ -14,32 +15,32 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state !== "inProgress") return interaction.reply({
             content: t("strings:errors.notRunningWrongButton", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notInGame", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         const previousPlayer = game.log[game.log.length - 1].player;
         if (!previousPlayer) return interaction.reply({
             content: t("strings:errors.gameJustStarted", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.cards[previousPlayer].length !== 1) return interaction.reply({
             content: t("strings:game.buno.contest.tooManyCards", { lng, name: await getUsername(client, game.guildId, previousPlayer) }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.unoPlayers.includes(previousPlayer)) return interaction.reply({
             content: t("strings:game.buno.contest.alreadyYelled", { lng, name: await getUsername(client, game.guildId, previousPlayer) }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferUpdate();
         const toAppend = t("strings:game.buno.contest.drew", { lng, name: await getUsername(client, game.guildId, interaction.user.id), drawer: await getUsername(client, game.guildId, previousPlayer), stack: 2 });

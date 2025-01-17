@@ -1,4 +1,4 @@
-import { InteractionReplyOptions } from "discord.js";
+import { InteractionReplyOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
@@ -17,18 +17,18 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notInGame", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferReply({
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.turnProgress === "chooseColor") {
             return interaction.editReply({

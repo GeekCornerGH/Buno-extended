@@ -1,4 +1,4 @@
-import { ApplicationIntegrationType, InteractionContextType, SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { t } from "i18next";
 
 import { Blacklisted } from "../database/models/blacklisted.js";
@@ -49,7 +49,7 @@ export const c: command = {
         const lng = interaction.locale.split("-")[0];
         if (!config.developerIds.includes(interaction.user.id)) return interaction.reply({
             content: "nuh uh ☝️",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         const target = interaction.options.getUser("target", true);
         const reason = interaction.options.getString("reason", true);
@@ -61,7 +61,7 @@ export const c: command = {
                     }
                 })) return interaction.reply({
                     content: t("strings:commands.blacklist.message.already-blacklisted", { lng }),
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
                 await Blacklisted.create({
                     userId: target.id,
@@ -80,7 +80,7 @@ export const c: command = {
                     }
                 })) return interaction.reply({
                     content: t("strings:commands.blacklist.message.not-blacklisted", { lng }),
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
                 await Blacklisted.destroy({
                     where: {

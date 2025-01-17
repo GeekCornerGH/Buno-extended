@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
@@ -15,28 +16,28 @@ export const b: button = {
         if (game) lng = game.locale;
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (game.state !== "inProgress") return interaction.reply({
             content: t("strings:errors.notRunningWrongButton", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
             content: t("strings:errors.notInGame", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
         const prevTurn = game.log[game.log.length - 1];
         if (!prevTurn) return interaction.reply({
             content: t("strings:errors.gameJustStarted", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         if (prevTurn.player !== game.hostId) return interaction.reply({
             content: t("strings:errors.notContestingHost", { lng }),
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         });
         await interaction.deferUpdate();
         if (!prevTurn.adminAbused) {
