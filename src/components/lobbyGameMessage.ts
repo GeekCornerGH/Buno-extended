@@ -1,12 +1,14 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, Guild, InteractionUpdateOptions, MessageCreateOptions } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Guild, InteractionUpdateOptions, MessageCreateOptions } from "discord.js";
+import { t } from "i18next";
 
-import { unoGame } from "../typings/unoGame.js";
-import { autoStartTimeout, ButtonIDs } from "../utils/constants.js";
+import { waitingUnoGame } from "../typings/unoGame.js";
+import { ButtonIDs } from "../utils/constants.js";
 import generatePlayerList from "../utils/game/generatePlayerList.js";
 
-export default async (game: unoGame, guild: Guild): Promise<MessageCreateOptions | InteractionUpdateOptions> => {
+export default async (client: Client, game: waitingUnoGame, guild: Guild): Promise<MessageCreateOptions | InteractionUpdateOptions> => {
+    const lng = game.locale;
     return {
-        embeds: [new EmbedBuilder().setColor("Random").setTitle("Let's play Buno!").setDescription(`Game will start automatically <t:${Math.round((Date.now() / 1000) + autoStartTimeout)}:R>\nCurrent game host: ${guild.members.cache.get(game.hostId)}\n${await generatePlayerList(game, guild.members)}`).setFooter({ text: game._modified ? "This game won't count towards the game leaderboard" : null })],
+        embeds: [new EmbedBuilder().setColor("Random").setTitle("Da Buno!").setDescription(t("strings:game.lobby.body", { timer: `<t:${Math.round(game.startsAt / 1000)}:R>`, host: guild.members.cache.get(game.hostId)?.toString(), playerList: await generatePlayerList(client, game), lng })).setFooter({ text: game._modified ? t("strings:game.lobby.modified") : "" })],
         components: [
             new ActionRowBuilder<ButtonBuilder>().setComponents(
                 [
@@ -19,9 +21,9 @@ export default async (game: unoGame, guild: Guild): Promise<MessageCreateOptions
                 [
                     new ButtonBuilder().setEmoji("🛑").setStyle(ButtonStyle.Danger).setCustomId(ButtonIDs.DELETE_GAME),
                     new ButtonBuilder().setEmoji("⚙️").setStyle(ButtonStyle.Secondary).setCustomId(ButtonIDs.EDIT_GAME_SETTINGS),
-                    new ButtonBuilder().setLabel("​").setStyle(ButtonStyle.Link).setURL("https://github.com/geekcornergh/buno-extended")
+                    new ButtonBuilder().setLabel("​").setStyle(ButtonStyle.Link).setURL("https://github.com/GeekCornerGH/Buno-Extended")
                 ]
             )
         ]
-    };
+    } as InteractionUpdateOptions;
 };

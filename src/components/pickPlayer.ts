@@ -1,25 +1,34 @@
-import { ActionRowBuilder, InteractionReplyOptions, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { ActionRowBuilder, Client, InteractionReplyOptions, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { t } from "i18next";
 
-import { customClient } from "../typings/client.js";
 import { runningUnoGame } from "../typings/unoGame.js";
 import { SelectIDs } from "../utils/constants.js";
+import { getUsername } from "../utils/getUsername.js";
 
-export default (client: customClient, game: runningUnoGame, player: string): InteractionReplyOptions => {
-    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([new StringSelectMenuBuilder()
-        .setCustomId(SelectIDs.PLAYER_USER_SELECT)
-        .setPlaceholder("Choose a player to swap your cards with")
-        .setMinValues(1)
-        .setMaxValues(1)
-        .setOptions(...game.players.map(p => {
+export default async (client: Client, game: runningUnoGame, player: string): Promise<InteractionReplyOptions> => {
+    const lng = game.locale;
+    const createRow = async () => {
+        const optionsPromises = game.players.map(async p => {
             if (player === p) return;
+            const displayName = await getUsername(client, game.guildId, p);
             return new StringSelectMenuOptionBuilder()
                 .setValue(p)
-                .setLabel(`${client.guilds.cache.get(game.guildId).members.cache.get(p).displayName}`);
-        }).filter(p => p !== undefined))
-    ]);
+                .setLabel(displayName);
+        });
+
+        const options = (await Promise.all(optionsPromises)).filter(p => p !== undefined);
+        const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([new StringSelectMenuBuilder()
+            .setCustomId(SelectIDs.PLAYER_USER_SELECT)
+            .setPlaceholder(t("strings:game.playerPicker", { lng }))
+            .setMinValues(1)
+            .setMaxValues(1)
+            .setOptions(options)
+        ]);
+        return row;
+    };
     return {
-        components: [row],
-        content: "You played a 7 card and shall now select a player to exchange your cards with.",
+        components: [await createRow()],
+        content: t("strings:game.card.seven", { lng }),
         ephemeral: true
     };
 };

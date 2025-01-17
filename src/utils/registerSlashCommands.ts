@@ -3,8 +3,10 @@ import { configDotenv } from "dotenv";
 import { readdirSync } from "fs";
 
 import { commandFile } from "../typings/command.js";
+import initI18n from "./i18n/initI18n.js";
 
 configDotenv();
+initI18n();
 
 const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 
@@ -19,13 +21,8 @@ cmds.forEach(async f => {
     if (cmds.length === commands.length) {
         const rest = new REST().setToken(process.env.TOKEN);
         (async () => {
-            try {
-                console.log("Pushing " + commands.length + " commands");
-                await rest.put(Routes.applicationCommands(process.env.CLIENTID), { body: commands });
-            }
-            catch (e) {
-                throw e;
-            }
+            console.log("Pushing " + commands.length + " commands");
+            await rest.put(Routes.applicationCommands(process.env.CLIENTID), { body: commands });
         })();
     }
 });

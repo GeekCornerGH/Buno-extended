@@ -1,22 +1,30 @@
 import { randomUUID } from "crypto";
-import { MessageCreateOptions, SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, Guild, InteractionContextType, Message, MessageCreateOptions, SlashCommandBuilder } from "discord.js";
+import { t } from "i18next";
 
 import lobbyGameMessage from "../components/lobbyGameMessage.js";
 import { Buno } from "../database/models/buno.js";
 import { command } from "../typings/command.js";
-import { unoGame } from "../typings/unoGame.js";
+import { unoGame, waitingUnoGame } from "../typings/unoGame.js";
 import { autoStartTimeout, defaultSettings } from "../utils/constants.js";
 import startGame from "../utils/game/startGame.js";
+import generateLocalized from "../utils/i18n/generateLocalized.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName("uno")
-        .setDescription("Starts a Buno game")
-        .setDMPermission(false),
+        .setName(t("strings:commands.uno.command.name"))
+        .setDescription(t("strings:commands.uno.command.description"))
+        .setNameLocalizations(generateLocalized("strings:commands.uno.command.name"))
+        .setDescriptionLocalizations(generateLocalized("strings:commands.uno.command.description"))
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
     execute: async (client, interaction) => {
+        if (!interaction.inGuild()) return;
         const isGame = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
         if (isGame) {
-            return await interaction.reply({ content: "A game already exists on this channel :point_right: https://discord.com/channels/" + interaction.guildId + "/" + isGame.channelId + "/" + isGame.messageId, ephemeral: true });
+            lng = isGame.locale;
+            return await interaction.reply({ content: t("strings:errors.gameInChannel", { lng, url: "https://discord.com/channels/" + interaction.guildId + "/" + isGame.channelId + "/" + isGame.messageId }), ephemeral: true });
         }
         const req = await Buno.findOne({
             where: {
@@ -37,6 +45,8 @@ export const c: command = {
         if (req) settings = { ...settings, ...req.getDataValue("settings") };
         const game = {
             _modified: false,
+            locale: interaction.guildLocale.split("-")[0], // en-UK --> en
+            startsAt: Date.now() + autoStartTimeout,
             state: "waiting",
             guildId: interaction.guildId,
             channelId: interaction.channelId,
@@ -46,14 +56,14 @@ export const c: command = {
             settings
         } as unoGame;
         client.games.push(game);
-        const message = await interaction.channel.send(await lobbyGameMessage(game, interaction.guild) as MessageCreateOptions);
+        const message = await interaction.channel?.send(await lobbyGameMessage(client, game as waitingUnoGame, interaction.guild as Guild) as MessageCreateOptions);
         interaction.deferReply({ ephemeral: true });
         interaction.deleteReply();
-        game.messageId = message.id;
+        game.messageId = message?.id as string;
 
         setTimeout(() => {
-            if (game.state === "waiting") startGame(client, game, true, message);
-        }, autoStartTimeout * 1000);
+            if (game.state === "waiting") startGame(client, game, true, message as Message);
+        }, autoStartTimeout);
         return;
     }
 };

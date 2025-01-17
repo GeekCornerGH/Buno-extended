@@ -1,47 +1,60 @@
-import { GuildMember, InteractionUpdateOptions } from "discord.js";
+import { InteractionUpdateOptions, Snowflake, TextChannel } from "discord.js";
+import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
 import pickPlayer from "../../components/pickPlayer.js";
 import playCard from "../../components/playCard.js";
 import { stringSelect } from "../../typings/stringSelect.js";
-import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
+import { unoCard } from "../../typings/unoGame.js";
 import { colors, maxDrawAsSabotage, SelectIDs, uniqueVariants, variants } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";
 import next from "../../utils/game/next.js";
 import use from "../../utils/game/use.js";
+import { getUsername } from "../../utils/getUsername.js";
 
 export const s: stringSelect = {
     name: SelectIDs.CHOOSE_CARD,
     execute: async (client, interaction) => {
+        if (!interaction.inGuild()) return;
         const card = interaction.values[0] as unoCard | typeof uniqueVariants[number] | "draw" | "skip";
-        const game = client.games.find(g => g.channelId === interaction.channelId) as runningUnoGame;
+        const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
+        await interaction.deferUpdate();
+        if (!game) return interaction.reply({
+            content: t("strings:errors.gameNotFound", { lng }),
+            ephemeral: true
+        });
+        if (game.state === "waiting") return interaction.reply({
+            content: t("strings:errors.waiting", { lng }),
+            ephemeral: true
+        });
+        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+            content: t("strings:game.notYourTurn", { lng }),
+            ephemeral: true
+        });
         const { currentCard } = game;
         const index = game.cards[interaction.user.id].findIndex(c => c === card);
-        const [color, type] = card.split("-") as [typeof color[number], typeof variants[number]];
-        await interaction.deferUpdate();
-        if (!game) return interaction.editReply({
-            content: "Cannot find the game you're talking about.",
-            components: [],
-        });
+        const [color, type] = card.split("-") as [typeof colors[number], typeof variants[number]];
         if (game.currentPlayer !== interaction.user.id) {
             return interaction.editReply({
-                content: "It's not your turn",
+                content: t("strings:game.notYourTurn", { lng }),
                 components: []
             });
         }
         if (game.drawStack > 0) {
-            interaction.channel.send(`**${(interaction.member as GuildMember).displayName}** tried to avoid drawing cards :clown:`);
+            (interaction.channel as TextChannel).send(t("strings:game.card.avoidDraw", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }));
             return interaction.editReply({
                 content: "nuh uh ☝️",
                 components: []
             });
         }
-        const playableCards = game.cards[interaction.user.id].filter(c => uniqueVariants.includes(c as typeof uniqueVariants[number]) || c.startsWith(currentCard.split("-")[0]) || c.endsWith(currentCard.split("-")[1]));
+        const playableCards: Array<unoCard | "skip" | "draw"> = game.cards[interaction.user.id].filter(c => uniqueVariants.includes(c as typeof uniqueVariants[number]) || c.startsWith(currentCard.split("-")[0]) || c.endsWith(currentCard.split("-")[1]));
         playableCards.push("draw");
         if (game.canSkip) playableCards.push("skip");
         if (!playableCards.includes(card)) return interaction.editReply({
-            content: "You can't play this card.",
+            content: t("strings:game.notPlayable", { lng }),
             components: []
         });
         let toAppend: string = "";
@@ -49,7 +62,7 @@ export const s: stringSelect = {
             if (game.saboteurs[interaction.user.id] && game.saboteurs[interaction.user.id] >= maxDrawAsSabotage) {
                 game.players.splice(game.players.findIndex(p => p === interaction.user.id), 1);
                 game.playersWhoLeft.push(interaction.user.id);
-                const toAppend = `**${(interaction.member as GuildMember).displayName}** has been removed for attempting to sabotage the game`;
+                toAppend = t("strings:game.draw.sab", { lng, name: await getUsername(client, game.guildId, interaction.user.id) });
                 game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
                 return endTurn(client, game, interaction, game.currentPlayer, "misc", toAppend, false);
             }
@@ -63,22 +76,22 @@ export const s: stringSelect = {
             if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
             if (!game.settings.allowSkipping) {
                 game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
-                return endTurn(client, game, interaction, interaction.user.id, "misc", `**${interaction.guild.members.cache.get(interaction.user.id).displayName}** drew a card`, false);
+                return endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.draw.drew", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }), false);
             }
             else {
                 game.canSkip = true;
-                const toSend = playCard(client, interaction, game, interaction.user.id, game.canSkip, newCard);
-                interaction.channel.send(`**${interaction.guild.members.cache.get(interaction.user.id).displayName}** drew a card.`);
+                const toSend = await playCard(client, interaction, game, interaction.user.id, game.canSkip, newCard);
+                (interaction.channel as TextChannel).send(t("strings:game.draw.drew", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }));
                 if (Object.keys(toSend).length === 0) return;
                 return await interaction.editReply({ ...toSend });
             }
         }
         else if (card === "skip") {
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
-            return endTurn(client, game, interaction, interaction.user.id, "misc", `**${interaction.guild.members.cache.get(interaction.user.id).displayName}** skipped their turn.`, false);
+            return endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.draw.skip", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }), false);
         }
         if (index < 0) {
-            interaction.channel.send(`**${(interaction.member as GuildMember).displayName}** tried to play a non-existant card :clown:`);
+            (interaction.channel as TextChannel)?.send(t("strings:game.card.unknown", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }));
             return interaction.editReply({
                 content: "nuh uh ☝️",
                 components: []
@@ -89,22 +102,22 @@ export const s: stringSelect = {
             game.turnProgress = "chooseColor";
             game.playedCard = card as typeof uniqueVariants[number];
             return interaction.editReply({
-                ...chooseColor(card as typeof uniqueVariants[number]) as InteractionUpdateOptions
+                ...chooseColor(card as typeof uniqueVariants[number], game.locale) as InteractionUpdateOptions
             });
         }
         if (type === "reverse") {
             game.currentCard = card;
             game.players = game.players.reverse();
-            if (game.players.length <= 2) toAppend = `**${(client.guilds.cache.get(game.guildId).members.cache.get(next(game.players, game.players.findIndex(p => p === game.currentPlayer))) as GuildMember).displayName}** has been skipped.`;
+            if (game.players.length <= 2) toAppend = t("strings:game.card.skippedPlayer", { lng, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))) });
             else {
-                toAppend = "The player order has been reversed.";
+                toAppend = t("strings:game.card.reversed", { lng });
                 game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
             }
             endTurn(client, game, interaction, interaction.user.id, "played", toAppend);
         }
         else if (type === "block") {
             game.currentCard = card;
-            toAppend = toAppend = `**${(client.guilds.cache.get(game.guildId).members.cache.get(next(game.players, game.players.findIndex(p => p === game.currentPlayer))) as GuildMember).displayName}** has been skipped.`;
+            toAppend = t("strings:game.card.skippedPlayer", { lng, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))) });
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id), 2);
             endTurn(client, game, interaction, interaction.user.id, "played", toAppend);
         }
@@ -117,7 +130,7 @@ export const s: stringSelect = {
             }
             else {
                 game.drawStack += 2;
-                toAppend = `**${(client.guilds.cache.get(game.guildId).members.cache.get(next(game.players, game.players.findIndex(p => p === game.currentPlayer))) as GuildMember).displayName}** drew ${game.drawStack} cards and has been skipped.`;
+                toAppend = t("strings:game.draw.drewAndSkipped", { lng, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))), stack: game.drawStack });
                 if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
                 game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
                 game.turnProgress = "chooseCard";
@@ -130,13 +143,13 @@ export const s: stringSelect = {
             if (type === "7") {
                 game.turnProgress = "pickPlayer";
                 game.playedCard = card as `${typeof colors[number]}-7`;
-                return interaction.editReply({ ...pickPlayer(client, game, interaction.user.id) });
+                return interaction.editReply({ ... await pickPlayer(client, game, interaction.user.id) });
             }
             else if (type === "0") {
                 game.currentCard = card;
-                toAppend += "All the players' cards have been swapped!";
+                toAppend += t("strings:game.card.allSwapped", { lng });
                 const keys = Object.keys(game.cards);
-                keys.unshift(keys.pop());
+                keys.unshift(keys.pop() as string);
                 if (game.settings.shouldYellBUNO) {
                     for (let i = 0; i < keys.length; i++) {
                         if (game.unoPlayers.includes(keys[i])) {
@@ -146,13 +159,12 @@ export const s: stringSelect = {
                     }
                 }
                 const numPlayers = keys.length;
-                const newCards = {};
+                const newCards: { [userId: Snowflake]: unoCard[] } = {};
                 for (let i = 0; i < numPlayers; i++) {
                     const currentPlayerKey = keys[i];
                     const nextPlayerKey = keys[(i + 1) % numPlayers];
 
-                    // Assign next player's cards to current player
-                    newCards[currentPlayerKey] = game.cards[nextPlayerKey];
+                    newCards[currentPlayerKey] = game.cards[nextPlayerKey] as unoCard[];
                 }
                 game.cards = newCards;
             }

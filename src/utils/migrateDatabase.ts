@@ -16,9 +16,9 @@ for (const fileName of folder) {
     if (!data) throw new Error(fileName + " is not a proper JSON file, please fix that");
     const array = Object.entries(data);
     for (const e of array) {
-        if (e[0] === "settingsVersion") { }
+        if (e[0] === "settingsVersion") continue;
         else {
-            if ((process.env.IGNORED_PLAYERS && process.env.IGNORED_PLAYERS.split(",").includes(e[0]))) { }
+            if ((process.env.IGNORED_PLAYERS && process.env.IGNORED_PLAYERS.split(",").includes(e[0]))) continue;
             else {
                 const req = await Buno.findOne({
                     where: {
@@ -35,7 +35,7 @@ for (const fileName of folder) {
                         losses: e[1].losses,
                         settings: {
                             ...e[1].preferredSettings
-                        }
+                        },
                     });
                     console.log("Migrated user " + e[0] + " from guild " + guildId);
                 }

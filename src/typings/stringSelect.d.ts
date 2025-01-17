@@ -1,9 +1,8 @@
-import { StringSelectMenuInteraction } from "discord.js";
-
-import { customClient } from "./client.js";
+import { Client, StringSelectMenuInteraction } from "discord.js";
 
 export type stringSelectFile = { s: stringSelect };
 export type stringSelect = {
     name: string,
-    execute: (client: customClient, interaction: StringSelectMenuInteraction) => void;
+    // eslint-disable-next-line no-unused-vars
+    execute: (client: Client, interaction: StringSelectMenuInteraction) => void;
 }

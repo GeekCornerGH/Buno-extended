@@ -1,61 +1,66 @@
 
-import { GuildMember, InteractionUpdateOptions } from "discord.js";
+import { InteractionUpdateOptions } from "discord.js";
+import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
 import { stringSelect } from "../../typings/stringSelect.js";
-import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
+import { unoCard } from "../../typings/unoGame.js";
 import { SelectIDs, uniqueVariants } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";
 import next from "../../utils/game/next.js";
 import playableCard from "../../utils/game/playableCard.js";
 import use from "../../utils/game/use.js";
+import { getUsername } from "../../utils/getUsername.js";
 
 export const s: stringSelect = {
     name: SelectIDs.FORCEFUL_DRAW,
     execute: async (client, interaction) => {
-        const game = client.games.find(g => g.channelId === interaction.channelId) as runningUnoGame;
+        const game = client.games.find(g => g.channelId === interaction.channelId);
         const card = interaction.values[0] as unoCard | typeof uniqueVariants[number];
 
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Couldn't find the game you're talking about",
+            content: t("strings:errors.gameNotFound", { lng }),
+            ephemeral: true
+        });
+        if (game.state === "waiting") return interaction.reply({
+            content: t("strings:errors.waiting", { lng }),
             ephemeral: true
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "It's not your turn",
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         if (game.drawStack === 0) return interaction.reply({
-            content: "So... you want to draw cards while there's no cards to draw? Interesting...",
+            content: t("strings:errors.noDrawStack", { lng }),
             ephemeral: true
         });
         const playedCard = interaction.values[0] as unoCard | "draw";
         if (!playedCard) return interaction.reply({
-            content: "Please play a card",
+            content: t("strings:game.forceDraw.playACard", { lng }),
             ephemeral: true
         });
         const filtered = playableCard(game.cards[interaction.user.id] as unoCard[], game.currentCard).filter(c => (game.settings.allowStacking && (c === "+4" || c.endsWith("-+2")) || (game.settings.reverseAnything && (c.endsWith("-reverse")))));
         if (!filtered) return interaction.reply({
-            content: "You don't have any card to play",
+            content: t("strings:game.forceDraw.noCard", { lng }),
             ephemeral: true
         });
         const pushedFiltered = [...filtered, "draw"];
         if (!pushedFiltered.includes(playedCard as unoCard)) return interaction.reply({
-            content: "You can't play this card.",
+            content: t("strings:game.notPlayable", { lng }),
             ephemeral: true
         });
         await interaction.deferUpdate();
         let toAppend = "";
         use(game, card, interaction.user.id);
         if (playedCard.endsWith("-reverse")) {
-            if (!game.settings.reverseAnything) return interaction.editReply({ content: "The Reverse Card rule is disabled", embeds: [], components: [] });
+            if (!game.settings.reverseAnything) return interaction.editReply({ content: t("strings:game.forceDraw.noReverse", { lng }), embeds: [], components: [] });
             if (!pushedFiltered.includes(playedCard as unoCard)) return interaction.editReply({
-                content: "You can't play this card.",
+                content: t("strings:game.notPlayable", { lng }),
                 embeds: [],
                 components: []
-            });
-            if (!game.settings.reverseAnything) return interaction.editReply({
-                content: "The reverse card rule isn't enabled",
             });
             game.currentCard = playedCard as unoCard;
             game.players = game.players.reverse();
@@ -63,36 +68,35 @@ export const s: stringSelect = {
             game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
             if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
             if (game.players.length > 2) game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer), 2);
-            toAppend += `**${interaction.guild.members.cache.get(next(game.players, game.players.findIndex(p => p === interaction.user.id))).displayName}** drew ${game.drawStack} cards and has been skipped, thanks to the reverse card power.`;
-            toAppend += "\nThe player order has been reversed.";
+            toAppend += t("strings:game.forceDraw.reverse.reverseMessage", { lng, stack: game.drawStack, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))) });
             game.drawStack = 0;
             endTurn(client, game, interaction, interaction.user.id, "played", toAppend);
         }
         else if (playedCard === "draw") {
             game.cards[game.currentPlayer] = game.cards[game.currentPlayer].concat(draw(game.cardsQuota, game.drawStack));
             if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
-            toAppend += `**${interaction.guild.members.cache.get(game.currentPlayer).displayName}** drew ${game.drawStack}.`;
+            toAppend += t("strings:game.forceDraw.draw", { name: await getUsername(client, game.guildId, game.currentPlayer), stack: game.drawStack, lng });
             game.drawStack = 0;
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
             game.canSkip = true;
             endTurn(client, game, interaction, interaction.user.id, "misc", toAppend);
         } else if (card === "+4") {
-            if (!game.settings.allowStacking) return interaction.editReply({ content: "The Allow Stacking rule is disabled", embeds: [], components: [] });
+            if (!game.settings.allowStacking) return interaction.editReply({ content: t("strings:game.forceDraw.noStacking", { lng }), embeds: [], components: [] });
             if (!pushedFiltered.includes(playedCard as unoCard)) return interaction.editReply({
-                content: "You can't play this card.",
+                content: t("strings:game.notPlayable", { lng }),
                 embeds: [],
                 components: []
             });
             game.turnProgress = "chooseColor";
             game.playedCard = card as typeof uniqueVariants[number];
             return interaction.editReply({
-                ...chooseColor(card as typeof uniqueVariants[number]) as InteractionUpdateOptions
+                ...chooseColor(card as typeof uniqueVariants[number], game.locale) as InteractionUpdateOptions
             });
         }
         else if (card.endsWith("-+2")) {
-            if (!game.settings.allowStacking) return interaction.editReply({ content: "The Allow Stacking rule is disabled", embeds: [], components: [] });
+            if (!game.settings.allowStacking) return interaction.editReply({ content: t("strings:game.forceDraw.noStacking", { lng }), embeds: [], components: [] });
             if (!pushedFiltered.includes(playedCard as unoCard)) return interaction.editReply({
-                content: "You can't play this card.",
+                content: t("strings:game.notPlayable", { lng }),
                 embeds: [],
                 components: []
             });
@@ -103,7 +107,7 @@ export const s: stringSelect = {
             }
             else {
                 game.drawStack += 2;
-                toAppend = `**${(client.guilds.cache.get(game.guildId).members.cache.get(next(game.players, game.players.findIndex(p => p === game.currentPlayer))) as GuildMember).displayName}** drew ${game.drawStack} cards and has been skipped.`;
+                toAppend = t("strings:game.forceDraw.draw", { name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))), lng, stack: game.drawStack });
                 if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
                 game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
                 game.turnProgress = "chooseCard";

@@ -1,0 +1,423 @@
+{
+    "aprilFools": "Happy april fools!",
+    "colors": {
+        "blue": "Blue",
+        "green": "Green",
+        "red": "Red",
+        "yellow": "Yellow"
+    },
+    "commands": {
+        "about": {
+            "command": {
+                "name": "about",
+                "description": "About me"
+            },
+            "message": {
+                "title": "Hi, I'm Buno!",
+                "description": "I'm a bot attempting to recreate Uno:tm:, the well known card game from Mattel, Inc. All assets are owned by this company, and this bot is BY NO MEANS meant to be official.",
+                "node": "I'm currently running on",
+                "discordjs": "I'm powered by",
+                "uptime-title": "I've been running for",
+                "uptime-desc": "{duration} (since {date} {time})",
+                "stats-title": "I'm watching",
+                "invite-title": "Want to invite me?",
+                "invite-desc": "Sorry, you probably can't. This bot is private, and is not hosted on a powerful server. It would get rate-limited quite quickly too.\nThe only way to get it on your server is to be friend with the current developer.\n Oh wait nvm, maybe click the invite button below?",
+                "sourcecode": "Source code",
+                "invitebot": "Invite the bot"
+            }
+        },
+        "blacklist": {
+            "command": {
+                "name": "blacklist",
+                "description": "Manages blacklist",
+                "subcommands": {
+                    "add": {
+                        "name": "add",
+                        "description": "Add someone to the blacklist",
+                        "options": {
+                            "target": {
+                                "name": "target",
+                                "description": "The user to add to the blacklist"
+                            },
+                            "reason": {
+                                "name": "reason",
+                                "description": "Reason for blacklisting"
+                            }
+                        }
+                    },
+                    "remove": {
+                        "name": "remove",
+                        "description": "Remove someone from the blacklist",
+                        "options": {
+                            "target": {
+                                "name": "target",
+                                "description": "The user to remove from the blacklist"
+                            }
+                        }
+                    }
+                }
+            },
+            "message": {
+                "already-blacklisted": "This user is already blacklisted",
+                "not-blacklisted": "This user is not blacklisted",
+                "success": "{target} has been blacklisted for the reason:\n{reason}",
+                "success-unbl": "{target} has been unblacklisted"
+            }
+        },
+        "eval": {
+            "command": {
+                "name": "eval",
+                "description": "Evaluates some code",
+                "options": {
+                    "code": {
+                        "name": "code",
+                        "description": "Code to execute"
+                    },
+                    "public": {
+                        "name": "public",
+                        "description": "Whenever to show or not the eval output"
+                    }
+                }
+            }
+        },
+        "leaderboard": {
+            "command": {
+                "name": "leaderboard",
+                "description": "Show top players"
+            },
+            "message": {
+                "no-data": "No one played Buno in this server! Run </{name}:{id}> to start a new game."
+            }
+        },
+        "ping": {
+            "command": {
+                "name": "ping",
+                "description": "Pong!"
+            },
+            "message": {
+                "pre-pong": "🏓 Pong!",
+                "pong": "🏓 Pong!\nAPI latency: {WSPingEmote} {WSPing}ms\nBot latency: {pingEmote} {ping}ms"
+            }
+        },
+        "stop": {
+            "command": {
+                "name": "stop",
+                "description": "Stops the game"
+            }
+        },
+        "uno": {
+            "command": {
+                "name": "uno",
+                "description": "Starts a Buno game"
+            }
+        }
+    },
+    "errors": {
+        "alone": "You can't start a game alone",
+        "blacklisted": "You are blacklisted for the following reason:\n{reason}",
+        "cantContestYourOwn": "You can't contest your own +4",
+        "execution": "An error occured while executing this command.",
+        "forbidden": "You are not allowed to stop the game.",
+        "gameInChannel": "A game already exists on this channel :point_right: {url}",
+        "gameJustStarted": "The game just started, you can't do this now.",
+        "gameNotFound": "I'm sadly unable to find the game you're talking about.",
+        "inProgress": "The game is in progress",
+        "interactionError": "An error occured while processing this interaction",
+        "interactionNotHandled": "This interaction has no handler. This should be addressed.",
+        "inTheGame": "You're already in the game!",
+        "noActions": "The Actions menu isn't used for this game.",
+        "noDrawStack": "So... you want to draw cards while there's no cards to draw? Interesting...",
+        "notAnInteger": "The value must be a valid integer",
+        "notContestingHost": "Seriously? Are you trying to contest someone who's not the host?",
+        "notInGame": "You're not part of the game.",
+        "notRunning": "The game hasn't started yet.",
+        "notRunningWrongButton": "You can't leave the game using that button.",
+        "notTheHost": "Only the host can do this.",
+        "paginationForbidden": "You are not allowed to control this pagination.",
+        "paginationTooOld": "The pagination is too old.",
+        "playerLeft": "You can't join a game you left.",
+        "tooManyInGame": "The game reached its maximum capacity ({count} players)",
+        "unusable": "You can't use this button right now.",
+        "waiting": "The game isn't running yet."
+    },
+    "game": {
+        "aa": {
+            "components": {
+                "back": "Back to admin abuse panel home"
+            },
+            "edit": {
+                "embed": {
+                    "title": "Edit the cards of a player",
+                    "description": "You can't:\n- remove cards to have less than 3"
+                },
+                "modal": {
+                    "label": "Cards",
+                    "title": "Edit {name}'s cards"
+                }
+            },
+            "menu": {
+                "actions": {
+                    "edit": {
+                        "name": "Edit cards",
+                        "value": "Edit the cards of someone else"
+                    },
+                    "swap": {
+                        "name": "Swap cards",
+                        "value": "Swap cards between 2 players"
+                    },
+                    "view": {
+                        "name": "View cards",
+                        "value": "Check out the cards of another player"
+                    }
+                },
+                "embed": {
+                    "title": "Admin abuse panel",
+                    "description": "Select the action you'd like to perform."
+                }
+            },
+            "messages": {
+                "contestAndFailed": "**{name}** contested **{host}** admin abuse and failed. They drew **{count}** cards.",
+                "contestAndKicked": "**{name}** contested **{host}**'s admin abuse and won. **{host}** has been ejected from the game."
+            },
+            "swap": {
+                "from": {
+                    "select": "Select the target player to exchange cards with."
+                },
+                "text": "Choose the player you want to swap cards from."
+            },
+            "view": {
+                "title": "View cards"
+            }
+        },
+        "actions": {
+            "menu": {
+                "title": "Action menu",
+                "description": "Need something else than just view or play cards? You're at the right place.\nHere are the options you may use :",
+                "options": {
+                    "aa": {
+                        "name": "⚠️ - Open the admin abuse panel",
+                        "value": "Use it whenever you're the host and want to admin abuse"
+                    },
+                    "challenge": {
+                        "name": "🃏 - Challenge the previous player who hasn't yelled out \"Buno out!\"",
+                        "value": "Use it whenever the previous player forgot to yell \"Buno out\""
+                    },
+                    "contestAa": {
+                        "name": "🔨 - Contest admin abuse",
+                        "value": "Use it whenever you think the host admin abused."
+                    },
+                    "contestDraw": {
+                        "name": "❗ - Contest the +4 forced drawing",
+                        "value": "Use it when you think previous player could play something else than +4"
+                    },
+                    "yell": {
+                        "name": "📣 - Yell \"Buno out!\"",
+                        "value": "Use it right before you play your second last card."
+                    }
+                }
+            }
+        },
+        "afk": {
+            "kicked": "**{name}** was inactive and has been kicked.",
+            "skipped": "**{name}** was inactive and has been skipped."
+        },
+        "buno": {
+            "contest": {
+                "alreadyYelled": "**{name}** already yelled \"Buno out!\"",
+                "drew": "**{name}** pointed out that **{drawer}** forgot to yell \"Buno out!\"\n**{drawer}** drew {stack} cards.",
+                "tooManyCards": "**{name} has too many cards to be able to yell \"Buno out!\""
+            },
+            "yell": {
+                "already": "You yelled \"Buno Out!\" before.",
+                "message": "**{name}** yelled\n# {yell}!",
+                "notEnough": "You can only yell \"Buno out!\" when you have 2 cards."
+            }
+        },
+        "cancelled": "Game has been cancelled by **{name}**",
+        "card": {
+            "avoidDraw": "**{name}** tried to avoid drawing cards :clown:",
+            "allSwapped": "All the players' cards have been swapped!",
+            "reversed": "The player order has been reversed.",
+            "seven": "You played a 7 card and shall now select a player to exchange your cards with.",
+            "skippedPlayer": "**{name}** has been skipped.",
+            "swapped": "**{from}** swapped cards with **{to}**",
+            "unknown": "**{name}** tried to play a non-existant card :clown:",
+            "unknownColor": "**{name}** tried to set the collor a non-existant one :clown:"
+        },
+        "color": {
+            "pick": "Pick a color here!",
+            "switched": "The color switched to **{color}**",
+            "text": "Please select a color"
+        },
+        "draw": {
+            "drew": "**{name}** drew a card.",
+            "drewAndSkipped": "**{name}** drew **{stack}** cards and has been skipped.",
+            "ephemeral": "You drew: {card}",
+            "sab": "**{name}** has been removed for attempting to sabotage the game",
+            "select": {
+                "draw": "Draw a card",
+                "skip": "Skip your turn"
+            },
+            "skip": "**{name}** skipped their turn."
+        },
+        "end": {
+            "default": "**{name}** has won the game{default}.",
+            "embed": {
+                "stats": {
+                    "duration": "⏱️ The game lasted for",
+                    "mostActivePlayer": "👤 Most active player",
+                    "mostPlayedCard": "🃏 Most played card",
+                    "players": "👥 Players who took part in the game",
+                    "playersDesc": "{players} (**{amount}** players)",
+                    "winner": "🏆 Winner"
+                }
+            },
+            "noOne": "No one was available to finish the game.",
+            "noWinner": "No winner"
+        },
+        "forceDraw": {
+            "contestPlus4": "**{name}** contested **{cardPlayer}**'s +4 card and won.\n**{cardPlayer}** drew **{stack}** cards",
+            "contestPlus4AndFail": "**{name}** contested **{cardPlayer}**'s +4 card and failed.\n**{name}** drew {stack} cards",
+            "draw": "**{name}** drew **{stack}** cards and has been skipped.",
+            "noCard": "You don't have any card to play",
+            "noStacking": "The Allow Stacking rule is disabled",
+            "noReverse": "The Reverse Card rule is disabled",
+            "playACard": "Please play a card",
+            "reverse": {
+                "reverseMessage": "**{name}** drew **{stack}** cards and has been skipped, thanks to the reverse card power.\nThe player order has been reversed."
+            },
+            "select": {
+                "title": "Draw {stack} cards",
+                "description": "...and take the L.",
+                "placeholder": "Choose a card"
+            },
+            "text": "You have to respond, or draw {stack} cards."
+        },
+        "joined": "**{name}** has joined the game.",
+        "left": "`**{name}** has left the game.`",
+        "lobby": {
+            "body": "Game will start automatically {timer}\nCurrent game host: {host}\n{playerList}",
+            "modified": "This game won't count towards the game leaderboard"
+        },
+        "message": {
+            "embed": {
+                "cards": "card",
+                "cards_plural": "cards",
+                "currentCard": "Current card: {currentCardEmote} **{currentCard}**",
+                "currentPlayer": "Currently playing: **{name}**",
+                "drawStack": "**{stack}** cards to draw",
+                "footer": {
+                    "timeout": "Current timeout is {timeout}."
+                },
+                "playerList": "{plus} {name}{cards} $t(cards, {\"count\":{{count}})\n"
+            }
+        },
+        "notPlayable": "You can't play this card.",
+        "notYourTurn": "It's not your turn",
+        "played": "**{name}** played {currentCardEmote} {card}",
+        "playerPicker": "Choose a player",
+        "started": "**The game has just started!**",
+        "startedAA": "\nThe admin abuse gamemode is enabled for this game. You can eject the host if you think they are abusing by opening the Actions menu",
+        "states": {
+            "stopped": "{user} has stopped the game"
+        },
+        "tooManyCards": "Removed **{name}** for abusing the game."
+    },
+    "leaderboard": {
+        "embed": {
+            "title": "Leaderboard for **{guild}**",
+            "description": "Page {currentPage} of {totalPages}.{userRank}",
+            "yourRank": "\nYour rank: {rank}",
+            "fieldName": "{rank} - {member}",
+            "fieldValues": {
+                "wins_zero": "{count} win",
+                "wins_one": "{count} win",
+                "wins_other": "{count} wins",
+                "losses_zero": "{count} loss",
+                "losses_one": "{count} loss",
+                "losses_other": "{count} losses",
+                "noLoss": "No loss",
+                "wlr": "{winLossRatio} W/L Ratio"
+            },
+            "noLosses": "No losses"
+        }
+    },
+    "leave": {
+        "leaveAsHost": "You can't leave the game as host.",
+        "prompt": "Are you sure you want to leave the game? You won't be able to rejoin the game."
+    },
+    "settings": {
+        "currentValue": "Current value: {value}",
+        "embed": {
+            "title": "Game settings",
+            "footer": "Settings are automatically saved per guild, and per member."
+        },
+        "options": {
+            "timeoutDuration": "Timeout duration",
+            "kickOnTimeout": "Kick on timeout",
+            "allowSkipping": "Allow skipping",
+            "antiSabotage": "Anti sabotage",
+            "allowStacking": "Allow +4 and +2 stacking",
+            "randomizePlayerList": "Randomize player list",
+            "resendGameMessage": "Resend the game message every few messages",
+            "canJoinMidgame": "Allow players to hop in midgame",
+            "sevenAndZero": "Swap cards on 7 and 0",
+            "shouldYellBUNO": "Users should yell Buno Out! in order to win",
+            "reverseAnything": "Reverse card can reverse force draws",
+            "allowContest": "Allow +4 challenge",
+            "adminabusemode": "Admin abuse mode"
+        },
+        "timeoutDuration": {
+            "modal": {
+                "fieldLabel": "Duration of timeout in seconds",
+                "title": "Set game duration"
+            }
+        },
+        "placeholder": "Edit game settings and rules here",
+        "value": {
+            "always": "Always",
+            "no": "No",
+            "temporarily": "Temporarily"
+        }
+    },
+    "time": {
+        "disabled": "Disabled",
+        "dhms": "$t(days, {\"count\":{{days}}), $t(hours, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(seconds, {\"count\":{{seconds}})",
+        "hms": "$t(hours, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(seconds, {\"count\":{{seconds}})",
+        "ms": "$t(minutes, {\"count\":{{minutes}}) and $t(seconds, {\"count\":{{seconds}})",
+        "s": "$t(seconds, {\"count\":{{seconds}})",
+        "days": "day",
+        "days_plural": "days",
+        "hours": "hour",
+        "hours_plural": "hours",
+        "minutes": "minute",
+        "minutes_plural": "minutes",
+        "seconds": "**{{count}}** second",
+        "seconds_plural": "**{{count}}** seconds"
+    },
+    "variants": {
+        "0": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+        "6": "6",
+        "7": "7",
+        "8": "8",
+        "9": "9",
+        "+2": "+2",
+        "reverse": "Reverse",
+        "block": "Block"
+    },
+    "words": {
+        "and": "and",
+        "channels_zero": "**{count}** channel",
+        "channels_one": "**{count}** channel",
+        "channels_other": "**{count}** channels",
+        "servers": "**{count}** server",
+        "servers_plural": "**{count}** servers",
+        "users": "**{count}** user",
+        "users_plural": "**{count}** users"
+    }
+}

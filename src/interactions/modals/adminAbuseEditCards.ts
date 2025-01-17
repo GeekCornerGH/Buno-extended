@@ -1,4 +1,7 @@
+import { t } from "i18next";
+
 import { modal } from "../../typings/modal.js";
+import { unoCard } from "../../typings/unoGame.js";
 import { ModalsIDs } from "../../utils/constants.js";
 
 export const m: modal = {
@@ -6,16 +9,18 @@ export const m: modal = {
     execute: async (client, interaction) => {
         const target = interaction.customId.split("_")[1];
         const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Cannot find the game you're talking about.",
+            content: t("strings:errors.gameNotFound", { lng }),
             ephemeral: true
         });
-        else if (game.state === "waiting") return interaction.reply({
-            content: "The game hasn't started yet.",
+        if (game.state === "waiting") return interaction.reply({
+            content: t("strings:errors.waiting", { lng }),
             ephemeral: true
         });
-        else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "This is not your turn.",
+        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         else if (!game.settings.adminabusemode || game.hostId !== interaction.user.id) return interaction.reply({
@@ -46,7 +51,7 @@ export const m: modal = {
             ephemeral: true
         });
         await interaction.deferUpdate();
-        game.cards[target] = input.split("\n");
+        game.cards[target] = input.split("\n") as unoCard[];
         await interaction.deleteReply();
     }
 };

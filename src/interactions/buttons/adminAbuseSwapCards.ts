@@ -1,22 +1,26 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
 import { ButtonIDs, SelectIDs } from "../../utils/constants.js";
+import { getUsername } from "../../utils/getUsername.js";
 
 export const b: button = {
     name: ButtonIDs.ADMIN_ABUSE_SWAP_CARDS,
     execute: async (client, interaction) => {
         const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Cannot find the game you're talking about.",
+            content: t("strings:errors.gameNotFound", { lng }),
             ephemeral: true
         });
         else if (game.state === "waiting") return interaction.reply({
-            content: "The game hasn't started yet.",
+            content: t("strings:errors.notRunning", { lng }),
             ephemeral: true
         });
         else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "This is not your turn.",
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         else if (!game.settings.adminabusemode || game.hostId !== interaction.user.id) return interaction.reply({
@@ -24,17 +28,18 @@ export const b: button = {
             ephemeral: true
         });
         await interaction.deferUpdate();
+        const options = await Promise.all(game.players.map(async p => {
+            return new StringSelectMenuOptionBuilder().setLabel(await getUsername(client, game.guildId, p)).setValue(p);
+        }));
         return await interaction.editReply({
-            content: "Choose the player you want to swap cards from.",
+            content: t("strings:game.aa.swap.text", { lng }),
             components: [new ActionRowBuilder<StringSelectMenuBuilder>().setComponents([
                 new StringSelectMenuBuilder()
                     .setCustomId(SelectIDs.ADMIN_ABUSE_SWAP_CARDS_FROM)
-                    .setPlaceholder("Pick a player")
+                    .setPlaceholder(t("strings:game.playerPicker", { lng }))
                     .setMinValues(1)
                     .setMaxValues(1)
-                    .setOptions(game.players.map(p => {
-                        return new StringSelectMenuOptionBuilder().setLabel(interaction.guild.members.cache.get(p).displayName).setValue(p);
-                    }))
+                    .setOptions(options)
             ])]
         });
     }

@@ -1,4 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, EmojiResolvable } from "discord.js";
+import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
 import { ButtonIDs } from "../../utils/constants.js";
@@ -7,16 +8,18 @@ export const b: button = {
     name: ButtonIDs.ADMINABUSE_PANEL,
     execute: async (client, interaction) => {
         const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Cannot find the game you're talking about.",
+            content: t("strings:errors.gameNotFound", { lng }),
             ephemeral: true
         });
         else if (game.state === "waiting") return interaction.reply({
-            content: "The game hasn't started yet.",
+            content: t("strings:errors.notRunning", { lng }),
             ephemeral: true
         });
         else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "This is not your turn.",
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         else if (!game.settings.adminabusemode || game.hostId !== interaction.user.id) return interaction.reply({
@@ -31,28 +34,28 @@ export const b: button = {
             style: ButtonStyle
         }[] = [{
             emoji: "👀",
-            name: "View cards",
-            description: "Check out the cards of another player",
+            name: t("strings:game.aa.menu.actions.view.name", { lng }),
+            description: t("strings:game.aa.menu.actions.view.value", { lng }),
             id: ButtonIDs.ADMIN_ABUSE_VIEW_CARDS,
             style: ButtonStyle.Primary
         }, {
             emoji: "✏️",
-            name: "Edit cards",
-            description: "Edit the cards of someone else",
+            name: t("strings:game.aa.menu.actions.edit.name", { lng }),
+            description: t("strings:game.aa.menu.actions.edit.value", { lng }),
             style: ButtonStyle.Secondary,
             id: ButtonIDs.ADMIN_ABUSE_EDIT_CARDS
         }, {
             emoji: "🃏",
-            name: "Swap cards",
-            description: "Swap cards between 2 players",
+            name: t("strings:game.aa.menu.actions.swap.name", { lng }),
+            description: t("strings:game.aa.menu.actions.swap.value", { lng }),
             style: ButtonStyle.Success,
             id: ButtonIDs.ADMIN_ABUSE_SWAP_CARDS
         }];
         await interaction.deferUpdate();
         const embed = new EmbedBuilder()
             .setColor("Red")
-            .setTitle("Admin abuse panel")
-            .setDescription("Select what action you'd like to do.")
+            .setTitle(t("strings:game.aa.menu.embed.title", { lng }))
+            .setDescription(t("strings:game.aa.menu.embed.description", { lng }))
             .setFields(actions.map(a => {
                 return {
                     name: `${a.emoji} - ${a.name}`,
@@ -67,7 +70,7 @@ export const b: button = {
                         ...actions.map(a => {
                             return new ButtonBuilder()
                                 .setCustomId(a.id)
-                                .setEmoji(a.emoji)
+                                .setEmoji(a.emoji.toString())
                                 .setStyle(a.style);
                         })
                     ])

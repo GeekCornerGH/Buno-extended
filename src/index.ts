@@ -3,16 +3,17 @@ import { configDotenv } from "dotenv";
 import { readdirSync } from "fs";
 
 import { buttonFile } from "./typings/button.js";
-import { customClient } from "./typings/client.js";
 import { commandFile } from "./typings/command.js";
 import { eventFile } from "./typings/event.js";
 import { modalFile } from "./typings/modal.js";
 import { stringSelectFile } from "./typings/stringSelect.js";
+import initI18n from "./utils/i18n/initI18n.js";
 
 configDotenv();
 
 Error.stackTraceLimit = Infinity;
 
+initI18n();
 
 const client = new Client({
     intents: [
@@ -21,7 +22,7 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent
     ]
-}) as customClient;
+});
 
 client.games = [];
 

@@ -1,51 +1,61 @@
+import { t } from "i18next";
+
 import { button } from "../../typings/button.js";
 import { ButtonIDs } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";
+import { getUsername } from "../../utils/getUsername.js";
 
 export const b: button = {
     name: ButtonIDs.CONTEST_PLUS4,
     execute: async (client, interaction) => {
         const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Cannot find the game you're talking about",
+            content: t("strings:errors.gameNotFound", { lng }),
             ephemeral: true
         });
-        if (game.state === "waiting") return interaction.reply({
-            content: "The game isn't running yet.",
-            ephemeral: true
+        if (game.state !== "inProgress") return interaction.reply({
+            content: t("strings:errors.notRunningWrongButton", { lng }),
+            ephemeral: true,
+        });
+        if (!game.players.includes(interaction.user.id)) return interaction.reply({
+            content: t("strings:errors.notInGame", { lng }),
+            ephemeral: true,
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "This is not your turn.",
-            ephemeral: true
+            content: t("strings:game.notYourTurn", { lng }),
+            ephemeral: true,
         });
         if (!game.currentCard.endsWith("-+4")) return interaction.reply({
-            content: "You can't use this button right now.",
+            content: t("strings:errors.unusable", { lng }),
             ephemeral: true
         });
         if (game.drawStack === 0) return interaction.reply({
-            content: "You can't do this now.",
+            content: t("strings:errors.unusable", { lng }),
             ephemeral: true
         });
         const [pColor] = game.log[game.log.length - 2].card.split("-");
         let toAppend: string = "";
         const prevPlayer = game.log[game.log.length - 1].player;
         if (interaction.user.id === prevPlayer) return interaction.reply({
-            content: "You can't contest your own +4",
+            content: t("strings:errors.cantContestYourOwn", { lng }),
             ephemeral: true
         });
         await interaction.deferUpdate();
         if (game.cards[prevPlayer].findIndex(c => c.startsWith(pColor)) !== -1) {
             game.cards[prevPlayer] = game.cards[prevPlayer].concat(draw(game.cardsQuota, game.drawStack));
             if (game.cards[prevPlayer].length >= 2 && game.unoPlayers.includes(prevPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === prevPlayer), 1);
-            toAppend += `**${interaction.guild.members.cache.get(interaction.user.id).displayName}** contested **${interaction.guild.members.cache.get(prevPlayer).displayName}**'s +4 card and won.\n**${interaction.guild.members.cache.get(prevPlayer).displayName}** drew ${game.drawStack} cards`;
+            toAppend += t("strings:game.forceDraw.contestPlus4", { name: await getUsername(client, game.guildId, interaction.user.id), stack: game.drawStack, cardPlayer: await getUsername(client, game.guildId, prevPlayer), lng });
             game.drawStack = 0;
             endTurn(client, game, interaction, interaction.user.id, "misc", toAppend, false);
         }
         else {
-            toAppend += `**${interaction.guild.members.cache.get(interaction.user.id).displayName}** contested **${interaction.guild.members.cache.get(prevPlayer).displayName}**'s +4 card and failed.\n**${interaction.guild.members.cache.get(prevPlayer).displayName}** drew ${game.drawStack + 2} cards`;
+            game.drawStack = +2;
+            toAppend += t("strings:game.forceDraw.contestPlus4AndFail", { name: await getUsername(client, game.guildId, interaction.user.id), stack: game.drawStack, cardPlayer: await getUsername(client, game.guildId, prevPlayer), lng });
             if (game.cards[prevPlayer].length >= 2 && game.unoPlayers.includes(prevPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === prevPlayer), 1);
-            game.cards[prevPlayer] = game.cards[prevPlayer].concat(draw(game.cardsQuota, game.drawStack + 2));
+            game.cards[prevPlayer] = game.cards[prevPlayer].concat(draw(game.cardsQuota, game.drawStack));
             game.drawStack = 0;
             endTurn(client, game, interaction, interaction.user.id, "misc", toAppend, false);
         }

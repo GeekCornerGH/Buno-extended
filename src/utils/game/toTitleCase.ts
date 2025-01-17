@@ -1,2 +1,6 @@
-export default (n: string) =>
-    n.split("-").map(w => `${w[0].toUpperCase()}${w.slice(1).toLowerCase()}`).join(" ");
+import { t } from "i18next";
+
+export default (n: string, lng: string) => {
+    const [color, variant] = n.split("-");
+    return t(`strings:colors.${color}` as any, { lng }) + " " + t(`strings:variants.${variant}` as any, { lng });
+};

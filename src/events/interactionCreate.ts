@@ -1,29 +1,31 @@
 import { BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, ModalSubmitInteraction, RepliableInteraction, StringSelectMenuInteraction } from "discord.js";
+import { t } from "i18next";
 
 import { Blacklisted } from "../database/models/blacklisted.js";
 import { event } from "../typings/event.js";
 import { config } from "../utils/config.js";
 
 export const e: event = async (client, interaction: BaseInteraction) => {
+    const lng = interaction.locale.split("-")[0];
     const blCheck = await Blacklisted.findOne({
         where: {
             userId: interaction.user.id
         }
     });
     if (blCheck && !config.developerIds.includes(interaction.user.id)) return (interaction as RepliableInteraction).reply({
-        content: "You are blacklisted for the following reason:\n" + blCheck.getDataValue("reason"),
+        content: t("strings:errors.blacklisted", { lng, reason: blCheck.getDataValue("reason") }),
         ephemeral: true
     });
     if (interaction.isChatInputCommand()) {
         const i = interaction as ChatInputCommandInteraction;
         try {
             const command = client.commands.get(i.commandName);
-            if (!command) return interaction.reply("This command has no handler. This should be addressed");
+            if (!command) return interaction.reply(t("strings:errors.interactionNotHandled", { lng }));
             command.execute(client, i);
         }
         catch (e) {
-            if (i.isRepliable()) i.reply("An error occured while executing this command");
-            else (i as ChatInputCommandInteraction).editReply("An error occured while executing this command");
+            if (i.isRepliable()) i.reply(t("strings:errors.interactionError", { lng }));
+            else (i as ChatInputCommandInteraction).editReply(t("strings:errors.interactionError", { lng }));
             console.error(e);
         }
     }
@@ -32,13 +34,13 @@ export const e: event = async (client, interaction: BaseInteraction) => {
         const id = i.customId.split("_")[0];
         try {
             const button = client.buttons.get(id);
-            if (!button) return interaction.reply("This button has no handler. This should be addressed");
+            if (!button) return interaction.reply(t("strings:errors.interactionNotHandled", { lng }));
             button.execute(client, i);
         }
         catch (e) {
             if (!i.isRepliable())
-                (i as ButtonInteraction).editReply("An error occured while executing this command");
-            else i.reply("An error occured while executing this button interaction");
+                (i as ButtonInteraction).editReply(t("strings:errors.interactionError", { lng }));
+            else i.reply(t("strings:errors.interactionError", { lng }));
             console.error(e);
         }
     }
@@ -46,12 +48,12 @@ export const e: event = async (client, interaction: BaseInteraction) => {
         const i = interaction as StringSelectMenuInteraction;
         try {
             const stringselect = client.stringSelects.get(i.customId.split("_")[0]);
-            if (!stringselect) return interaction.reply("This menu has no handler. This should be addressed");
+            if (!stringselect) return interaction.reply(t("strings:errors.interactionNotHandled", { lng }));
             stringselect.execute(client, i);
         }
         catch (e) {
-            if (!i.isRepliable()) (i as StringSelectMenuInteraction).editReply("An error occured while executing this command");
-            else i.reply("An error occured while executing this button interaction");
+            if (!i.isRepliable()) (i as StringSelectMenuInteraction).editReply(t("strings:errors.interactionError", { lng }));
+            else i.reply(t("strings:errors.interactionError", { lng }));
             console.error(e);
         }
     }
@@ -60,12 +62,12 @@ export const e: event = async (client, interaction: BaseInteraction) => {
         const id = i.customId.split("_")[0];
         try {
             const modal = client.modals.get(id);
-            if (!modal) return interaction.reply("This modal has no handler. This should be addressed");
+            if (!modal) return interaction.reply(t("strings:errors.interactionNotHandled", { lng }));
             modal.execute(client, i);
         }
         catch (e) {
-            if (!i.isRepliable()) (i as ModalSubmitInteraction).editReply("An error occured while executing this command");
-            else i.reply("An error occured while executing this button interaction");
+            if (!i.isRepliable()) (i as ModalSubmitInteraction).editReply(t("strings:errors.interactionError", { lng }));
+            else i.reply(t("strings:errors.interactionError", { lng }));
             console.error(e);
         }
     }

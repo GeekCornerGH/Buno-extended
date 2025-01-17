@@ -1,9 +1,8 @@
-import { ModalSubmitInteraction } from "discord.js";
-
-import { customClient } from "./client.js";
+import { Client, ModalSubmitInteraction } from "discord.js";
 
 export type modalFile = { m: modal }
 export type modal = {
     name: string,
-    execute: (client: customClient, interaction: ModalSubmitInteraction) => void;
+    // eslint-disable-next-line no-unused-vars
+    execute: (client: Client, interaction: ModalSubmitInteraction) => void;
 }

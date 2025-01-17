@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 import { button } from "../../typings/button.js";
 import { config } from "../../utils/config.js";
 import { ButtonIDs } from "../../utils/constants.js";
@@ -6,11 +8,22 @@ import startGame from "../../utils/game/startGame.js";
 export const b: button = {
     name: ButtonIDs.START_GAME,
     execute: (client, interaction) => {
-        const games = client.games.find(g => g.guildId === interaction.guildId && g.messageId === interaction.message.id);
-        if (!games) return interaction.reply({ ephemeral: true, content: "No game was found in this channel" });
-        if (games.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({ content: "You're not the game host.", ephemeral: true });
-        if (games.players.length < 2 && games._modified !== true) return interaction.reply({ ephemeral: true, content: "You can't start a game alone" });
-        startGame(client, games, false, interaction.message);
+        const game = client.games.find(g => g.guildId === interaction.guildId && g.messageId === interaction.message.id);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
+        if (!game) return interaction.reply({
+            content: t("strings:errors.gameNotFound", { lng }),
+            ephemeral: true,
+        });
+        if (game.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
+            content: t("strings:errors.notTheHost", { lng }),
+            ephemeral: true
+        });
+        if (game.players.length < 2 && game._modified !== true) return interaction.reply({
+            ephemeral: true,
+            content: t("strings:errors.alone", { lng })
+        });
+        startGame(client, game, false, interaction.message);
         interaction.deferReply({ ephemeral: true });
         interaction.deleteReply();
     }

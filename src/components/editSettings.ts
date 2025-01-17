@@ -1,25 +1,31 @@
 import { ActionRowBuilder, EmbedBuilder, InteractionReplyOptions, InteractionUpdateOptions, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { t } from "i18next";
 
-import { unoGame } from "../typings/unoGame.js";
-import { defaultSettings, SelectIDs, settingsMapToName } from "../utils/constants.js";
+import { resources } from "../typings/i18next.js";
+import { unoGame, unoSettings } from "../typings/unoGame.js";
+import { defaultSettings, SelectIDs } from "../utils/constants.js";
 
 
 
 const comp = async (game: unoGame) => {
+    const lng = game.locale;
     const blacklistedSettings = ["antiSabotage"];
     const embed = new EmbedBuilder()
         .setColor("Random")
-        .setTitle("Game settings")
+        .setTitle(t("strings:settings.embed.title", { lng }))
         .setDescription(Object.keys(game.settings).map(e => {
-            const value = game.settings[e];
-            return game.state === "inProgress" && blacklistedSettings.includes(e) ? `${settingsMapToName[e]} : Find out :trol:` : `${settingsMapToName[e]} : *${value === true ? "✅" : value === false ? "❌" : value}*`;
+            const key = e as keyof unoSettings;
+            const value = game.settings[key];
+            const i18nKey = "strings:settings.options." + e as keyof typeof resources.strings.settings.options;
+            return game.state === "inProgress" && blacklistedSettings.includes(e) ? `${t(i18nKey as any, { lng })} : [REDACTED] :trol:` : `${t(i18nKey as any, { lng })} : *${value === true ? "✅" : value === false ? "❌" : value}*`;
         }).join("\n"))
-        .setFooter({ text: "Settings are automatically saved per guild, and per member." });
+        .setFooter({ text: t("strings:settings.embed.footer", { lng }) });
     const row = [new ActionRowBuilder<StringSelectMenuBuilder>().setComponents([
-        new StringSelectMenuBuilder().setCustomId(SelectIDs.EDIT_GAME_SETTINGS).setPlaceholder("Edit game settings and rules here").setOptions([
+        new StringSelectMenuBuilder().setCustomId(SelectIDs.EDIT_GAME_SETTINGS).setPlaceholder(t("strings:settings.placeholder", { lng })).setOptions([
             ...Object.keys(defaultSettings).map(e => {
-                const value = game.settings[e];
-                return new StringSelectMenuOptionBuilder().setLabel(settingsMapToName[e]).setValue(e).setDescription(`Current value: ${value === true ? "✅" : value === false ? "❌" : value}`);
+                const key = e as keyof unoSettings;
+                const value = game.settings[key];
+                return new StringSelectMenuOptionBuilder().setLabel(t("strings:settings.embed.footer", { lng })).setValue(e).setDescription(t("strings:settings.currentValue", { lng, value: value === true ? "✅" : value === false ? "❌" : typeof value === "number" ? value : t(`strings:settings.value.${value}`) }));
             })
         ]).setMaxValues(1).setMinValues(1)
     ])];

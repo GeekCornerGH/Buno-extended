@@ -1,17 +1,19 @@
-import { GuildMember, GuildTextBasedChannel } from "discord.js";
+import { Client, GuildTextBasedChannel } from "discord.js";
+import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
-import { customClient } from "../../typings/client.js";
 import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 import { config } from "../config.js";
 import { cardEmotes, coloredUniqueCards, colorEmotes, colors, uniqueVariants } from "../constants.js";
+import { getUsername } from "../getUsername.js";
 import draw from "./draw.js";
 import endGame from "./endGame.js";
 import next from "./next.js";
 import toTitleCase from "./toTitleCase.js";
 
-export default async (client: customClient, game: runningUnoGame, player: string) => {
-    if (!game || !client.games.find(g => g.uid === game.uid) || game.currentPlayer !== player || game.uid !== client.games.find(g => g.channelId === game.channelId).uid) return;
+export default async (client: Client, game: runningUnoGame, player: string) => {
+    if (!game || !client.games.find(g => g.uid === game.uid) || game.currentPlayer !== player || game.uid !== client.games.find(g => g.channelId === game.channelId)?.uid) return;
+    const lng = game.locale;
     let toAppend: string = "";
     const previousPlayer = game.currentPlayer;
     if (game.turnProgress === "chooseColor") {
@@ -24,7 +26,7 @@ export default async (client: customClient, game: runningUnoGame, player: string
             else {
                 game.drawStack += 4;
                 const nextPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
-                toAppend += `\n**${(client.guilds.cache.get(game.guildId).members.cache.get(nextPlayer) as GuildMember).displayName}** drew ${game.drawStack} cards and has been skipped.`;
+                toAppend += `\n${t("strings:game.draw.drewAndSkipped", { lng, name: await getUsername(client, game.guildId, game.currentPlayer) })}`;
                 game.cards[nextPlayer] = game.cards[nextPlayer].concat(draw(game.cardsQuota, game.drawStack));
                 if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
                 game.turnProgress = "chooseCard";
@@ -34,13 +36,13 @@ export default async (client: customClient, game: runningUnoGame, player: string
         }
     }
     else if (game.turnProgress === "pickPlayer") {
-        const players = game.players.filter(p => p !== previousPlayer);
+        const players = game.players.filter(p => p !== player);
         const chosenOne = players[Math.floor(Math.random() * players.length)];
         const tempHolder = game.cards[chosenOne];
         game.cards[chosenOne] = game.cards[previousPlayer];
         game.cards[previousPlayer] = tempHolder;
-        game.currentCard = game.playedCard;
-        toAppend += `\n**${client.guilds.cache.get(game.guildId).members.cache.get(previousPlayer).displayName}** exchanged cards with **${client.guilds.cache.get(game.guildId).members.cache.get(chosenOne).displayName}**.`;
+        game.currentCard = game.playedCard as unoCard;
+        toAppend += `\n${t("strings:game.card.swapped", { lng, from: await getUsername(client, game.guildId, player), to: await getUsername(client, game.guildId, chosenOne) })}`;
         game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer), 1);
     }
     else {
@@ -51,16 +53,16 @@ export default async (client: customClient, game: runningUnoGame, player: string
         delete game.cards[previousPlayer];
         game.playersWhoLeft.push(previousPlayer);
     }
-    toAppend += `\n**${(client.guilds.cache.get(game.guildId).members.cache.get(previousPlayer)).displayName}** was inactive and has been ${game.settings.kickOnTimeout ? "kicked" : "skipped"}.`;
+    toAppend += `\n${game.settings.kickOnTimeout ? t("strings:game.afk.kicked", { lng, name: await getUsername(client, game.guildId, previousPlayer) }) : t("strings:game.afk.skipped", { lng, name: await getUsername(client, game.guildId, previousPlayer) })}`;
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
-    const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[`${game.currentCard}`] : cardEmotes[game.currentCard];
-    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(`**${(client.guilds.cache.get(game.guildId).members.cache.get(previousPlayer) as GuildMember).displayName}** played ${currentCardEmote} ${toTitleCase(game.currentCard)}\n${toAppend ?? ""}`.trim());
-    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).messages.cache.get(game.messageId).delete();
+    const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
+    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(t("strings:game.played", { name: await getUsername(client, game.guildId, previousPlayer), lng, currentCardEmote, card: toTitleCase(game.currentCard, lng) } + toAppend));
     if (game.settings.kickOnTimeout) {
         if (game._modified && game.players.length === 0) return endGame(game, client, "notEnoughPeople");
         else if (game.players.length === 1) return endGame(game, client, "win", game.currentPlayer);
     }
-    const msg = await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(await runningGameMessage(game, client.guilds.cache.get(game.guildId)));
+    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).messages.cache.get(game.messageId)?.delete();
+    const msg = await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(await runningGameMessage(client, game, client.guilds.cache.get(game.guildId)!));
     game.messageId = msg.id;
     game.turnProgress = "chooseCard";
     game.log.push({ player: previousPlayer, card: game.currentCard, adminAbused: game.adminAbused });

@@ -1,15 +1,13 @@
 {
     "compilerOptions": {
         "moduleResolution": "Node",
-        "target": "ES2022",
+        "target": "ESNext",
         "allowSyntheticDefaultImports": true,
-        "alwaysStrict": true,
+        "strict": true,
         "outDir": "dist",
         "module": "ESNext",
         "skipLibCheck": true,
-        "types": [
-            "node"
-        ],
+        "resolveJsonModule": true,
     },
     "watchOptions": {
         "excludeDirectories": [
@@ -18,6 +16,7 @@
     },
     "include": [
         "./src/**/*.ts",
+        "./src/**/*.json"
     ],
     "exclude": [
         "./dist/**/*",

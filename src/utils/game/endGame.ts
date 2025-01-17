@@ -1,14 +1,16 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { t } from "i18next";
 
 import { Buno } from "../../database/models/buno.js";
-import { customClient } from "../../typings/client.js";
-import { runningUnoGame, unoLog } from "../../typings/unoGame.js";
+import { runningUnoGame, unoCard, unoLog } from "../../typings/unoGame.js";
 import { ButtonIDs, cardEmotes, defaultSettings } from "../constants.js";
+import { getUsername } from "../getUsername.js";
 import toHumanReadableTime from "../toHumanReadableTime.js";
 import toTitleCase from "./toTitleCase.js";
 
-export default async function (game: runningUnoGame, client: customClient, reason: "notEnoughPeople" | "win", winner?: string) {
+export default async function (game: runningUnoGame, client: Client, reason: "notEnoughPeople" | "win", winner?: string) {
     const calledTimestamp = new Date();
+    const lng = game.locale;
     if (!game._modified && reason === "win") {
         game.players.concat(game.playersWhoLeft).forEach(async p => {
             const dbReq = await Buno.findOne({
@@ -68,34 +70,39 @@ export default async function (game: runningUnoGame, client: customClient, reaso
     }
     const card = () => {
         const mostUsed = findMostProperty(game.log, "card");
-        return `${cardEmotes[mostUsed]} ${toTitleCase(mostUsed)}`;
+        return `${cardEmotes[mostUsed as unoCard] as unknown} ${toTitleCase(mostUsed, lng)}`;
     };
     const player = () => {
         const mostUsed = findMostProperty(game.log, "player");
-        return `${client.guilds.cache.get(game.guildId).members.cache.get(mostUsed)}`;
+        return `${client.guilds.cache.get(game.guildId)?.members.cache.get(mostUsed)}`;
     };
+    const players = [...game.players, ...game.playersWhoLeft];
     (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send({
-        content: game.players.length === 0 ? "No one was available to finish the game." : `**${reason === "win" || game.players.length > 0 ? client.guilds.cache.get(game.guildId).members.cache.get(winner ?? game.currentPlayer).displayName : "[This shouldn't be there]"}** has won the game${reason === "notEnoughPeople" ? " by default" : ""}.`,
+        content: game.players.length === 0 ? t("strings:game.end.noOne", { lng }) : t("strings:game.end.default", {
+            name: reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer) : "[This shouldn't be there]",
+            default: reason === "notEnoughPeople" ? " by default" : "",
+            lng
+        }),
         embeds: [
             new EmbedBuilder()
                 .setTitle("Game statistics")
                 .setColor("Random")
                 .addFields([
                     {
-                        name: "🏆 Winner",
-                        value: `${reason === "win" || game.players.length > 0 ? client.guilds.cache.get(game.guildId).members.cache.get(winner ?? game.currentPlayer).displayName : "No winner "}`
+                        name: t("strings:game.end.embed.stats.winner", { lng }),
+                        value: `${reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer) : t("strings:game.end.noWinner", { lng })}`
                     }, {
-                        name: "🃏 Most played card",
+                        name: t("strings:game.end.embed.stats.mostPlayedCard", { lng }),
                         value: `${card()}`
                     }, {
-                        name: "👤 Player who has played the most cards",
+                        name: t("strings:game.end.embed.stats.mostPlayedCard", { lng }),
                         value: `${player()}`
                     }, {
-                        name: "👥 Players who took part in the game",
-                        value: `${game.players.concat(game.playersWhoLeft).length} players`
+                        name: t("strings:game.end.embed.stats.players", { lng }),
+                        value: t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(async p => await getUsername(client, game.guildId, p)).join(", "), lng })
                     }, {
-                        name: "⏱️ The game lasted for",
-                        value: `${toHumanReadableTime(Math.round((calledTimestamp.getTime() - game.startingDate.getTime()) / 1000))}`
+                        name: t("strings:game.end.embed.stats.duration", { lng }),
+                        value: `${toHumanReadableTime(Math.round((calledTimestamp.getTime() - game.startingDate.getTime()) / 1000), lng)}`
                     }
                 ])
         ],
@@ -113,9 +120,9 @@ export default async function (game: runningUnoGame, client: customClient, reaso
 
 function findMostProperty(objects: unoLog[], property: string): string {
     // Probably the most insane line I wrote
-    if (!Object.prototype.hasOwnProperty.call(objects[0], property)) return;
+    if (!Object.prototype.hasOwnProperty.call(objects[0], property)) return "";
     const cardMap: Map<string, number> = objects.reduce((map, obj) => {
-        const value = obj[property];
+        const value = obj[property as keyof unoLog];
         map.set(value, (map.get(value) || 0) + 1);
         return map;
     }, new Map());

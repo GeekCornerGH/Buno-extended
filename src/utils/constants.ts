@@ -58,12 +58,12 @@ setImmediate(() => cardEmotes = config.emoteless
         .map(c => variants.map(v => [`${c}-${v}`, colorEmotes[c]]))
         .concat([uniqueVariants.map(v => [v, colorEmotes.other])])
         // eslint-disable-next-line no-unused-vars
-        .reduce((obj, val) => { val.forEach(([k, v]) => obj[k] = v); return obj; }, {}) as { [k in unoCard]: string }
+        .reduce((obj: { [key: string]: string }, val) => { val.forEach(([k, v]) => obj[k] = v); return obj; }, {}) as { [k in unoCard]: string }
     : cardEmojis
 );
 
 // eslint-disable-next-line no-unused-vars
-export const coloredUniqueCards: { [k in `${typeof colors[number]}-${typeof uniqueVariants[number]}`] } = {
+export const coloredUniqueCards: { [k in `${typeof colors[number]}-${typeof uniqueVariants[number]}`]: string } = {
     "red-wild": "<:Wr:1083073403197587476>",
     "red-+4": "<:4r:1083073363360108545>",
     "yellow-wild": "<:Wy:1083073405793873940>",
@@ -103,7 +103,7 @@ export const defaultSettings: unoSettings = {
 
 export const maxRejoinableTurnCount = 30;
 
-export const autoStartTimeout = 305;
+export const autoStartTimeout = (5 * 60 + 5) * 1000;
 
 // do NOT use "__" in any id's
 export const ButtonIDs = Object.freeze({
@@ -169,22 +169,9 @@ export const SettingsIDs = Object.freeze({
     TIMEOUT_DURATION_MODAL_SETTING: "timeout-setting-field",
 });
 
-export const settingsMapToName: { [setting: string]: string } = {
-    timeoutDuration: "Timeout duration",
-    kickOnTimeout: "Kick on timeout",
-    allowSkipping: "Allow skipping",
-    antiSabotage: "Anti sabotage",
-    allowStacking: "Allow +4 and +2 stacking",
-    randomizePlayerList: "Randomize player list",
-    resendGameMessage: "Resend the game message every few messages",
-    canJoinMidgame: "Allow players to hop in midgame",
-    sevenAndZero: "Swap cards on 7 and 0",
-    shouldYellBUNO: "Users should yell Buno Out! in order to win",
-    reverseAnything: "Reverse card can reverse force draws",
-    allowContest: "Allow +4 challenge",
-    adminabusemode: "Admin abuse mode"
-};
-
 export const maxDrawAsSabotage = 4;
 
 export const maxWeightBeforeResend = 20;
+
+// It is recommended to not allow more than 12 users
+export const maxPlayerInGame = 12;

@@ -1,9 +1,8 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-
-import { customClient } from "./client.js";
+import { ChatInputCommandInteraction, Client, SlashCommandBuilder } from "discord.js";
 
 export type commandFile = { c: command }
 export type command = {
     data: SlashCommandBuilder | Omit<SlashCommandBuilder | "addSubcommand">,
-    execute: (client: customClient, interaction: ChatInputCommandInteraction) => void;
+    // eslint-disable-next-line no-unused-vars
+    execute: (client: Client, interaction: ChatInputCommandInteraction) => void;
 }

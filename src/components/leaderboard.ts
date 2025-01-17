@@ -1,36 +1,35 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, GuildMember, InteractionEditReplyOptions, User } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, InteractionEditReplyOptions } from "discord.js";
+import { t } from "i18next";
 
 import { Buno } from "../database/models/buno.js";
 import { ButtonIDs } from "../utils/constants.js";
+import { getUsername } from "../utils/getUsername.js";
 
 export default async function (rows: Buno[], interaction: ChatInputCommandInteraction | ButtonInteraction, total: number, offset: number = 0): Promise<InteractionEditReplyOptions> {
+    if (!interaction.inGuild()) return {};
+    const lng = interaction.locale.split("-")[0];
     const dataArray = await Promise.all(rows.map(async (r, index) => {
         const rank = (offset * 25) + index + 1;
-        let member: GuildMember | User | string = interaction.guild.members.cache.get(r.getDataValue("userId")) as GuildMember;
-        if (!member) {
-            try {
-                member = await interaction.guild.members.fetch(r.getDataValue("userId")) as GuildMember;
-            } catch {
-                try {
-                    member = await interaction.guild.client.users.fetch(r.getDataValue("userId")) as User;
-                } catch {
-                    member = r.getDataValue("userId");
-                }
-            }
-        }
-        const returnData = typeof member === "string" ? member : member.displayName;
-        return { rank, member: returnData, wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
+        return { rank, member: await getUsername(interaction.client, interaction.guildId, r.getDataValue("userId")), wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
     }));
 
     const embed = new EmbedBuilder()
-        .setTitle(`Leaderboard for **${interaction.guild.name}**`)
+        .setTitle(t("strings:leaderboard.embed.title", { lng, guild: interaction.guild?.name }))
         .setColor("Random")
-        .setDescription(`Page ${Math.ceil((offset / 25) + 1)} of ${Math.ceil((total + 1) / 25)}.${offset === 0 ? `\nYour rank: ${getMedals(rows.findIndex(p => p.getDataValue("userId") === interaction.user.id), offset)}` : ""}`)
+        .setDescription(t("strings:leaderboard.embed.description", {
+            lng,
+            currentPage: Math.ceil((offset / 25) + 1),
+            totalPages: Math.ceil((total + 1) / 25),
+            userRank: offset === 0 ? t("strings:leaderboard.embed.yourRank", {
+                lng,
+                rank: getMedals(rows.findIndex(p => p.getDataValue("userId") === interaction.user.id), offset)
+            }) : ""
+        }))
         .setFields(dataArray.map(data => {
             const rankMedal = getMedals(data.rank - 1, offset);
             return {
-                name: `${rankMedal + " - "}${data.member}`,
-                value: `${data.wins} win${data.wins !== 1 ? "s" : ""}, ${data.losses} loss${data.losses !== 1 ? "es" : ""} ${data.losses === 0 ? "No losses" : (data.wins / data.losses).toFixed(2) + "W/L"}`
+                name: t("strings:leaderboard.embed.fieldName", { lng, rank: rankMedal, member: data.member }),
+                value: `${t("strings:leaderboard.embed.fieldValues.wins", { lng, count: data.wins })}, ${t("strings:leaderboard.embed.fieldValues.losses", { lng, count: data.losses })}, ${data.losses === 0 ? t("strings:leaderboard.embed.fieldValues.noLoss") : t("strings:leaderboard.embed.fieldValues.wlr", { lng, winLossRatio: parseFloat((data.wins / data.losses).toFixed(2)) })}`
             };
         }))
         .setTimestamp();

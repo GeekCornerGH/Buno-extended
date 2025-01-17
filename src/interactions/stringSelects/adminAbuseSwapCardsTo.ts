@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 import { stringSelect } from "../../typings/stringSelect.js";
 import { SelectIDs } from "../../utils/constants.js";
 
@@ -5,16 +7,18 @@ export const s: stringSelect = {
     name: SelectIDs.ADMIN_ABUSE_SWAP_CARDS_TO,
     execute: async (client, interaction) => {
         const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Cannot find the game you're talking about.",
+            content: t("strings:errors.gameNotFound", { lng }),
             ephemeral: true
         });
-        else if (game.state === "waiting") return interaction.reply({
-            content: "The game hasn't started yet.",
+        if (game.state === "waiting") return interaction.reply({
+            content: t("strings:errors.waiting", { lng }),
             ephemeral: true
         });
-        else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "This is not your turn.",
+        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         else if (!game.settings.adminabusemode || game.hostId !== interaction.user.id) return interaction.reply({

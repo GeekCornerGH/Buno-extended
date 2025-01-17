@@ -1,21 +1,34 @@
+import { t } from "i18next";
+
 import { stringSelect } from "../../typings/stringSelect.js";
-import { runningUnoGame } from "../../typings/unoGame.js";
+import { unoCard } from "../../typings/unoGame.js";
 import { SelectIDs } from "../../utils/constants.js";
 import endTurn from "../../utils/game/endTurn.js";
 import next from "../../utils/game/next.js";
+import { getUsername } from "../../utils/getUsername.js";
 
 export const s: stringSelect = {
     name: SelectIDs.PLAYER_USER_SELECT,
     execute: async (client, interaction) => {
-        const game = client.games.find(g => g.channelId === interaction.channelId) as runningUnoGame;
+        const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         await interaction.deferUpdate();
-        if (!game) return interaction.editReply({
-            content: "Cannot find the game you're talking about.",
-            components: [],
+        if (!game) return interaction.reply({
+            content: t("strings:errors.gameNotFound", { lng }),
+            ephemeral: true
+        });
+        if (game.state === "waiting") return interaction.reply({
+            content: t("strings:errors.waiting", { lng }),
+            ephemeral: true
+        });
+        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+            content: t("strings:game.notYourTurn", { lng }),
+            ephemeral: true
         });
         if (game.currentPlayer !== interaction.user.id) {
             return interaction.editReply({
-                content: "It's not your turn",
+                content: t("strings:game.notYourTurn", { lng }),
                 components: []
             });
         }
@@ -26,7 +39,7 @@ export const s: stringSelect = {
         const tempHolder = game.cards[interaction.user.id];
         game.cards[interaction.user.id] = game.cards[player];
         game.cards[player] = tempHolder;
-        game.currentCard = game.playedCard;
+        game.currentCard = game.playedCard as unoCard;
         game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
         game.turnProgress = "chooseCard";
         if (game.settings.shouldYellBUNO && game.unoPlayers.includes(interaction.user.id)) {
@@ -37,6 +50,6 @@ export const s: stringSelect = {
             game.unoPlayers.push(interaction.user.id);
             game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === player), 1);
         }
-        endTurn(client, game, interaction, interaction.user.id, "played", `**${interaction.guild.members.cache.get(interaction.user.id).displayName}** exchanged cards with **${interaction.guild.members.cache.get(player).displayName}**`);
+        endTurn(client, game, interaction, interaction.user.id, "played", `**${await getUsername(client, game.guildId, interaction.user.id)}** exchanged cards with **${await getUsername(client, game.guildId, player)}**`);
     }
 };

@@ -1,22 +1,26 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { t } from "i18next";
 
 import { stringSelect } from "../../typings/stringSelect.js";
 import { SelectIDs } from "../../utils/constants.js";
+import { getUsername } from "../../utils/getUsername.js";
 
 export const s: stringSelect = {
     name: SelectIDs.ADMIN_ABUSE_SWAP_CARDS_FROM,
     execute: async (client, interaction) => {
         const game = client.games.find(g => g.channelId === interaction.channelId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Cannot find the game you're talking about.",
+            content: t("strings:errors.gameNotFound", { lng }),
             ephemeral: true
         });
-        else if (game.state === "waiting") return interaction.reply({
-            content: "The game hasn't started yet.",
+        if (game.state === "waiting") return interaction.reply({
+            content: t("strings:errors.waiting", { lng }),
             ephemeral: true
         });
-        else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "This is not your turn.",
+        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         else if (!game.settings.adminabusemode || game.hostId !== interaction.user.id) return interaction.reply({
@@ -25,8 +29,9 @@ export const s: stringSelect = {
         });
         const target = interaction.values[0];
         await interaction.deferUpdate();
+        const options = await Promise.all(game.players.filter(p => p !== target).map(async p => new StringSelectMenuOptionBuilder().setLabel(await getUsername(client, game.guildId, interaction.user.id)).setValue(p)));
         return interaction.editReply({
-            content: "Select the target player to exchange cards with.",
+            content: t("strings:game.aa.swap.from.select", { lng }),
             components: [
                 new ActionRowBuilder<StringSelectMenuBuilder>()
                     .setComponents([
@@ -34,8 +39,8 @@ export const s: stringSelect = {
                             .setCustomId(SelectIDs.ADMIN_ABUSE_SWAP_CARDS_TO + "_" + target)
                             .setMaxValues(1)
                             .setMinValues(0)
-                            .setPlaceholder("Pick a player")
-                            .setOptions(game.players.filter(p => p !== target).map(p => new StringSelectMenuOptionBuilder().setLabel(interaction.guild.members.cache.get(p).displayName).setValue(p)))
+                            .setPlaceholder(t("strings:game.playerPicker", { lng }))
+                            .setOptions(options)
                     ])
             ]
         });

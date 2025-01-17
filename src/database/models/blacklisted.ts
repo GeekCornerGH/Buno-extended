@@ -3,11 +3,11 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequ
 import { sequelize } from "../manager.js";
 
 class Blacklisted extends Model<InferAttributes<Blacklisted>, InferCreationAttributes<Blacklisted>> {
-    declare id: number;
+    declare id?: number;
     declare userId: string;
     declare reason: string;
-    declare createdAt: Date;
-    declare updatedAt: Date;
+    declare createdAt?: Date;
+    declare updatedAt?: Date;
 }
 
 Blacklisted.init({

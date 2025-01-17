@@ -1,4 +1,5 @@
 import { InteractionReplyOptions } from "discord.js";
+import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
 import forceDraw from "../../components/forceDraw.js";
@@ -12,16 +13,18 @@ export const b: button = {
     name: ButtonIDs.PLAY_CARD,
     execute: async (client, interaction) => {
         const game = client.games.find(g => g.messageId === interaction.message.id) as runningUnoGame;
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Unable to find the game you're talking about.",
-            ephemeral: true
+            content: t("strings:errors.gameNotFound", { lng }),
+            ephemeral: true,
         });
         if (!game.players.includes(interaction.user.id)) return interaction.reply({
-            content: "You're not part of the game.",
+            content: t("strings:errors.notInGame", { lng }),
             ephemeral: true,
         });
         if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "It's not your turn.",
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         await interaction.deferReply({
@@ -29,12 +32,12 @@ export const b: button = {
         });
         if (game.turnProgress === "chooseColor") {
             return interaction.editReply({
-                ...chooseColor(game.playedCard as typeof uniqueVariants[number]) as InteractionReplyOptions
+                ...chooseColor(game.playedCard as typeof uniqueVariants[number], lng) as InteractionReplyOptions
             });
         }
         else if (game.turnProgress === "pickPlayer") {
             return interaction.editReply({
-                ...pickPlayer(client, game, interaction.user.id)
+                ... await pickPlayer(client, game, interaction.user.id)
             });
         }
         else if ((game.settings.allowStacking || game.settings.reverseAnything) && game.drawStack > 0) {
@@ -45,7 +48,7 @@ export const b: button = {
                 content: `${game.settings.allowContest && game.currentCard.endsWith("+4") && game.drawStack === 4 ? "Allow +4 contest rule is enabled. You may contest the card through the Actions menu." : ""}`,
             });
         }
-        const toSend = playCard(client, interaction, game, interaction.user.id, game.canSkip);
+        const toSend = await playCard(client, interaction, game, interaction.user.id, game.canSkip);
         if (Object.keys(toSend).length === 0) return;
         return interaction.editReply({
             ...toSend,

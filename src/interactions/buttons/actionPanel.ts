@@ -1,4 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
+import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
 import { ButtonIDs } from "../../utils/constants.js";
@@ -7,42 +8,43 @@ export const b: button = {
     name: ButtonIDs.ACTIONS_MENU,
     execute: (client, interaction) => {
         const game = client.games.find(g => g.messageId === interaction.message.id);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "Cannot find the game you're talking about.",
+            content: t("strings:errors.gameNotFound", { lng }),
             ephemeral: true
         });
         else if (game.state === "waiting") return interaction.reply({
-            content: "The game hasn't started yet.",
+            content: t("strings:errors.notRunning", { lng }),
             ephemeral: true
         });
         else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: "This is not your turn.",
+            content: t("strings:game.notYourTurn", { lng }),
             ephemeral: true
         });
         else if (!game.settings.adminabusemode && !game.settings.shouldYellBUNO && !game.settings.allowContest) return interaction.reply({
-            content: "The Actions menu isn't used for this game.",
+            content: t("strings:errors.noActions", { lng }),
             ephemeral: true
         });
         const embed = new EmbedBuilder()
             .setColor("Random")
-            .setTitle("Actions menu")
-            .setDescription("Need something else than just view or play cards? You're at the right place.")
-            .setDescription("Here are the options you may use:")
+            .setTitle(t("strings:game.actions.menu.title", { lng }))
+            .setDescription(t("strings:game.actions.menu.description", { lng }))
             .addFields([{
-                name: "📣 - Yell \"Buno out!\"",
-                value: "Use it right before you play your second last card."
+                name: t("strings:game.actions.menu.options.yell.name", { lng }),
+                value: t("strings:game.actions.menu.options.yell.value", { lng })
             }, {
-                name: "🃏 - Challenge the previous player who hasn't yelled out \"Buno out!\"",
-                value: "Use it whenever the previous player forgot to yell \"Buno out\""
+                name: t("strings:game.actions.menu.options.challenge.name", { lng }),
+                value: t("strings:game.actions.menu.options.challenge.value", { lng })
             }, {
-                name: "❗ - Contest the +4 forced drawing",
-                value: "Use it when you think previous player could play something else than +4"
+                name: t("strings:game.actions.menu.options.contestDraw.name", { lng }),
+                value: t("strings:game.actions.menu.options.contestDraw.value", { lng })
             }, {
-                name: "⚠️ - Open the admin abuse panel",
-                value: "Use it whenever you're the host and want to admin abuse"
+                name: t("strings:game.actions.menu.options.aa.name", { lng }),
+                value: t("strings:game.actions.menu.options.aa.value", { lng })
             }, {
-                name: "🔨 - Contest admin abuse",
-                value: "Use it whenever you think the host admin abused."
+                name: t("strings:game.actions.menu.options.contestAa.name", { lng }),
+                value: t("strings:game.actions.menu.options.contestAa.value", { lng })
             }]);
         const row = new ActionRowBuilder<ButtonBuilder>()
             .setComponents([

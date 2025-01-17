@@ -1,4 +1,5 @@
-import { ActionRowBuilder, AllowedMentionsTypes, ButtonBuilder, ButtonStyle, EmbedBuilder, Guild, MessageCreateOptions, } from "discord.js";
+import { ActionRowBuilder, AllowedMentionsTypes, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Guild, MessageCreateOptions, } from "discord.js";
+import { t } from "i18next";
 
 import { runningUnoGame } from "../typings/unoGame.js";
 import { config } from "../utils/config.js";
@@ -8,16 +9,17 @@ import generatePlayerList from "../utils/game/generatePlayerList.js";
 import toTitleCase from "../utils/game/toTitleCase.js";
 import toHumanReadableTime from "../utils/toHumanReadableTime.js";
 
-export default async (game: runningUnoGame, guild: Guild): Promise<MessageCreateOptions> => {
+export default async (client: Client, game: runningUnoGame, guild: Guild): Promise<MessageCreateOptions> => {
+    const lng = game.locale;
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
-    const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[`${game.currentCard}`] : cardEmotes[game.currentCard];
+    const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
 
     const embed = new EmbedBuilder()
-        .setTitle("Let's play Buno!")
+        .setTitle("Da Buno!")
         .setColor("Random")
-        .setThumbnail(`https://cdn.discordapp.com/emojis/${isUnique ? coloredUniqueCards[`${game.currentCard}`].match(/<:\w+:(\d+)>/)[1] : cardEmojis[game.currentCard].match(/<:\w+:(\d+)>/)[1]}.png`)
-        .setDescription(`Currently playing: ** ${guild.members.cache.get(game.currentPlayer).displayName}**\nCurrent card: ${currentCardEmote} ${toTitleCase(game.currentCard)} \n${game.drawStack > 0 ? `${game.drawStack} cards to draw\n` : ""}${await generatePlayerList(game, guild.members)} `)
-        .setFooter({ text: `Current timeout is ${toHumanReadableTime(game.settings.timeoutDuration)}.${game._modified ? " - This game won't count towards the leaderboard." : ""} \nAll visual assets are owned by Mattel, Inc, and this bot is not affiliated with any of the represented brands.` });
+        .setThumbnail(`https://cdn.discordapp.com/emojis/${isUnique ? coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards].match(/<:\w+:(\d+)>/)![1] : cardEmojis[game.currentCard].match(/<:\w+:(\d+)>/)![1]}.png`)
+        .setDescription(`${t("strings:game.message.embed.currentPlayer", { lng })}\n${t("strings:game.message.embed.currentCard", { lng, currentCardEmote, currentCard: toTitleCase(game.currentCard, lng) })}\n${game.drawStack > 0 ? `${t("strings:game.message.embed.drawStack", { lng, stack: game.drawStack })}\n` : ""}${await generatePlayerList(client, game)} `)
+        .setFooter({ text: `${t("strings:game.message.embed.footer.timeout", { lng, timeout: toHumanReadableTime(game.settings.timeoutDuration, lng) })}${game._modified ? ` - ${t("strings:game.lobby.modified", { lng })}.` : ""} \nAll visual assets are owned by Mattel, Inc, and this bot is not affiliated with any of the represented brands.` });
 
     const rows: Array<ActionRowBuilder<ButtonBuilder>> = [new ActionRowBuilder<ButtonBuilder>().setComponents([
         new ButtonBuilder().setEmoji("🔍").setCustomId(ButtonIDs.VIEW_CARDS).setStyle(ButtonStyle.Secondary),
@@ -30,7 +32,7 @@ export default async (game: runningUnoGame, guild: Guild): Promise<MessageCreate
         new ButtonBuilder().setEmoji("📥").setCustomId(ButtonIDs.JOIN_MID_GAME).setStyle(ButtonStyle.Primary).setDisabled(!canJoinMidGame(game))
     ])];
     return {
-        content: `Hey ${guild.members.cache.get(game.currentPlayer).toString()}, it is now your turn to play.`,
+        content: `Hey ${guild.members.cache.get(game.currentPlayer)?.toString()}, it is now your turn to play.`,
         allowedMentions: { parse: [AllowedMentionsTypes.User] },
         embeds: [embed],
         components: rows

@@ -1,4 +1,5 @@
-import { customClient } from "./client.js";
+import { Client } from "discord.js";
 
 export type eventFile = { e: event }
-export type event = (client: customClient, ...args: any) => void;
+// eslint-disable-next-line no-unused-vars
+export type event = (client: Client, ...args) => unknown | Promise<unknown>;

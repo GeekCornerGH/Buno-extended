@@ -1,18 +1,25 @@
-import { SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType, SlashCommandBuilder } from "discord.js";
+import { t } from "i18next";
 
 import leaderboard from "../components/leaderboard.js";
 import { Buno } from "../database/models/buno.js";
 import { command } from "../typings/command.js";
+import generateLocalized from "../utils/i18n/generateLocalized.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName("leaderboard")
-        .setDescription("Show top players")
-        .setDMPermission(true),
+        .setName(t("strings:commands.leaderboard.command.name"))
+        .setNameLocalizations(generateLocalized("strings:commands.leaderboard.command.name"))
+        .setDescription(t("strings:commands.leaderboard.command.description"))
+        .setDescriptionLocalizations(generateLocalized("strings:commands.leaderboard.command.description"))
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
     execute: async (client, interaction) => {
+        if (!interaction.inGuild()) return;
         await interaction.deferReply();
-        const cmd = client.application.commands.cache.find(c => c.name === "uno");
-        if (!cmd) return interaction.editReply("An error occured while executing this command.");
+        const lng = interaction.locale.split("-")[0];
+        const cmd = client.application?.commands.cache.find(c => c.name === "uno");
+        if (!cmd) return interaction.editReply(t("strings:errors.execution", { lng }));
         const dbReq = await Buno.findAndCountAll({
             where: {
                 guildId: interaction.guildId
@@ -22,7 +29,7 @@ export const c: command = {
             offset: 0
         });
         const { count } = dbReq;
-        if (dbReq.count === 0) return interaction.editReply(`No one played Buno in this channel! Run </${cmd.name}:${cmd.id}> to start a new game.`);
+        if (dbReq.count === 0) return interaction.editReply(t("strings:commands.leaderboard.message.no-data", { lng, name: cmd.name, id: cmd.id }));
         interaction.editReply(await leaderboard(dbReq.rows, interaction, count));
     }
 };

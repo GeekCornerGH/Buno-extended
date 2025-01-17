@@ -9,7 +9,7 @@ export const b: button = {
         return interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle("Get rickrolled, you curious")
+                    .setTitle("Get rickrolled lol")
                     .setColor("Random")
                     .setImage("https://tenor.com/view/22954713.gif")
                     .setTimestamp()

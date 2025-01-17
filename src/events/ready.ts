@@ -1,19 +1,18 @@
-import { ActivityType, PresenceUpdateStatus } from "discord.js";
+import { ActivityType, Client, PresenceUpdateStatus } from "discord.js";
 
-import { customClient } from "../typings/client.js";
 import { event } from "../typings/event.js";
 import { status, streamingStatus } from "../typings/statuses.js";
 
 export const e: event = async client => {
     if (!client.user) return;
-    await client.application.commands.fetch();
+    await client.application?.commands.fetch();
     console.log(`Logged in as ${client.user.tag}`);
     setStatus(client);
     setInterval(() => setStatus(client), 1 * 60 * 1000);
     return;
 };
 
-function setStatus(client: customClient) {
+function setStatus(client: Client) {
     const statuses = [{
         name: "Buno",
         state: ActivityType.Playing
@@ -60,8 +59,11 @@ function setStatus(client: customClient) {
     }, {
         name: "Open source!",
         state: ActivityType.Custom
-    },] as status;
+    }, {
+        name: "Made with love!",
+        state: ActivityType.Custom
+    }] as status;
     const random = statuses[Math.floor(Math.random() * statuses.length)];
-    client.user.setPresence({ status: client.games.length === 0 ? PresenceUpdateStatus.Idle : PresenceUpdateStatus.Online, activities: [{ name: random.name, type: random.state, url: random.state === ActivityType.Streaming ? (random as streamingStatus).url.toString() : undefined }] });
+    client.user?.setPresence({ status: client.games.length === 0 ? PresenceUpdateStatus.Idle : PresenceUpdateStatus.Online, activities: [{ name: random.name, type: random.state, url: random.state === ActivityType.Streaming ? (random as streamingStatus).url.toString() : undefined }] });
     return;
 }

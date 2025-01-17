@@ -1,8 +1,8 @@
-import { Message } from "discord.js";
+import { Client, GuildTextBasedChannel, Message } from "discord.js";
+import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
 import { Buno } from "../../database/models/buno.js";
-import { customClient } from "../../typings/client.js";
 import { runningUnoGame, unoGame } from "../../typings/unoGame.js";
 import { averageUnoGameCount, defaultSettings } from "../constants.js";
 import timeouts from "../timeoutManager.js";
@@ -10,10 +10,12 @@ import draw from "./draw.js";
 import onTimeout from "./onTimeout.js";
 import use from "./use.js";
 
-export default async (client: customClient, game: unoGame, automatic: boolean, message: Message) => {
+export default async (client: Client, game: unoGame, automatic: boolean, message: Message) => {
+    if (!message.inGuild()) return;
+    const lng = game.locale;
     if (automatic && game.players.length < 2 && game._modified !== true) {
         client.games.splice(client.games.findIndex(g => g === game), 1);
-        return message.edit({ content: `No one was available to play with ${message.guild.members.cache.get(game.hostId).toString()}.`, components: [], embeds: [] });
+        return message.edit({ content: `No one was available to play with ${message.guild.members.cache.get(game.hostId)?.toString()}.`, components: [], embeds: [] });
     }
     const dbReq = await Buno.findOne({
         where: {
@@ -23,7 +25,7 @@ export default async (client: customClient, game: unoGame, automatic: boolean, m
     });
     game.settings = {
         ...defaultSettings,
-        ...dbReq.getDataValue("settings")
+        ...dbReq?.getDataValue("settings")
     };
     game.state = "inProgress";
     game = game as runningUnoGame;
@@ -51,13 +53,13 @@ export default async (client: customClient, game: unoGame, automatic: boolean, m
     game.currentPlayer = game.players[0];
     await message.delete();
     game.startingDate = new Date(Date.now());
-    await message.channel.send(`**The game has just started!**${game.settings.adminabusemode === true ? "\nThe admin abuse gamemode is enabled for this game. You can eject the host if you think they are abusing by opening the Actions menu" : ""}`);
-    const msg = await message.channel.send(await runningGameMessage(game, message.guild));
+    await (message.channel as GuildTextBasedChannel).send(`${t("strings:game.started", { lng })}${game.settings.adminabusemode === true ? t("strings:game.startedAA", { lng }) : ""}`);
+    const msg = await (message.channel as GuildTextBasedChannel).send(await runningGameMessage(client, game, message.guild));
     game.messageId = msg.id;
     timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);
 };
 
-function shuffleArray(array: any[]) {
+function shuffleArray(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];

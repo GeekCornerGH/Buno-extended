@@ -4,14 +4,14 @@ import { unoSettings } from "../../typings/unoGame.js";
 import { sequelize } from "../manager.js";
 
 class Buno extends Model<InferAttributes<Buno>, InferCreationAttributes<Buno>> {
-    declare id: number;
+    declare id?: number;
     declare userId: string;
     declare guildId: string;
     declare settings: unoSettings;
     declare wins: number;
     declare losses: number;
-    declare createdAt: Date;
-    declare updatedAt: Date;
+    declare createdAt?: Date;
+    declare updatedAt?: Date;
 }
 
 Buno.init({

@@ -1,21 +1,33 @@
 import { inspect } from "node:util";
 
 import { execSync } from "child_process";
-import { AttachmentBuilder, SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, AttachmentBuilder, InteractionContextType, SlashCommandBuilder } from "discord.js";
+import { t } from "i18next";
 
 import { Buno } from "../database/models/buno.js";
 import { command } from "../typings/command.js";
 import { config } from "../utils/config.js";
+import generateLocalized from "../utils/i18n/generateLocalized.js";
 const MAX_RESPONSE_LENGTH = 1980;
 const regex = new RegExp(/(([A-Z]:\\Users\\)|(\/Users\/)|(\/home\/))([^/\\]*)/ig);
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName("eval")
-        .setDescription("Evals code")
-        .addStringOption(o => o.setName("code").setDescription("Code to execute").setRequired(true))
-        .addBooleanOption(o => o.setName("public").setDescription("Whenever to show the ouput as public message or not").setRequired(false))
-        .setDMPermission(false),
+        .setName(t("strings:commands.eval.command.name"))
+        .setDescription(t("strings:commands.eval.command.description"))
+        .setNameLocalizations(generateLocalized("strings:commands.eval.command.name"))
+        .addStringOption(o => o.setName(t("strings:commands.eval.command.options.code.name"))
+            .setDescription(t("strings:commands.eval.command.options.code.description"))
+            .setNameLocalizations(generateLocalized("strings:commands.eval.command.options.code.name"))
+            .setDescriptionLocalizations(generateLocalized("strings:commands.eval.command.options.code.description"))
+            .setRequired(true))
+        .addBooleanOption(o => o.setName(t("strings:commands.eval.command.options.public.name"))
+            .setDescription(t("strings:commands.eval.command.options.public.description"))
+            .setNameLocalizations(generateLocalized("strings:commands.eval.command.options.public.name"))
+            .setDescriptionLocalizations(generateLocalized("strings:commands.eval.command.public.description"))
+            .setRequired(false))
+        .setContexts([InteractionContextType.Guild])
+        .setIntegrationTypes([ApplicationIntegrationType.GuildInstall]),
     execute: async (client, interaction) => {
         if (!config.developerIds.includes(interaction.user.id)) return interaction.reply("nuh uh ☝️");
         const showPublic = interaction.options.getBoolean("public", false) || false;
@@ -35,9 +47,12 @@ export const c: command = {
         Buno;
         await interaction.deferReply({ ephemeral: !showPublic });
         const reportError = async (e: Error): Promise<void> => {
-            const evalPos = e.stack.split("\n").findIndex(l => l.includes("at eval"));
-            const stack = e.stack.split("\n").splice(0, evalPos).join("\n");
-
+            let stack: string;
+            if (e.stack) {
+                const evalPos = e.stack.split("\n").findIndex(l => l.includes("at eval"));
+                stack = e.stack.split("\n").splice(0, evalPos).join("\n");
+            }
+            else stack = "No data outputted";
             await interaction.editReply(`Error\n\`\`\`ts\n${stack}\`\`\``);
         };
         try {
@@ -59,7 +74,10 @@ export const c: command = {
                 if (result && typeof result !== "undefined") interaction.editReply("```ts\n" + result + "```");
             }
             else if (!interaction.replied) interaction.editReply("No data was returned.");
-        } catch (e) { reportError(e); }
+        } catch (e) {
+            const error = e as Error;
+            reportError(error);
+        }
         return;
     }
 };

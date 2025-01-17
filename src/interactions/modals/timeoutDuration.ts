@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 import editSettings from "../../components/editSettings.js";
 import { Buno } from "../../database/models/buno.js";
 import { modal } from "../../typings/modal.js";
@@ -7,13 +9,24 @@ import { defaultSettings, SettingsIDs } from "../../utils/constants.js";
 export const m: modal = {
     name: SettingsIDs.TIMEOUT_DURATION_MODAL,
     execute: async (client, interaction) => {
+        if (!interaction.inGuild()) return;
         const game = client.games.find(g => g.channelId === interaction.channelId && g.guildId === interaction.guildId);
+        let lng = interaction.locale.split("-")[0];
+        if (game) lng = game.locale;
         if (!game) return interaction.reply({
-            content: "No game is currently running.",
-            ephemeral: true,
+            content: t("strings:errors.gameNotFound", { lng }),
+            ephemeral: true
+        });
+        if (game.state === "waiting") return interaction.reply({
+            content: t("strings:errors.waiting", { lng }),
+            ephemeral: true
+        });
+        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+            content: t("strings:game.notYourTurn", { lng }),
+            ephemeral: true
         });
         if (game.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
-            content: "Only the host can change settings.",
+            content: t("strings:errors.notTheHost", { lng }),
             ephemeral: true
         });
         const req = await Buno.findOne({
@@ -35,7 +48,7 @@ export const m: modal = {
         const int = intOrNaN(option);
         if (!int) {
             await interaction.deferUpdate();
-            await interaction.editReply({ content: "The value must be a valid integer" });
+            await interaction.editReply({ content: t("strings:errors.notAnInteger", { lng }) });
         }
         else {
             await interaction.deferUpdate();

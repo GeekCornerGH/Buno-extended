@@ -1,39 +1,45 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder, version as djsVersion } from "discord.js";
+import { ActionRowBuilder, ApplicationIntegrationType, ButtonBuilder, ButtonStyle, EmbedBuilder, InteractionContextType, SlashCommandBuilder, version as djsVersion } from "discord.js";
+import i18next, { t } from "i18next";
 
 import { command } from "../typings/command.js";
+import generateLocalized from "../utils/i18n/generateLocalized.js";
 import toHumanReadableTime from "../utils/toHumanReadableTime.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName("about")
-        .setDescription("About me")
-        .setDMPermission(false),
+        .setName(t("strings:commands.about.command.name", { lng: "en" }))
+        .setDescription(t("strings:commands.about.command.description"))
+        .setNameLocalizations(generateLocalized("strings:commands.about.command.name"))
+        .setDescriptionLocalizations(generateLocalized("strings:commands.about.command.description"))
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes([ApplicationIntegrationType.GuildInstall]),
     execute: (client, interaction) => {
+        const lng = interaction.locale.split("-")[0];
         return interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle("Hi, I'm Buno")
-                    .setDescription("I'm a bot attempting to recreate Uno:tm:, the well known card game from Mattel, Inc. All assets are owned by this company.")
+                    .setTitle(t("strings:commands.about.message.title", { lng }))
+                    .setDescription(t("strings:commands.about.message.description", { lng }))
                     .setFields([
                         {
-                            name: "I'm currently running on",
+                            name: t("strings:commands.about.message.node", { lng }),
                             value: `Node.JS v${process.versions.node}`
                         },
                         {
-                            name: "I'm powered by",
+                            name: t("strings:commands.about.message.discordjs", { lng }),
                             value: `Discord.JS v${djsVersion}`
                         },
                         {
-                            name: "I've been running for",
-                            value: `${toHumanReadableTime(Math.round(process.uptime()))} (since <t:${Math.round((Date.now() / 1000) - process.uptime())}:D> <t:${Math.round((Date.now() / 1000) - process.uptime())}:T>)`
+                            name: t("strings:commands.about.message.uptime-title", { lng }),
+                            value: t("strings:commands.about.message.uptime-desc", { lng, duration: toHumanReadableTime(Math.round(process.uptime()), lng), date: `<t:${Math.round((Date.now() / 1000) - process.uptime())}:D>`, time: `<t:${Math.round((Date.now() / 1000) - process.uptime())}:T>` })
                         },
                         {
-                            name: "I'm watching",
-                            value: `** ${client.guilds.cache.size} ** servers, ** ${client.channels.cache.size} ** channels, and ** ${client.users.cache.size} ** users.`
+                            name: t("strings:commands.about.message.stats-title", { lng }),
+                            value: `${t("strings:words.servers", { lng, count: client.guilds.cache.size })}, ${i18next.t("strings:words.channels", { lng, count: client.channels.cache.size })}, ${i18next.t("strings:words.and", { lng })} ${i18next.t("strings:words.users", { lng, count: client.users.cache.size })}.`
                         },
                         {
-                            name: "Want to invite me?",
-                            value: "Sorry, you probably can't. This bot is private, and is not hosted on a powerful server. It would get rate-limited quite quickly too.\nThe only way to get it on your server is to be friend with either the guy who's hosting the bot (add him, his username is ||REDACTED||. Or be friend with the current developer.\n Oh wait nvm, maybe click the invite button below?"
+                            name: t("strings:commands.about.message.invite-title", { lng }),
+                            value: t("strings:commands.about.message.invite-desc", { lng })
                         }
                     ])
                     .setTimestamp()
@@ -43,12 +49,12 @@ export const c: command = {
                 new ActionRowBuilder<ButtonBuilder>()
                     .setComponents([
                         new ButtonBuilder()
-                            .setLabel("Source code")
+                            .setLabel(t("strings:commands.about.message.sourcecode", { lng }))
                             .setEmoji("📂")
                             .setStyle(ButtonStyle.Link)
-                            .setURL("https://github.com/GeekCornerGH/buno-extended"),
+                            .setURL("https://github.com/GeekCornerGH/Huno-Extended"),
                         new ButtonBuilder()
-                            .setLabel("Invite the bot")
+                            .setLabel(t("strings:commands.about.message.invitebot", { lng }))
                             .setEmoji("🔗")
                             .setStyle(ButtonStyle.Link)
                             .setURL("https://link.geekcorner.eu.org/invite-buno")

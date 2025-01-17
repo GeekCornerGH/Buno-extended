@@ -1,30 +1,56 @@
-import { SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType, SlashCommandBuilder } from "discord.js";
+import { t } from "i18next";
 
 import { Blacklisted } from "../database/models/blacklisted.js";
 import { command } from "../typings/command.js";
 import { config } from "../utils/config.js";
+import generateLocalized from "../utils/i18n/generateLocalized.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName("blacklist")
-        .setDescription("Manages blacklist")
-        .setDMPermission(false)
-        .addSubcommand(c =>
-            c.setName("add").setDescription("Add someone to the blacklist")
-                .addUserOption(o => o.setName("target").setDescription("User to blacklist").setRequired(true))
-                .addStringOption(o => o.setName("reason").setDescription("Reason for blacklisting").setMaxLength(1000).setMinLength(5).setRequired(true)
-                )
+        .setName(t("strings:commands.blacklist.command.name"))
+        .setDescription(t("strings:commands.blacklist.command.description"))
+        .setNameLocalizations(generateLocalized("strings:commands.blacklist.command.name"))
+        .setDescriptionLocalizations(generateLocalized("strings:commands.blacklist.command.description"))
+        .addSubcommand(c => c
+            .setName(t("strings:commands.blacklist.command.subcommands.add.name"))
+            .setDescription(t("strings:commands.blacklist.command.subcommands.add.description"))
+            .addUserOption(o => o
+                .setName(t("strings:commands.blacklist.command.subcommands.add.options.target.name"))
+                .setNameLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.add.options.target.name"))
+                .setDescription(t("strings:commands.blacklist.command.subcommands.add.options.target.description"))
+                .setDescriptionLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.add.options.target.description"))
+                .setRequired(true))
+            .addStringOption(o => o
+                .setName(t("strings:commands.blacklist.command.subcommands.add.options.reason.name"))
+                .setNameLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.add.options.reason.name"))
+                .setDescription(t("strings:commands.blacklist.command.subcommands.add.options.reason.description"))
+                .setDescriptionLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.add.options.reason.description"))
+                .setMaxLength(1000)
+                .setRequired(true)
+            )
         )
-        .addSubcommand(c =>
-            c.setName("remove").setDescription("Remove someone from the blacklist")
-                .addUserOption(o => o.setName("target").setDescription("User to unblacklist").setRequired(true))),
+        .addSubcommand(c => c
+            .setName(t("strings:commands.blacklist.command.subcommands.remove.name"))
+            .setDescription(t("strings:commands.blacklist.command.subcommands.remove.description"))
+            .setNameLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.remove.name"))
+            .setDescriptionLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.remove.description"))
+            .addUserOption(o => o
+                .setName(t("strings:commands.blacklist.command.subcommands.remove.options.target.name"))
+                .setNameLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.remove.options.target.name"))
+                .setDescription(t("strings:commands.blacklist.command.subcommands.remove.options.target.description"))
+                .setDescriptionLocalizations(generateLocalized("strings:commands.blacklist.command.subcommands.remove.options.target.description"))
+                .setRequired(true)))
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
     execute: async (client, interaction) => {
+        const lng = interaction.locale.split("-")[0];
         if (!config.developerIds.includes(interaction.user.id)) return interaction.reply({
             content: "nuh uh ☝️",
             ephemeral: true
         });
         const target = interaction.options.getUser("target", true);
-        const reason = interaction.options.getString("reason", false);
+        const reason = interaction.options.getString("reason", true);
         switch (interaction.options.getSubcommand()) {
             case "add":
                 if (await Blacklisted.findOne({
@@ -32,7 +58,7 @@ export const c: command = {
                         userId: target.id
                     }
                 })) return interaction.reply({
-                    content: "This user is already blacklisted",
+                    content: t("strings:commands.blacklist.message.already-blacklisted", { lng }),
                     ephemeral: true
                 });
                 await Blacklisted.create({
@@ -40,7 +66,7 @@ export const c: command = {
                     reason: reason
                 });
                 interaction.reply({
-                    content: `${target.toString()} has been blacklisted for the reason:\n${reason}`,
+                    content: t("strings:commands.blacklist.message.success", { lng, target: target.toString(), reason }),
                     allowedMentions: { parse: [] }
 
                 });
@@ -51,7 +77,7 @@ export const c: command = {
                         userId: target.id
                     }
                 })) return interaction.reply({
-                    content: "This user is not blacklisted",
+                    content: t("strings:commands.blacklist.message.not-blacklisted", { lng }),
                     ephemeral: true
                 });
                 await Blacklisted.destroy({
@@ -60,7 +86,7 @@ export const c: command = {
                     }
                 });
                 interaction.reply({
-                    content: `${target.toString()} has been unblacklisted`,
+                    content: t("strings:commands.blacklist.message.success-unbl", { lng, target: target.toString() }),
                     allowedMentions: { parse: [] }
                 });
                 break;
