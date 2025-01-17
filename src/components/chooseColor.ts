@@ -2,7 +2,6 @@ import { ActionRowBuilder, InteractionReplyOptions, InteractionUpdateOptions, St
 import { t } from "i18next";
 
 import { colorEmotes, colors, SelectIDs, uniqueVariants } from "../utils/constants.js";
-import toTitleCase from "../utils/game/toTitleCase.js";
 
 export default (cardType: typeof uniqueVariants[number], lng: string): InteractionReplyOptions | InteractionUpdateOptions => {
     return {
@@ -17,7 +16,7 @@ export default (cardType: typeof uniqueVariants[number], lng: string): Interacti
                     .setOptions([
                         ...Object.values(colors).map(c => {
                             return {
-                                label: toTitleCase(c, lng),
+                                label: t(`strings:colors.${c}` as any, { lng }),
                                 value: `${c}-${cardType}`,
                                 emoji: colorEmotes[c]
                             };

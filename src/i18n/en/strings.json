@@ -409,7 +409,9 @@
         "9": "9",
         "+2": "+2",
         "reverse": "Reverse",
-        "block": "Block"
+        "block": "Block",
+        "wild": "Wild",
+        "+4": "+4"
     },
     "words": {
         "and": "and",
