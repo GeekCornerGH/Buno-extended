@@ -329,7 +329,7 @@
             "title": "Leaderboard for **{{guild}}**",
             "description": "Page {{currentPage}} of {{totalPages}}.{{userRank}}",
             "yourRank": "\nYour rank: {{rank}}",
-            "fieldName": "{{rank} - {{member}",
+            "fieldName": "{{rank}} - {{member}}",
             "fieldValues": {
                 "wins_zero": "{{count}} win",
                 "wins_one": "{{count}} win",
