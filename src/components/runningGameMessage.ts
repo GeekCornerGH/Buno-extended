@@ -7,6 +7,7 @@ import { ButtonIDs, cardEmojis, cardEmotes, coloredUniqueCards, colorEmotes, uni
 import canJoinMidGame from "../utils/game/canJoinMidGame.js";
 import generatePlayerList from "../utils/game/generatePlayerList.js";
 import toTitleCase from "../utils/game/toTitleCase.js";
+import { getUsername } from "../utils/getUsername.js";
 import toHumanReadableTime from "../utils/toHumanReadableTime.js";
 
 export default async (client: Client, game: runningUnoGame, guild: Guild): Promise<MessageCreateOptions> => {
@@ -18,7 +19,7 @@ export default async (client: Client, game: runningUnoGame, guild: Guild): Promi
         .setTitle("Da Buno!")
         .setColor("Random")
         .setThumbnail(`https://cdn.discordapp.com/emojis/${isUnique ? coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards].match(/<:\w+:(\d+)>/)![1] : cardEmojis[game.currentCard].match(/<:\w+:(\d+)>/)![1]}.png`)
-        .setDescription(`${t("strings:game.message.embed.currentPlayer", { lng })}\n${t("strings:game.message.embed.currentCard", { lng, currentCardEmote, currentCard: toTitleCase(game.currentCard, lng) })}\n${game.drawStack > 0 ? `${t("strings:game.message.embed.drawStack", { lng, stack: game.drawStack })}\n` : ""}${await generatePlayerList(client, game)} `)
+        .setDescription(`${t("strings:game.message.embed.currentPlayer", { lng, name: await getUsername(client, game.guildId, game.currentPlayer) })}\n${t("strings:game.message.embed.currentCard", { lng, currentCardEmote, currentCard: toTitleCase(game.currentCard, lng) })}\n${game.drawStack > 0 ? `${t("strings:game.message.embed.drawStack", { lng, stack: game.drawStack })}\n` : ""}${await generatePlayerList(client, game)} `)
         .setFooter({ text: `${t("strings:game.message.embed.footer.timeout", { lng, timeout: toHumanReadableTime(game.settings.timeoutDuration, lng) })}${game._modified ? ` - ${t("strings:game.lobby.modified", { lng })}.` : ""} \nAll visual assets are owned by Mattel, Inc, and this bot is not affiliated with any of the represented brands.` });
 
     const rows: Array<ActionRowBuilder<ButtonBuilder>> = [new ActionRowBuilder<ButtonBuilder>().setComponents([
