@@ -57,8 +57,8 @@ export const c: command = {
         } as unoGame;
         client.games.push(game);
         const message = await interaction.channel?.send(await lobbyGameMessage(client, game as waitingUnoGame, interaction.guild as Guild) as MessageCreateOptions);
-        interaction.deferReply({ ephemeral: true });
-        interaction.deleteReply();
+        await interaction.deferReply({ ephemeral: true });
+        await interaction.deleteReply();
         game.messageId = message?.id as string;
 
         setTimeout(() => {
