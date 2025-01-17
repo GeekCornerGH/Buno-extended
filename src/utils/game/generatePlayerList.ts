@@ -17,7 +17,7 @@ export default async function generatePlayerList(client: Client, game: unoGame):
         if (game.state === "inProgress") string += t("strings:game.message.embed.playerList", {
             count: game.cards[e].length,
             cards: ` - ${game.cards[e].length.toString().padStart(Math.max(...Object.values(game.cards).map(v => v.length.toString().length)), "")}`,
-            name: username?.padEnd(Math.max(...Object.values(usernames).map(el => el.length)), ""),
+            name: username?.padEnd(Math.max(...Object.values(usernames).map(el => el.length)), " "),
             plus: game.currentPlayer === e ? "+ " : "  ",
             lng: game.locale
         });
