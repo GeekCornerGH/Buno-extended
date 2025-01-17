@@ -295,7 +295,7 @@
             "text": "Vous devez répondre ou tirer {stack}} cartes."
         },
         "joined": "**{{name}}** a rejoint le jeu.",
-        "left": "`**{{name}}** a quitté le jeu.`",
+        "left": "**{{name}}** a quitté le jeu.",
         "lobby": {
             "body": "Le jeu démarre automatiquement {{timer}}\nL'hôte actuel du jeu: {{host}}\n{{playerList}}",
             "modified": "Ce jeu ne sera pas pris en compte dans le lederboard."

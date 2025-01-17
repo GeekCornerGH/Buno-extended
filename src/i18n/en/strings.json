@@ -295,7 +295,7 @@
             "text": "You have to respond, or draw {{stack}} cards."
         },
         "joined": "**{{name}}** has joined the game.",
-        "left": "`**{{name}}** has left the game.`",
+        "left": "**{{name}}** has left the game.",
         "lobby": {
             "body": "Game will start automatically {{timer}}\nCurrent game host: {{host}}\n{{playerList}}",
             "modified": "This game won't count towards the game leaderboard"

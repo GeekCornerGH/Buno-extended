@@ -42,9 +42,8 @@ export default async (client: Client, interaction: ButtonInteraction | StringSel
         endTurn(client, game, interaction, player, "misc", t("strings:game.tooManyCards", { lng, name: await getUsername(client, game.guildId, player) }), false);
         if (game.players.length === 1) {
             endGame(game, client, "notEnoughPeople", game.players[0]);
-            return {};
         }
-        else return {};
+        return {};
     }
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents([new StringSelectMenuBuilder()
         .setCustomId(SelectIDs.CHOOSE_CARD)
