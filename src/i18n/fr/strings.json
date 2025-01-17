@@ -1,0 +1,423 @@
+{
+    "aprilFools": "Joyeux poisson d'avril !",
+    "colors": {
+        "blue": "Bleu",
+        "green": "Vert",
+        "red": "Rouge",
+        "yellow": "Jaune"
+    },
+    "commands": {
+        "about": {
+            "command": {
+                "name": "about",
+                "description": "A propos"
+            },
+            "message": {
+                "title": "Salut, je suis Buno !",
+                "description": "Je suis un bot qui tente de recréer le Uno :tm:, le célèbre jeu de cartes de Mattel, Inc. Tous les actifs sont la propriété de cette société, et ce bot n'est EN AUCUN CAS officiel.",
+                "node": "Je suis actuellement allumé",
+                "discordjs": "Je suis fais par",
+                "uptime-title": "Je suis allumé depuis",
+                "uptime-desc": "{duration} (Depuis {date} {time})",
+                "stats-title": "Je regarde",
+                "invite-title": "Vous voulez m'inviter ?",
+                "invite-desc": "Désolé, vous ne pouvez probablement pas. Ce bot est privé et n'est pas hébergé sur un serveur puissant.\nLe seul moyen de m'avoir sur votre serveur est d'être ami avec le développeur actuel.\n Oh, attendez, n'oubliez pas que vous pouvez cliquer sur le bouton d'invitation ci-dessous.",
+                "sourcecode": "Code source",
+                "invitebot": "Inviter le bot"
+            }
+        },
+        "blacklist": {
+            "command": {
+                "name": "liste-noire",
+                "description": "Gestion de la liste noire",
+                "subcommands": {
+                    "add": {
+                        "name": "ajouter",
+                        "description": "Ajouter un utilisateur à la liste noire",
+                        "options": {
+                            "target": {
+                                "name": "cible",
+                                "description": "L'utilisateur à ajouter à la liste noire"
+                            },
+                            "reason": {
+                                "name": "raison",
+                                "description": "Raison de l'ajout à la liste noire"
+                            }
+                        }
+                    },
+                    "remove": {
+                        "name": "retirer",
+                        "description": "Retirer un utilisateur de la liste noire",
+                        "options": {
+                            "target": {
+                                "name": "cible",
+                                "description": "L'utilisateur à retirer de la liste noire"
+                            }
+                        }
+                    }
+                }
+            },
+            "message": {
+                "already-blacklisted": "Cet utilisateur est déjà dans la liste noire",
+                "not-blacklisted": "Cet utilisateur n'est pas dans la liste noire",
+                "success": "{target} a été mis sur la liste noire pour la raison:\n{reason}",
+                "success-unbl": "{target} a été mis sur la liste noire"
+            }
+        },
+        "eval": {
+            "command": {
+                "name": "eval",
+                "description": "Évaluer un code",
+                "options": {
+                    "code": {
+                        "name": "code",
+                        "description": "Code à exécuter"
+                    },
+                    "public": {
+                        "name": "public",
+                        "description": "Afficher ou non la sortie de l'évaluation"
+                    }
+                }
+            }
+        },
+        "leaderboard": {
+            "command": {
+                "name": "leaderboard",
+                "description": "Afficher les meilleurs joueurs"
+            },
+            "message": {
+                "no-data": "Personne n'a joué à Buno sur ce serveur ! Lancez </{name}:{id}> pour lancer une nouvelle partie."
+            }
+        },
+        "ping": {
+            "command": {
+                "name": "ping",
+                "description": "Pong !"
+            },
+            "message": {
+                "pre-pong": "🏓 Pong !",
+                "pong": "🏓 Pong !\nLatence de l'API: {WSPingEmote} {WSPing}ms\nLatence du bot: {pingEmote} {ping}ms"
+            }
+        },
+        "stop": {
+            "command": {
+                "name": "stop",
+                "description": "Arrêter le jeu"
+            }
+        },
+        "uno": {
+            "command": {
+                "name": "uno",
+                "description": "Démarrer une partie Buno"
+            }
+        }
+    },
+    "errors": {
+        "alone": "Vous ne pouvez pas commencer une partie seul",
+        "blacklisted": "Vous êtes sur la liste noire pour la raison:\n{reason}",
+        "cantContestYourOwn": "Vous ne pouvez pas contester votre propre +4",
+        "execution": "Une erreur est survenue dans l'exécution de la commande.",
+        "forbidden": "Vous n'avez pas le droit d'arrêter le jeu.",
+        "gameInChannel": "Un jeu existe déjà sur ce salon :point_right: {url}",
+        "gameJustStarted": "Le jeu vient de commencer, vous ne pouvez pas faire ça maintenant.",
+        "gameNotFound": "Je n'ai malheureusement pas trouvé le jeu dont vous parlez..",
+        "inProgress": "Le jeu est en cours",
+        "interactionError": "Une erreur est survenue dans l'exécution de l'interaction.",
+        "interactionNotHandled": "Cette interaction n'a pas de gestionnaire. Il convient d'y remédier.",
+        "inTheGame": "Vous êtes déjà dans le jeu !",
+        "noActions": "Le menu Actions n'est pas utilisé dans ce jeu.",
+        "noDrawStack": "Donc... vous voulez tirer des cartes alors qu'il n'y a pas de cartes à tirer ? Intéressant...",
+        "notAnInteger": "La valeur doit être un nombre entier valide",
+        "notContestingHost": "Sérieusement ? Essayez-vous de contester quelqu'un qui n'est pas l'hôte ?",
+        "notInGame": "Vous ne faites pas partie du jeu.",
+        "notRunning": "Le jeu n'a pas encore commencé.",
+        "notRunningWrongButton": "Vous ne pouvez pas quitter la partie en appuyant sur ce bouton.",
+        "notTheHost": "Seulement l'hôte peut faire ça.",
+        "paginationForbidden": "Vous n'êtes pas autorisé à contrôler cette pagination.",
+        "paginationTooOld": "La pagination est trop vieille.",
+        "playerLeft": "Vous ne pouvez pas rejoindre un jeu que vous avez quitté.",
+        "tooManyInGame": "Le jeu a atteint sa capacité maximale de joueurs ({count} joueurs)",
+        "unusable": "Vous ne pouvez pas utiliser ce bouton pour le moment.",
+        "waiting": "Le jeu n'est pas encore lancé."
+    },
+    "game": {
+        "aa": {
+            "components": {
+                "back": "Retour à la page d'accueil du panel des abus"
+            },
+            "edit": {
+                "embed": {
+                    "title": "Modifier la carte d'un joueur",
+                    "description": "Vous ne pouvez pas:\n- retirer les cartes pour avoir moins de 3"
+                },
+                "modal": {
+                    "label": "Cartes",
+                    "title": "Modifier les cartes de {name}"
+                }
+            },
+            "menu": {
+                "actions": {
+                    "edit": {
+                        "name": "Modifier les cartes",
+                        "value": "Modifier les cartes de quelqu'un d'autre"
+                    },
+                    "swap": {
+                        "name": "Échanger des cartes",
+                        "value": "Échange de cartes entre 2 joueurs"
+                    },
+                    "view": {
+                        "name": "Voir les cartes",
+                        "value": "Voir les cartes d'un autre joueur"
+                    }
+                },
+                "embed": {
+                    "title": "Panel d'abus",
+                    "description": "Sélectionnez l'action que vous souhaitez effectuer."
+                }
+            },
+            "messages": {
+                "contestAndFailed": "**{name}** a contesté l'abus de **{host}** et a échoué. Ils ont tiré **{count}** cartes.",
+                "contestAndKicked": "**{name}** a contesté l'abus de **{host}** et a gagné. **{host}** a été éjecté du jeu."
+            },
+            "swap": {
+                "from": {
+                    "select": "Sélectionnez le joueur cible avec lequel vous souhaitez échanger des cartes."
+                },
+                "text": "Choisissez le joueur dont vous voulez échanger les cartes."
+            },
+            "view": {
+                "title": "Voir les cartes"
+            }
+        },
+        "actions": {
+            "menu": {
+                "title": "Menu d'action",
+                "description": "Vous avez besoin d'autre chose que de voir ou de jouer aux cartes ? Vous êtes au bon endroit.\nVoici les options que vous pouvez utiliser :",
+                "options": {
+                    "aa": {
+                        "name": "⚠️ - Ouvrir le panel d'abus",
+                        "value": "Utilisez-le lorsque vous êtes l'hôte et que vous souhaitez administrer les abus."
+                    },
+                    "challenge": {
+                        "name": "🃏 - Défier le joueur précédent qui n'a pas crié \"Buno out!\"",
+                        "value": "Utilisez-le lorsque le joueur précédent a oublié de crier. \"Buno out\""
+                    },
+                    "contestAa": {
+                        "name": "🔨 - Contester l'abus",
+                        "value": "Utilisez-le chaque fois que vous pensez que l'administrateur de l'hôte a commis un abus.."
+                    },
+                    "contestDraw": {
+                        "name": "❗ - Concours du tirage forcé +4",
+                        "value": "Utilisez-le lorsque vous pensez que le joueur précédent pourrait jouer autre chose que +4."
+                    },
+                    "yell": {
+                        "name": "📣 - Crier \"Buno out!\"",
+                        "value": "Utilisez-le juste avant de jouer votre avant-dernière carte."
+                    }
+                }
+            }
+        },
+        "afk": {
+            "kicked": "**{name}** était inactif et a été exclu.",
+            "skipped": "**{name}** était inactif et a été ignoré."
+        },
+        "buno": {
+            "contest": {
+                "alreadyYelled": "**{name}** a déjà crié \"Buno out!\"",
+                "drew": "**{name}** a souligné que **{drawer}** a oublié de crier \"Buno out!\"\n**{drawer}** a tiré des cartes.",
+                "tooManyCards": "**{name} a trop de cartes pour pouvoir crier \"Buno out!\""
+            },
+            "yell": {
+                "already": "Vous avez déjà crié \"Buno Out!\".",
+                "message": "**{name}** crie\n# {yell}!",
+                "notEnough": "Vous ne pouvez que crier \"Buno out!\" Quand vous avez 2 cartes."
+            }
+        },
+        "cancelled": "Le jeu a été annulé par **{name}**",
+        "card": {
+            "avoidDraw": "**{name}** a essayé d'éviter de tirer des cartes :clown:",
+            "allSwapped": "Toutes les cartes des joueurs ont été échangées !",
+            "reversed": "L'ordre des joueurs a été inversé.",
+            "seven": "Vous avez joué une carte 7 et vous devez maintenant choisir un joueur avec qui échanger vos cartes.",
+            "skippedPlayer": "**{name}** ha été ignoré.",
+            "swapped": "**{from}** a échangé des cartes avec **{to}**",
+            "unknown": "**{name}** a essayé de jouer une carte inexistante :clown:",
+            "unknownColor": "**{name}** a essayé de choisir une couleur qui n'existe pas :clown:"
+        },
+        "color": {
+            "pick": "Choisissez une couleur ici !",
+            "switched": "La couleur est passée à **{color}**",
+            "text": "Veuillez sélectionner une couleur"
+        },
+        "draw": {
+            "drew": "**{name}** da tiré une carte.",
+            "drewAndSkipped": "**{name}** a tiré **{stack}** cartes et a été ignoré.",
+            "ephemeral": "Vous avez tiré: {card}",
+            "sab": "**{name}** a été supprimé pour avoir tenté de saboter le jeu",
+            "select": {
+                "draw": "Tirer une carte",
+                "skip": "Passez votre tour"
+            },
+            "skip": "**{name}** ont passé leur tour."
+        },
+        "end": {
+            "default": "**{name}** a gagné le match {default}.",
+            "embed": {
+                "stats": {
+                    "duration": "⏱️ Le jeu a duré",
+                    "mostActivePlayer": "👤  Joueur le plus actif",
+                    "mostPlayedCard": "🃏 Carte la plus jouée",
+                    "players": "👥 Joueurs ayant participé au jeu",
+                    "playersDesc": "{players} (**{amount}** joueurs)",
+                    "winner": "🏆 Gagnant"
+                }
+            },
+            "noOne": "Personne n'était disponible pour terminer le jeu.",
+            "noWinner": "Aucun gagnant"
+        },
+        "forceDraw": {
+            "contestPlus4": "**{name}** a contesté la carte +4 de  **{cardPlayer}** et a gagné.\n**{cardPlayer}** a tiré **{stack}** cartes",
+            "contestPlus4AndFail": "**{name}** a contesté la carte +4 de **{cardPlayer}** et a échoué.\n**{name}** a tiré {stack} cartes",
+            "draw": "**{name}** a tiré **{stack}** cartes et a été ignoré.",
+            "noCard": "You don't have any card to play",
+            "noStacking": "La règle Allow Stacking est désactivée",
+            "noReverse": "La règle de la carte inversée est désactivée",
+            "playACard": "v",
+            "reverse": {
+                "reverseMessage": "**{name}** a tiré **{stack}** cartes et a été ignoré, grâce au pouvoir d'inversion des cartes. L'ordre des joueurs a été inversé."
+            },
+            "select": {
+                "title": "Tirer {stack} cartes",
+                "description": "..et prendre le L.",
+                "placeholder": "Choisir une carte"
+            },
+            "text": "Vous devez répondre ou tirer {stack} cartes."
+        },
+        "joined": "**{name}** a rejoint le jeu.",
+        "left": "`**{name}** a quitté le jeu.`",
+        "lobby": {
+            "body": "Le jeu démarre automatiquement {timer}\nL'hôte actuel du jeu: {host}\n{playerList}",
+            "modified": "Ce jeu ne sera pas pris en compte dans le classement des jeux."
+        },
+        "message": {
+            "embed": {
+                "cards": "carte",
+                "cards_plural": "cartes",
+                "currentCard": "Carte actuelle: {currentCardEmote} **{currentCard}**",
+                "currentPlayer": "Actuellement en cours: **{name}**",
+                "drawStack": "**{stack}** cartes à tirer",
+                "footer": {
+                    "timeout": "Le délai actuel est de {timeout}."
+                },
+                "playerList": "{plus} {name}{cards} $t(cartes, {\"count\":{{count}})\n"
+            }
+        },
+        "notPlayable": "Vous ne pouvez pas jouer cette carte.",
+        "notYourTurn": "Ce n'est pas votre tour.",
+        "played": "**{name}** a joué {currentCardEmote} {card}",
+        "playerPicker": "Choisissez un joueur",
+        "started": "**Le jeu est lancé !**",
+        "startedAA": "\nLe mode de jeu « abus de l'administrateur » est activé pour ce jeu. Vous pouvez éjecter l'hôte si vous pensez qu'il abuse en ouvrant le menu Actions.",
+        "states": {
+            "stopped": "{user} a arrêté le jeu"
+        },
+        "tooManyCards": "Retrait de **{name}** pour abus de jeu."
+    },
+    "leaderboard": {
+        "embed": {
+            "title": "Classement de **{guild}**",
+            "description": "Page {currentPage} sur {totalPages}.{userRank}",
+            "yourRank": "\nVotre rang: {rank}",
+            "fieldName": "{rank} - {member}",
+            "fieldValues": {
+                "wins_zero": "{count} victoire",
+                "wins_one": "{count} victoire",
+                "wins_other": "{count} victoires",
+                "losses_zero": "{count} perte",
+                "losses_one": "{count} perte",
+                "losses_other": "{count} pertes",
+                "noLoss": "Aucune perte",
+                "wlr": "{winLossRatio} W/L Ratio"
+            },
+            "noLosses": "Aucune perte"
+        }
+    },
+    "leave": {
+        "leaveAsHost": "Vous ne pouvez pas quitter le jeu en tant qu'hôte.",
+        "prompt": "Êtes-vous sûr de vouloir quitter le jeu ? Vous ne pourrez pas revenir dans le jeu."
+    },
+    "settings": {
+        "currentValue": "Valeur actuelle: {value}",
+        "embed": {
+            "title": "Paramètres du jeu",
+            "footer": "Les paramètres sont automatiquement sauvegardés par serveur et par membre."
+        },
+        "options": {
+            "timeoutDuration": "Durée du délai d'attente",
+            "kickOnTimeout": "expulser en cas de délai d'attente",
+            "allowSkipping": "Autoriser à passer",
+            "antiSabotage": "Anti sabotage",
+            "allowStacking": "Autoriser l'empilement des +4 et +2",
+            "randomizePlayerList": "Randomisation de la liste des joueurs",
+            "resendGameMessage": "Renvoyer le message de jeu tous les quelques messages",
+            "canJoinMidgame": "Autoriser les joueurs à rejoindre en cours de partie",
+            "sevenAndZero": "Échanger les cartes sur 7 et 0",
+            "shouldYellBUNO": "Les utilisateurs doivent crier « Buno Out ! » pour gagner.",
+            "reverseAnything": "La carte inversée peut inverser les tirages de force",
+            "allowContest": "Permettre un défi de +4",
+            "adminabusemode": "Mode abus de l'administrateur"
+        },
+        "timeoutDuration": {
+            "modal": {
+                "fieldLabel": "Durée du délai d'attente en secondes",
+                "title": "Définir la durée du jeu"
+            }
+        },
+        "placeholder": "Modifier les paramètres et les règles du jeu ici",
+        "value": {
+            "always": "Toujours",
+            "no": "Oui",
+            "temporarily": "Temporairement"
+        }
+    },
+    "time": {
+        "disabled": "Désactivé",
+        "dhms": "$t(jours, {\"count\":{{days}}), $t(heures, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(secondes, {\"count\":{{seconds}})",
+        "hms": "$t(heures, {\"count\":{{hours}}), $t(minutes, {\"count\":{{minutes}}) and $t(secondes, {\"count\":{{seconds}})",
+        "ms": "$t(minutes, {\"count\":{{minutes}}) and $t(secondes, {\"count\":{{seconds}})",
+        "s": "$t(secondes, {\"count\":{{seconds}})",
+        "days": "jour",
+        "days_plural": "jours",
+        "hours": "heure",
+        "hours_plural": "heures",
+        "minutes": "minute",
+        "minutes_plural": "minutes",
+        "seconds": "**{{count}}** seconde",
+        "seconds_plural": "**{{count}}** secondes"
+    },
+    "variants": {
+        "0": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+        "6": "6",
+        "7": "7",
+        "8": "8",
+        "9": "9",
+        "+2": "+2",
+        "reverse": "Inverser",
+        "block": "Bloquer"
+    },
+    "words": {
+        "and": "et",
+        "channels_zero": "**{count}** salon",
+        "channels_one": "**{count}** salons",
+        "channels_other": "**{count}** salons",
+        "servers": "**{count}** serveur",
+        "servers_plural": "**{count}** serveurs",
+        "users": "**{count}** utilisateur",
+        "users_plural": "**{count}** utilisateurs"
+    }
+}
