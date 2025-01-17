@@ -8,7 +8,7 @@ import toHumanReadableTime from "../utils/toHumanReadableTime.js";
 export const c: command = {
     data: new SlashCommandBuilder()
         .setName(t("strings:commands.about.command.name", { lng: "en" }))
-        .setDescription(t("strings:commands.about.command.description"))
+        .setDescription(t("strings:commands.about.command.description", { lng: "en" }))
         .setNameLocalizations(generateLocalized("strings:commands.about.command.name"))
         .setDescriptionLocalizations(generateLocalized("strings:commands.about.command.description"))
         .setContexts(InteractionContextType.Guild)

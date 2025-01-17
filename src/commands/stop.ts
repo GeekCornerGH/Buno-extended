@@ -7,8 +7,8 @@ import generateLocalized from "../utils/i18n/generateLocalized.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName(t("strings:commands.stop.command.name"))
-        .setDescription(t("strings:commands.stop.command.description"))
+        .setName(t("strings:commands.stop.command.name", { lng: "en" }))
+        .setDescription(t("strings:commands.stop.command.description", { lng: "en" }))
         .setNameLocalizations(generateLocalized("strings:commands.stop.command.name"))
         .setDescriptionLocalizations(generateLocalized("strings:commands.stop.command.description"))
         .setContexts(InteractionContextType.Guild)

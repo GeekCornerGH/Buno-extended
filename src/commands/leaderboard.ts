@@ -8,9 +8,9 @@ import generateLocalized from "../utils/i18n/generateLocalized.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName(t("strings:commands.leaderboard.command.name"))
+        .setName(t("strings:commands.leaderboard.command.name", { lng: "en" }))
         .setNameLocalizations(generateLocalized("strings:commands.leaderboard.command.name"))
-        .setDescription(t("strings:commands.leaderboard.command.description"))
+        .setDescription(t("strings:commands.leaderboard.command.description", { lng: "en" }))
         .setDescriptionLocalizations(generateLocalized("strings:commands.leaderboard.command.description"))
         .setContexts(InteractionContextType.Guild)
         .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),

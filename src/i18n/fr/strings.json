@@ -28,7 +28,7 @@
         },
         "blacklist": {
             "command": {
-                "name": "liste-noire",
+                "name": "blacklist",
                 "description": "Gestion de la liste noire",
                 "subcommands": {
                     "add": {
@@ -64,6 +64,7 @@
                 "success-unbl": "{target} a été mis sur la liste noire"
             }
         },
+        "blocklist": "blocklist",
         "eval": {
             "command": {
                 "name": "eval",

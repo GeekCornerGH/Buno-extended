@@ -64,6 +64,7 @@
                 "success-unbl": "{target} has been unblacklisted"
             }
         },
+        "blocklist": "blocklist",
         "eval": {
             "command": {
                 "name": "eval",

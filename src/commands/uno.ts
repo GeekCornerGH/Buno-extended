@@ -12,8 +12,8 @@ import generateLocalized from "../utils/i18n/generateLocalized.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
-        .setName(t("strings:commands.uno.command.name"))
-        .setDescription(t("strings:commands.uno.command.description"))
+        .setName(t("strings:commands.uno.command.name", { lng: "en" }))
+        .setDescription(t("strings:commands.uno.command.description", { lng: "en" }))
         .setNameLocalizations(generateLocalized("strings:commands.uno.command.name"))
         .setDescriptionLocalizations(generateLocalized("strings:commands.uno.command.description"))
         .setContexts(InteractionContextType.Guild)
