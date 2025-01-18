@@ -88,6 +88,7 @@ export const s: stringSelect = {
         }
         else if (card === "skip") {
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
+            game.canSkip = false;
             return endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.draw.skip", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }), false);
         }
         if (index < 0) {

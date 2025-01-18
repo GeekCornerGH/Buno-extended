@@ -37,6 +37,7 @@ export default async (client: Client, interaction: ButtonInteraction, game: runn
         delete game.cards[player];
         game.playersWhoLeft.push(player);
         endTurn(client, game, interaction, player, "misc", t("strings:game.tooManyCards", { lng, name: await getUsername(client, interaction.guildId, player) }), false);
+        game.canSkip = false;
         if (game.players.length === 1) {
             endGame(game, client, "notEnoughPeople", game.players[0]);
             return {};

@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import { button } from "../../typings/button.js";
@@ -5,7 +6,6 @@ import { ButtonIDs } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";
 import { getUsername } from "../../utils/getUsername.js";
-import { MessageFlags } from "discord.js";
 
 export const b: button = {
     name: ButtonIDs.CONTEST_PLUS4,

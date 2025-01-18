@@ -78,7 +78,6 @@ export const s: stringSelect = {
             toAppend += t("strings:game.forceDraw.draw", { name: await getUsername(client, game.guildId, game.currentPlayer), stack: game.drawStack, lng });
             game.drawStack = 0;
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
-            game.canSkip = true;
             endTurn(client, game, interaction, interaction.user.id, "misc", toAppend);
         } else if (card === "+4") {
             if (!game.settings.allowStacking) return interaction.editReply({ content: t("strings:game.forceDraw.noStacking", { lng }), embeds: [], components: [] });

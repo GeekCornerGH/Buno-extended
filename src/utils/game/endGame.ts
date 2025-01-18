@@ -132,7 +132,7 @@ function findMostProperty(objects: unoLog[], property: string): string {
     const mostCommon = Array.from(cardMap.entries()).reduce(
         (maxEntry, [card, count]) => (count > maxEntry[1] ? [card, count] : maxEntry),
         ["", 0]
-    )[0];
-
-    return mostCommon;
+    );
+    console.log(mostCommon);
+    return mostCommon[0];
 }
