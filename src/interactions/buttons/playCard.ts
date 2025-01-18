@@ -41,7 +41,7 @@ export const b: button = {
             });
         }
         else if ((game.settings.allowStacking || game.settings.reverseAnything) && game.drawStack > 0) {
-            const toSend = forceDraw(client, interaction, game, interaction.user.id);
+            const toSend = await forceDraw(client, interaction, game, interaction.user.id);
             if (Object.keys(toSend).length === 0) return;
             return interaction.editReply({
                 ...toSend,
