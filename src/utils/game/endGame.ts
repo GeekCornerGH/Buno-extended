@@ -72,12 +72,13 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
     const mostPlayedCard = `${cardEmotes[mostPlayedCardName as unoCard] as unknown} ${toTitleCase(mostPlayedCardName, lng)}`;
     const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log, "player"));
     const players = [...game.players, ...game.playersWhoLeft];
-    const playerNames: { [id: Snowflake]: string } = {};
-    (await Promise.all(players)).forEach(async (p: Snowflake) => {
+    const playerNames = await Promise.all(players.map(async (p: Snowflake) => {
         const name = await getUsername(client, game.guildId, p);
-        playerNames[p] = name;
-    });
-    const playerList = t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(p => playerNames[p]).join(", "), lng });
+        return [p, name];
+    }));
+
+    const playerNamesObj = Object.fromEntries(playerNames);
+    const playerList = t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(p => playerNamesObj[p]).join(", "), lng });
 
     (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send({
         content: game.players.length === 0 ? t("strings:game.end.noOne", { lng }) : t("strings:game.end.default", {
