@@ -54,7 +54,7 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     await message.delete();
     game.startingDate = new Date(Date.now());
     await (message.channel as GuildTextBasedChannel).send(`${t("strings:game.started", { lng })}${game.settings.adminabusemode === true ? t("strings:game.startedAA", { lng }) : ""}`);
-    const msg = await (message.channel as GuildTextBasedChannel).send(await runningGameMessage(client, game, message.guild));
+    const msg = await (message.channel as GuildTextBasedChannel).send(await runningGameMessage(client, game));
     game.messageId = msg.id;
     timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);
 };

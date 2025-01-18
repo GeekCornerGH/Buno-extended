@@ -1,5 +1,5 @@
 
-import { Guild, MessageFlags, TextChannel } from "discord.js";
+import { MessageFlags, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
@@ -40,7 +40,7 @@ export const b: button = {
         await interaction.channel?.messages.cache.get(game.messageId)?.delete();
         await (interaction.channel as TextChannel).send(t("strings:game.left", { name: await getUsername(client, game.guildId, interaction.user.id), lng }));
         if ((game._modified && game.players.length === 0) || (!game._modified && game.players.length === 1)) return endGame(game, interaction.client, "notEnoughPeople");
-        const msg = await (interaction.channel as TextChannel).send(await runningGameMessage(client, game, interaction.guild as Guild));
+        const msg = await (interaction.channel as TextChannel).send(await runningGameMessage(client, game));
         game.messageId = msg.id;
     }
 };

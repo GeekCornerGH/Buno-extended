@@ -62,7 +62,7 @@ export default async (client: Client, game: runningUnoGame, player: string) => {
         else if (game.players.length === 1) return endGame(game, client, "win", game.currentPlayer);
     }
     await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).messages.cache.get(game.messageId)?.delete();
-    const msg = await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(await runningGameMessage(client, game, client.guilds.cache.get(game.guildId)!));
+    const msg = await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(await runningGameMessage(client, game));
     game.messageId = msg.id;
     game.turnProgress = "chooseCard";
     game.log.push({ player: previousPlayer, card: game.currentCard, adminAbused: game.adminAbused });

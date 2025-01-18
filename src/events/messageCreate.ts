@@ -1,4 +1,4 @@
-import { Guild, GuildTextBasedChannel, Message } from "discord.js";
+import { GuildTextBasedChannel, Message } from "discord.js";
 
 import runningGameMessage from "../components/runningGameMessage.js";
 import { event } from "../typings/event.js";
@@ -14,7 +14,7 @@ export const e: event = async (client, message: Message) => {
     if (scrolledWeight > maxWeightBeforeResend) {
         const msg = message.channel.messages.cache.get(game.messageId);
         if (msg) await msg?.delete();
-        const sent = await (msg?.channel as GuildTextBasedChannel).send(await runningGameMessage(client, game, message.guild as Guild));
+        const sent = await (msg?.channel as GuildTextBasedChannel).send(await runningGameMessage(client, game));
         game.messageId = sent.id;
     }
 };
