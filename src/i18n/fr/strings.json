@@ -1,5 +1,6 @@
 {
     "aprilFools": "Joyeux premier avril !",
+    "cardFormat": "{{variant}} {{color}}",
     "colors": {
         "blue": "Bleu",
         "green": "Vert",
@@ -114,31 +115,31 @@
         }
     },
     "errors": {
-        "alone": "Vous ne pouvez pas commencer une partie seul",
-        "blacklisted": "Vous êtes sur la blacklist pour la raison:\n{{reason}}",
-        "cantContestYourOwn": "Vous ne pouvez pas contester votre propre +4",
+        "alone": "Tu ne peux pas commencer une partie seul",
+        "blacklisted": "Tu es sur la blacklist pour la raison:\n{{reason}}",
+        "cantContestYourOwn": "Tu ne peux pas contester ton propre +4",
         "execution": "Une erreur est survenue dans l'exécution de la commande.",
-        "forbidden": "Vous n'avez pas le droit d'arrêter le jeu.",
+        "forbidden": "Tu n'as pas le droit d'arrêter le jeu.",
         "gameInChannel": "Un jeu existe déjà sur ce salon :point_right: {{url}}",
-        "gameJustStarted": "Le jeu vient de commencer, vous ne pouvez pas faire ça maintenant.",
-        "gameNotFound": "Je n'ai malheureusement pas trouvé le jeu dont vous parlez..",
+        "gameJustStarted": "Le jeu vient de commencer, tu ne peux pas faire cette action maintenant.",
+        "gameNotFound": "Je n'ai malheureusement pas trouvé le jeu en question...",
         "inProgress": "Le jeu est en cours",
         "interactionError": "Une erreur est survenue dans l'exécution de l'interaction.",
         "interactionNotHandled": "Cette interaction n'a pas de gestionnaire. Il convient d'y remédier.",
-        "inTheGame": "Vous êtes déjà dans le jeu !",
+        "inTheGame": "Tu es déjà dans en jeu !",
         "noActions": "Le menu Actions n'est pas utilisé dans ce jeu.",
-        "noDrawStack": "Donc... vous voulez tirer des cartes alors qu'il n'y a pas de cartes à tirer ? Intéressant...",
+        "noDrawStack": "Donc... tu veux tirer des cartes alors qu'il n'y a pas de cartes à tirer ? Intéressant...",
         "notAnInteger": "La valeur doit être un nombre entier valide",
-        "notContestingHost": "Sérieusement ? Essayez-vous de contester quelqu'un qui n'est pas l'hôte ?",
-        "notInGame": "Vous ne faites pas partie du jeu.",
+        "notContestingHost": "Sérieusement ? Essayes-tu de contester quelqu'un qui n'est pas l'hôte ?",
+        "notInGame": "Tu ne fais pas partie du jeu.",
         "notRunning": "Le jeu n'a pas encore commencé.",
-        "notRunningWrongButton": "Vous ne pouvez pas quitter la partie en appuyant sur ce bouton.",
+        "notRunningWrongButton": "Tu ne peux pas quitter la partie en appuyant sur ce bouton.",
         "notTheHost": "Seulement l'hôte peut faire ça.",
-        "paginationForbidden": "Vous n'êtes pas autorisé à contrôler cette pagination.",
+        "paginationForbidden": "Tu n'es pas autorisé à contrôler cette pagination.",
         "paginationTooOld": "La pagination est trop vieille.",
-        "playerLeft": "Vous ne pouvez pas rejoindre un jeu que vous avez quitté.",
+        "playerLeft": "Tu ne peux pas rejoindre un jeu que tu as quitté.",
         "tooManyInGame": "Le jeu a atteint sa capacité maximale de joueurs ({{count}} joueurs)",
-        "unusable": "Vous ne pouvez pas utiliser ce bouton pour le moment.",
+        "unusable": "Tu ne peux pas utiliser ce bouton pour le moment.",
         "waiting": "Le jeu n'est pas encore lancé."
     },
     "game": {
@@ -149,7 +150,7 @@
             "edit": {
                 "embed": {
                     "title": "Modifier les cartes d'un joueur",
-                    "description": "Vous ne pouvez pas:\n- retirer les cartes pour avoir moins de 3"
+                    "description": "Tu ne peux pas:\n- retirer les cartes pour avoir moins de 3"
                 },
                 "modal": {
                     "label": "Cartes",
@@ -173,7 +174,7 @@
                 },
                 "embed": {
                     "title": "Panel d'abus",
-                    "description": "Sélectionnez l'action que vous souhaitez effectuer."
+                    "description": "Sélectionnez l'action que tu souhaites effectuer."
                 }
             },
             "messages": {
@@ -182,9 +183,9 @@
             },
             "swap": {
                 "from": {
-                    "select": "Sélectionnez le joueur cible avec lequel vous souhaitez échanger des cartes."
+                    "select": "Sélectionne le joueur cible avec lequel tu souhaites échanger des cartes."
                 },
-                "text": "Choisissez le joueur dont vous voulez échanger les cartes."
+                "text": "Choisis le joueur dont tu veux échanger les cartes."
             },
             "view": {
                 "title": "Voir les cartes"
@@ -193,11 +194,11 @@
         "actions": {
             "menu": {
                 "title": "Menu d'action",
-                "description": "Vous avez besoin d'autre chose que de voir ou de jouer aux cartes ? Vous êtes au bon endroit.\nVoici les options que vous pouvez utiliser :",
+                "description": "Tu as besoin d'autre chose que de voir ou de jouer aux cartes ? Tu es au bon endroit.\nVoici les options que tu peux utiliser :",
                 "options": {
                     "aa": {
                         "name": "⚠️ - Ouvrir le panel d'abus",
-                        "value": "Utilisez-le lorsque vous êtes l'hôte et que vous souhaitez administrer les abus."
+                        "value": "Utilise-le lorsque tu es l'hôte et que tu souhaite abuser de ton pouvoir."
                     },
                     "challenge": {
                         "name": "🃏 - Défier le joueur précédent qui n'a pas crié \"Buno!\"",
@@ -205,15 +206,15 @@
                     },
                     "contestAa": {
                         "name": "🔨 - Contester l'abus",
-                        "value": "Utilisez-le chaque fois que vous pensez que l'hôte du jeu utilise la fonction Admin Abuse.."
+                        "value": "Utilise-le chaque fois que tu penses que l'hôte du jeu utilise la fonction Admin Abuse.."
                     },
                     "contestDraw": {
                         "name": "❗ - Contester le +4",
-                        "value": "Utilisez-le lorsque vous pensez que le joueur précédent pourrait jouer autre chose que +4."
+                        "value": "Utilise-le lorsque tu penses que le joueur précédent pourrait jouer autre chose que +4."
                     },
                     "yell": {
                         "name": "📣 - Crier \"Buno!\"",
-                        "value": "Utilisez-le juste avant de jouer votre avant-dernière carte."
+                        "value": "Utilise-le juste avant de jouer ton avant-dernière carte."
                     }
                 }
             }
@@ -229,9 +230,9 @@
                 "tooManyCards": "**{{name}} a trop de cartes pour pouvoir crier \"Buno!\""
             },
             "yell": {
-                "already": "Vous avez déjà crié \"Buno!\".",
+                "already": "Tu as déjà crié \"Buno!\".",
                 "message": "**{{name}}** crie\n# {{yell}}!",
-                "notEnough": "Vous ne pouvez que crier \"Buno out!\" Quand vous avez 2 cartes."
+                "notEnough": "Tu ne peux que crier \"Buno out!\" quand tu as 2 cartes."
             }
         },
         "cancelled": "Le jeu a été annulé par **{{name}}**",
@@ -239,7 +240,7 @@
             "avoidDraw": "**{{name}}** a essayé d'éviter de tirer des cartes :clown:",
             "allSwapped": "Toutes les cartes des joueurs ont été échangées !",
             "reversed": "L'ordre des joueurs a été inversé.",
-            "seven": "Vous avez joué une carte 7 et vous devez maintenant choisir un joueur avec qui échanger vos cartes.",
+            "seven": "Tu as joué une carte 7 et tu dois maintenant choisir un joueur avec qui échanger tes cartes.",
             "skippedPlayer": "**{{name}}** ha été ignoré.",
             "swapped": "**{{from}}** a échangé des cartes avec **{{to}}**",
             "unknown": "**{{name}}** a essayé de jouer une carte inexistante :clown:",
@@ -253,11 +254,11 @@
         "draw": {
             "drew": "**{{name}}** da tiré une carte.",
             "drewAndSkipped": "**{{name}}** a tiré **{{stack}}** cartes et a été ignoré.",
-            "ephemeral": "Vous avez tiré: {{card}}",
+            "ephemeral": "Tu as tiré: {{card}}",
             "sab": "**{{name}}** a été supprimé pour avoir tenté de saboter le jeu",
             "select": {
                 "draw": "Tirer une carte",
-                "skip": "Passez votre tour"
+                "skip": "Passer ton tour"
             },
             "skip": "**{{name}}** ont passé leur tour."
         },
@@ -279,20 +280,20 @@
         "forceDraw": {
             "contestPlus4": "**{{name}}** a contesté la carte +4 de  **{{cardPlayer}}** et a gagné.\n**{{cardPlayer}}** a tiré **{{stack}}** cartes",
             "contestPlus4AndFail": "**{{name}}** a contesté la carte +4 de **{{cardPlayer}}** et a échoué.\n**{{name}}** a tiré {{stack}} cartes",
-            "draw": "**{{name}** a tiré **{{stack}** cartes et a été ignoré.",
+            "draw": "**{{name}}** a tiré **{{stack}}** cartes et a été ignoré.",
             "noCard": "You don't have any card to play",
             "noStacking": "La règle Allow Stacking est désactivée",
             "noReverse": "La règle de la carte Inversion est désactivée",
             "playACard": "Veuillez jouer une carte",
             "reverse": {
-                "reverseMessage": "**{{name}** a tiré **{{stack}** cartes et a été ignoré, grâce au pouvoir de la carte Inversion.\nL'ordre des joueurs a été inversé."
+                "reverseMessage": "**{{name}}** a tiré **{{stack}}** cartes et a été ignoré, grâce au pouvoir de la carte Inversion.\nL'ordre des joueurs a été inversé."
             },
             "select": {
                 "title": "Tirer {{stack}} cartes",
                 "description": "..et reconnaître sa défaite.",
                 "placeholder": "Choisir une carte"
             },
-            "text": "Vous devez répondre ou tirer {stack}} cartes."
+            "text": "Tu dois répondre ou tirer {stack}} cartes."
         },
         "joined": "**{{name}}** a rejoint le jeu.",
         "left": "**{{name}}** a quitté le jeu.",
@@ -300,6 +301,7 @@
             "body": "Le jeu démarre automatiquement {{timer}}\nL'hôte actuel du jeu: {{host}}\n{{playerList}}",
             "modified": "Ce jeu ne sera pas pris en compte dans le lederboard."
         },
+        "mention": "{{mention}}, c'est ton tour!",
         "message": {
             "embed": {
                 "cards": "carte",
@@ -313,12 +315,12 @@
                 "playerList": "{{plus}}{{name}}{{cards}} $t(cartes, {\"count\":{{count}})\n"
             }
         },
-        "notPlayable": "Vous ne pouvez pas jouer cette carte.",
+        "notPlayable": "Tu ne peux pas jouer cette carte.",
         "notYourTurn": "Ce n'est pas votre tour.",
         "played": "**{{name}}** a joué {{currentCardEmote}} {{card}}",
         "playerPicker": "Choisissez un joueur",
         "started": "**Le jeu est lancé !**",
-        "startedAA": "\nLe mode de jeu « abus de l'administrateur » est activé pour ce jeu. Vous pouvez éjecter l'hôte si vous pensez qu'il abuse en ouvrant le menu Actions.",
+        "startedAA": "\nLe mode de jeu «Admin abuse» est activé pour ce jeu. Tu peux éjecter l'hôte si tu pensez qu'il abuse en ouvrant le menu Actions.",
         "states": {
             "stopped": "{{user}} a arrêté le jeu"
         },
@@ -328,7 +330,7 @@
         "embed": {
             "title": "Classement de **{{guild}}**",
             "description": "Page {{currentPage}} sur {{totalPages}}.{{userRank}}",
-            "yourRank": "\nVotre rang: {{rank}}",
+            "yourRank": "\nTon rang: {{rank}}",
             "fieldName": "{{rank}} - {{member}}",
             "fieldValues": {
                 "wins_zero": "{{count}} victoire",
@@ -344,8 +346,8 @@
         }
     },
     "leave": {
-        "leaveAsHost": "Vous ne pouvez pas quitter le jeu en tant qu'hôte.",
-        "prompt": "Êtes-vous sûr de vouloir quitter le jeu ? Vous ne pourrez pas revenir dans le jeu."
+        "leaveAsHost": "Tu ne peux pas quitter le jeu en tant qu'hôte.",
+        "prompt": "Es-tu sûr de vouloir quitter le jeu ? Tu ne pourras pas revenir dans le jeu."
     },
     "settings": {
         "currentValue": "Valeur actuelle: {{value}}",
@@ -408,9 +410,9 @@
         "8": "8",
         "9": "9",
         "+2": "+2",
-        "reverse": "Inverser",
-        "block": "Bloquer",
-        "wild": "Wild",
+        "reverse": "Invesion",
+        "block": "Blocage",
+        "wild": "Changement de couleur",
         "+4": "+4"
     },
     "words": {

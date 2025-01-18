@@ -1,5 +1,6 @@
 {
     "aprilFools": "Happy april fools!",
+    "cardFormat": "{{color}} {{variant}}",
     "colors": {
         "blue": "Blue",
         "green": "Green",
@@ -241,7 +242,7 @@
             "reversed": "The player order has been reversed.",
             "seven": "You played a 7 card and shall now select a player to exchange your cards with.",
             "skippedPlayer": "**{{name}}** has been skipped.",
-            "swapped": "**{{from}}** swapped cards with **{to}**",
+            "swapped": "**{{from}}** swapped cards with **{to}}**",
             "unknown": "**{{name}}** tried to play a non-existant card :clown:",
             "unknownColor": "**{{name}}** tried to set the collor a non-existant one :clown:"
         },
@@ -277,9 +278,9 @@
             "noWinner": "No winner"
         },
         "forceDraw": {
-            "contestPlus4": "**{{name}}** contested **{cardPlayer}**'s +4 card and won.\n**{{cardPlayer}}** drew **{{stack}}** cards",
+            "contestPlus4": "**{{name}}** contested **{cardPlayer}}**'s +4 card and won.\n**{{cardPlayer}}** drew **{{stack}}** cards",
             "contestPlus4AndFail": "**{{name}}** contested **{{cardPlayer}}**'s +4 card and failed.\n**{{name}}** drew {{stack}} cards",
-            "draw": "**{name}** drew **{stack}** cards and has been skipped.",
+            "draw": "**{name}}** drew **{stack}}** cards and has been skipped.",
             "noCard": "You don't have any card to play",
             "noStacking": "The Allow Stacking rule is disabled",
             "noReverse": "The Reverse Card rule is disabled",
@@ -300,6 +301,7 @@
             "body": "Game will start automatically {{timer}}\nCurrent game host: {{host}}\n{{playerList}}",
             "modified": "This game won't count towards the game leaderboard"
         },
+        "mention": "{{mention}}, it's now your turn!",
         "message": {
             "embed": {
                 "cards": "card",
@@ -310,7 +312,7 @@
                 "footer": {
                     "timeout": "Current timeout is {{timeout}}."
                 },
-                "playerList": "{{plus}}{{name}}{{cards}} $t(cards, {\"count\":{{count}})\n"
+                "playerList": "{{plus}}{{name}}{{cards}} $t(cards, {\"count\":{{cards}})\n"
             }
         },
         "notPlayable": "You can't play this card.",
