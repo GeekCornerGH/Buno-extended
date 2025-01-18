@@ -1,4 +1,4 @@
-import { ActionRowBuilder, AllowedMentionsTypes, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Guild, MessageCreateOptions, } from "discord.js";
+import { ActionRowBuilder, AllowedMentionsTypes, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, MessageCreateOptions, } from "discord.js";
 import { t } from "i18next";
 
 import { runningUnoGame } from "../typings/unoGame.js";
@@ -10,7 +10,7 @@ import toTitleCase from "../utils/game/toTitleCase.js";
 import { getUsername } from "../utils/getUsername.js";
 import toHumanReadableTime from "../utils/toHumanReadableTime.js";
 
-export default async (client: Client, game: runningUnoGame, guild: Guild): Promise<MessageCreateOptions> => {
+export default async (client: Client, game: runningUnoGame): Promise<MessageCreateOptions> => {
     const lng = game.locale;
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
     const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
@@ -33,7 +33,7 @@ export default async (client: Client, game: runningUnoGame, guild: Guild): Promi
         new ButtonBuilder().setEmoji("📥").setCustomId(ButtonIDs.JOIN_MID_GAME).setStyle(ButtonStyle.Primary).setDisabled(!canJoinMidGame(game))
     ])];
     return {
-        content: `Hey ${guild.members.cache.get(game.currentPlayer)?.toString()}, it is now your turn to play.`,
+        content: t("strings:game.mention", { mention: `<@${game.currentPlayer}>`, lng }),
         allowedMentions: { parse: [AllowedMentionsTypes.User] },
         embeds: [embed],
         components: rows
