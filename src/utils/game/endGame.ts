@@ -69,8 +69,8 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
         }
     }
     const mostPlayedCardName = findMostProperty(game.log, "card");
-    const mostPlayedCard = `${cardEmotes[mostPlayedCardName as unoCard] as unknown} ${toTitleCase(mostPlayedCardName, lng)}`;
-    const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log, "player"));
+    const mostPlayedCard = `${cardEmotes[mostPlayedCardName[0] as unoCard] as unknown} ${toTitleCase(mostPlayedCardName[0], lng)} (${t("strings:words.time", { lng, count: mostPlayedCardName[1] })})`;
+    const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log, "player")[0]);
     const players = [...game.players, ...game.playersWhoLeft];
     const playerNames = await Promise.all(players.map(async (p: Snowflake) => {
         const name = await getUsername(client, game.guildId, p);
@@ -99,7 +99,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                         value: `${mostPlayedCard}`
                     }, {
                         name: t("strings:game.end.embed.stats.mostActivePlayer", { lng }),
-                        value: `${mostActivePlayer}`
+                        value: `${mostActivePlayer} (${t("strings:words.time", { lng, count: findMostProperty(game.log, "player")[1] })})`
                     }, {
                         name: t("strings:game.end.embed.stats.players", { lng }),
                         value: `${playerList}`
@@ -121,9 +121,9 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
     client.games.splice(client.games.findIndex(g => g === game), 1);
 }
 
-function findMostProperty(objects: unoLog[], property: string): string {
+function findMostProperty(objects: unoLog[], property: string): [string, number] {
     // Probably the most insane line I wrote
-    if (!Object.prototype.hasOwnProperty.call(objects[0], property)) return "";
+    if (!Object.prototype.hasOwnProperty.call(objects[0], property)) return ["", 0];
     const cardMap: Map<string, number> = objects.reduce((map, obj) => {
         const value = obj[property as keyof unoLog];
         map.set(value, (map.get(value) || 0) + 1);
@@ -134,5 +134,5 @@ function findMostProperty(objects: unoLog[], property: string): string {
         (maxEntry, [card, count]) => (count > maxEntry[1] ? [card, count] : maxEntry),
         ["", 0]
     );
-    return mostCommon[0];
+    return mostCommon;
 }
