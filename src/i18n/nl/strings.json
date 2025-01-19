@@ -1,0 +1,424 @@
+{
+    "aprilFools": "Gelukkige aprilfools!",
+    "colors": {
+        "blue": "Blauw",
+        "green": "Groen",
+        "red": "Rood",
+        "yellow": "Geel"
+    },
+    "commands": {
+        "about": {
+            "command": {
+                "name": "about",
+                "description": "Over mij"
+            },
+            "message": {
+                "title": "Hoi, ik ben Buno!",
+                "description": "Ik ben een bot die Uno:tm: probeert na te bootsen, het bekende kaartspel van Mattel, Inc. Alle bezittingen zijn eigendom van dit bedrijf en deze bot is geenszins officieel bedoeld.",
+                "node": "Ik draai momenteel op",
+                "discordjs": "Ik word mogelijk gemaakt door",
+                "uptime-title": "Ik loop al",
+                "uptime-desc": "{{duration}} (since {{date}} {{time}})",
+                "stats-title": "Ik kijk naar",
+                "invite-title": "Wil je me uitnodigen?",
+                "invite-desc": "Sorry, dat kan waarschijnlijk niet. Deze bot is privé en wordt niet gehost op een krachtige server. Het zou ook snel rate-limited worden.\nDe enige manier om het op je server te krijgen is door bevriend te zijn met de huidige ontwikkelaar.\n Oh wacht, laat maar, klik misschien op de uitnodigingsknop hieronder?",
+                "sourcecode": "Broncode",
+                "invitebot": "Nodig de bot uit"
+            }
+        },
+        "blacklist": {
+            "command": {
+                "name": "blacklist",
+                "description": "Zwarte lijst beheren",
+                "subcommands": {
+                    "add": {
+                        "name": "add",
+                        "description": "Iemand toevoegen aan de zwarte lijst",
+                        "options": {
+                            "target": {
+                                "name": "target",
+                                "description": "De gebruiker die toegevoegd moet worden aan de zwarte lijst"
+                            },
+                            "reason": {
+                                "name": "reason",
+                                "description": "Reden voor plaatsing op de zwarte lijst"
+                            }
+                        }
+                    },
+                    "remove": {
+                        "name": "remove",
+                        "description": "Iemand van de zwarte lijst verwijderen",
+                        "options": {
+                            "target": {
+                                "name": "target",
+                                "description": "De gebruiker die verwijderd moet worden van de zwarte lijst"
+                            }
+                        }
+                    }
+                }
+            },
+            "message": {
+                "already-blacklisted": "Deze gebruiker staat al op de zwarte lijst",
+                "not-blacklisted": "Deze gebruiker staat niet op de zwarte lijst",
+                "success": "{{target}} staat op de zwarte lijst vanwege de reden:\n{{reason}}",
+                "success-unbl": "{{target}} staat niet meer op de zwarte lijst"
+            }
+        },
+        "blocklist": "blocklist",
+        "eval": {
+            "command": {
+                "name": "eval",
+                "description": "Evalueert wat code",
+                "options": {
+                    "code": {
+                        "name": "code",
+                        "description": "Code om uit te voeren"
+                    },
+                    "public": {
+                        "name": "public",
+                        "description": "Of de eval-uitvoer nu wel of niet getoond moet worden"
+                    }
+                }
+            }
+        },
+        "leaderboard": {
+            "command": {
+                "name": "leaderboard",
+                "description": "Toon topspelers"
+            },
+            "message": {
+                "no-data": "Niemand speelde Buno in deze server! Voer </{{name}}:{{id}}> om een nieuw spel te starten."
+            }
+        },
+        "ping": {
+            "command": {
+                "name": "ping",
+                "description": "Pong!"
+            },
+            "message": {
+                "pre-pong": "🏓 Pong!",
+                "pong": "🏓 Pong!\nAPI latentie: {{WSPingEmote}} {{WSPing}}ms\nBot latentie: {{pingEmote}} {{ping}}ms"
+            }
+        },
+        "stop": {
+            "command": {
+                "name": "stop",
+                "description": "Stopt het spel"
+            }
+        },
+        "uno": {
+            "command": {
+                "name": "uno",
+                "description": "Begint een Buno-spel"
+            }
+        }
+    },
+    "errors": {
+        "alone": "Je kunt een spel niet alleen starten",
+        "blacklisted": "Je staat op de zwarte lijst om de volgende reden:\n{reason}",
+        "cantContestYourOwn": "Je kunt je eigen +4 niet betwisten",
+        "execution": "Er is een fout opgetreden tijdens het uitvoeren van deze opdracht.",
+        "forbidden": "Je mag het spel niet stoppen.",
+        "gameInChannel": "Er bestaat al een spel op dit kanaal :point_right: {{url}}",
+        "gameJustStarted": "Het spel is net begonnen, je kunt dit nu niet doen.",
+        "gameNotFound": "Ik kan het spel waar je het over hebt helaas niet vinden.",
+        "inProgress": "Het spel is bezig",
+        "interactionError": "Er is een fout opgetreden tijdens het verwerken van deze interactie",
+        "interactionNotHandled": "Deze interactie heeft geen handler. Dit moet worden aangepakt.",
+        "inTheGame": "Je doet al mee!",
+        "noActions": "Het menu Acties wordt niet gebruikt in dit spel.",
+        "noDrawStack": "Dus... je wilt kaarten trekken terwijl er geen kaarten te trekken zijn? Interessant...",
+        "notAnInteger": "De waarde moet een geldig geheel getal zijn",
+        "notContestingHost": "Serieus? Probeer je iemand te betwisten die niet de gastheer is?",
+        "notInGame": "Je maakt geen deel uit van het spel.",
+        "notRunning": "Het spel is nog niet begonnen.",
+        "notRunningWrongButton": "Je kunt het spel niet verlaten met die knop.",
+        "notTheHost": "Alleen de host kan dit doen.",
+        "paginationForbidden": "Je mag deze paginering niet wijzigen.",
+        "paginationTooOld": "De paginering is te oud.",
+        "playerLeft": "Je kunt niet deelnemen aan een spel dat je hebt verlaten.",
+        "tooManyInGame": "Het spel bereikte zijn maximale capaciteit ({{count}} spelers)",
+        "unusable": "Je kunt deze knop nu niet gebruiken.",
+        "waiting": "Het spel loopt nog niet."
+    },
+    "game": {
+        "aa": {
+            "components": {
+                "back": "Terug naar beheerderspaneel home"
+            },
+            "edit": {
+                "embed": {
+                    "title": "De kaarten van een speler bewerken",
+                    "description": "Je kunt geen:\n- kaarten verwijderen om er minder dan 3 te hebben."
+                },
+                "modal": {
+                    "label": "Kaarten",
+                    "title": "Wijzig de kaarten van {{name}}"
+                }
+            },
+            "menu": {
+                "actions": {
+                    "edit": {
+                        "name": "Wijzig de kaarten",
+                        "value": "Wijzig de kaarten van iemand anders"
+                    },
+                    "swap": {
+                        "name": "Kaarten ruilen",
+                        "value": "Wissel kaarten tussen 2 spelers"
+                    },
+                    "view": {
+                        "name": "Kaarten bekijken",
+                        "value": "Bekijk de kaarten van een andere speler"
+                    }
+                },
+                "embed": {
+                    "title": "Beheerderspaneel voor misbruik",
+                    "description": "Selecteer de actie die je wilt uitvoeren."
+                }
+            },
+            "messages": {
+                "contestAndFailed": "**{{name}}** betwistte **{{host}}**  admin misbruik en faalde. Ze trokken **{{count}}** kaarten.",
+                "contestAndKicked": "**{{name}}** betwistte **{{host}}**'s admin misbruik en won. **{{host}}** is uit het spel verwijderd."
+            },
+            "swap": {
+                "from": {
+                    "select": "Selecteer de speler met wie je kaarten wilt ruilen."
+                },
+                "text": "Kies de speler van wie je kaarten wilt ruilen."
+            },
+            "view": {
+                "title": "Kaarten bekijken"
+            }
+        },
+        "actions": {
+            "menu": {
+                "title": "Actie menu",
+                "description": "Heb je iets anders nodig dan alleen kijken of kaarten? Dan ben je hier aan het juiste adres.\nDit zijn de opties die je kunt gebruiken :",
+                "options": {
+                    "aa": {
+                        "name": "⚠️ - Open het beheerderspaneel voor misbruik",
+                        "value": "Gebruik het wanneer u de host bent en misbruik wilt maken van de beheerdersrechten!"
+                    },
+                    "challenge": {
+                        "name": "🃏 - Daag de vorige speler uit die nog niet \"Buno!\" heeft geroepen",
+                        "value": "Gebruik het wanneer de vorige speler vergeten is om \"Buno\" te roepen"
+                    },
+                    "contestAa": {
+                        "name": "🔨 - Misbruik door wedstrijdbeheerder",
+                        "value": "Gebruik het wanneer u denkt dat de hostbeheerder er misbruik van heeft gemaakt."
+                    },
+                    "contestDraw": {
+                        "name": "❗ - De +4 gedwongen trekking betwisten",
+                        "value": "Gebruik het wanneer je denkt dat de vorige speler iets anders dan +4 zou kunnen spelen"
+                    },
+                    "yell": {
+                        "name": "📣 - Schreeuw \"Buno!\"",
+                        "value": "Gebruik deze vlak voordat je je een na laatste kaart speelt."
+                    }
+                }
+            }
+        },
+        "afk": {
+            "kicked": "**{{name}}** was inactief en is gekickt.",
+            "skipped": "**{{name}}** was inactief en is overgeslagen."
+        },
+        "buno": {
+            "contest": {
+                "alreadyYelled": "**{{name}}** heeft al \"Buno!\" geschreeuwd",
+                "drew": "**{{name}}** wees erop dat **{{drawer}}** vergat te roepen \"Buno!\"\n**{{drawer}}** {{stack}} kaarten trok.",
+                "tooManyCards": "**{{name}} heeft teveel kaarten om \"Buno!\" te kunnen roepen"
+            },
+            "yell": {
+                "already": "Je schreeuwde \"Buno!\" al eerder.",
+                "message": "**{{name}}** schreeuwde\n# {{yell}}!",
+                "notEnough": "Je kan alleen \"Buno!\" roepen wanneer je maar 2 kaarten hebt."
+            }
+        },
+        "cancelled": "Game has been cancelled by **{{name}}**",
+        "card": {
+            "avoidDraw": "**{{name}}** probeerde geen kaarten te trekken :clown:",
+            "allSwapped": "Alle kaarten van de spelers zijn omgewisseld!",
+            "reversed": "De volgorde van de spelers is omgedraaid.",
+            "seven": "Je hebt een 7-kaart gespeeld en moet nu een speler selecteren om je kaarten mee te ruilen.",
+            "skippedPlayer": "**{{name}}** is overgeslagen.",
+            "swapped": "**{{from}}** heeft kaarten omgewisseld met **{to}**",
+            "unknown": "**{{name}}** probeerde een niet-bestaande kaart te spelen :clown:",
+            "unknownColor": "**{{name}}** probeerde de kleur in te stellen op een niet-bestaande kaart :clown:"
+        },
+        "color": {
+            "pick": "Kies hier een kleur!",
+            "switched": "De kleur is overgeschakeld naar **{{color}}**",
+            "text": "Selecteer een kleur"
+        },
+        "draw": {
+            "drew": "**{{name}}** trok een kaart.",
+            "drewAndSkipped": "**{{name}}** trok **{{stack}}** kaarten en is overgeslagen.",
+            "ephemeral": "Je trok: {{card}}",
+            "sab": "**{{name}}** is verwijderd vanwege een poging het spel te saboteren",
+            "select": {
+                "draw": "Trek een kaart",
+                "skip": "Sla je beurt over"
+            },
+            "skip": "**{{name}}** sloeg zijn beurt over."
+        },
+        "end": {
+            "default": "**{{name}}** heeft het spel gewonnen{{default}}.",
+            "embed": {
+                "stats": {
+                    "duration": "⏱️ Het spel duurde",
+                    "mostActivePlayer": "👤 Meest actieve speler",
+                    "mostPlayedCard": "🃏 Meest gespeelde kaart",
+                    "players": "👥 Spelers die deelnamen aan het spel",
+                    "playersDesc": "{{players}} (**{{amount}}** spelers)",
+                    "winner": "🏆 Winnaar"
+                }
+            },
+            "noOne": "Niemand was beschikbaar om het spel af te maken.",
+            "noWinner": "Geen winnaar"
+        },
+        "forceDraw": {
+            "contestPlus4": "**{{name}}** betwistte de +4-kaart van **{cardPlayer}** en won.\n**{{cardPlayer}}** trok **{{stack}}** kaarten",
+            "contestPlus4AndFail": "**{{name}}** betwistte de +4-kaart van **{{cardPlayer}}** en faalde.\n**{{name}}** trok {{stack}} kaarten",
+            "draw": "**{name}** trok **{stack}** kaarten en is overgeslagen.",
+            "noCard": "Je hebt geen kaart om te spelen",
+            "noStacking": "De regel Sta stapelen toe is uitgeschakeld",
+            "noReverse": "De regel Omgekeerde kaart is uitgeschakeld",
+            "playACard": "Speel een kaart",
+            "reverse": {
+                "reverseMessage": "**{{name}}** trok **{{stack}}** kaarten en is overgeslagen, dankzij de reverse card power.\nDe spelersvolgorde is omgedraaid."
+            },
+            "select": {
+                "title": "Trek {{stack}} kaarten",
+                "description": "...en neem de L.",
+                "placeholder": "Kies een kaart"
+            },
+            "text": "Je moet reageren, of {{stack}} kaarten trekken."
+        },
+        "joined": "**{{name}}** is toegetreden tot het spel.",
+        "left": "`**{{name}}** heeft het spel verlaten.`",
+        "lobby": {
+            "body": "Het spel start automatisch {{timer}}\nHuidige game host: {{host}}\n{{playerList}}",
+            "modified": "Dit spel telt niet mee voor het klassement van het spel"
+        },
+        "message": {
+            "embed": {
+                "cards": "kaart",
+                "cards_plural": "kaarten",
+                "currentCard": "Huidige kaart: {{currentCardEmote}} **{{currentCard}}**",
+                "currentPlayer": "Momenteel spelend: **{{name}}**",
+                "drawStack": "**{{stack}}** kaarten om te trekken",
+                "footer": {
+                    "timeout": "Huidige time-out is {{timeout}}."
+                },
+                "playerList": "{{plus}} {{name}}{{cards}} $t(kaarten, {\"count\":{{count}})\n"
+            }
+        },
+        "notPlayable": "Je kunt deze kaart niet spelen.",
+        "notYourTurn": "Het is niet jouw beurt",
+        "played": "**{{name}}** speelde {{currentCardEmote}} {{card}}",
+        "playerPicker": "Kies een speler",
+        "started": "**Het spel is net begonnen!**",
+        "startedAA": "\nDe admin abuse gamemode is ingeschakeld voor dit spel. Je kunt de host uitwerpen als je denkt dat ze misbruik maken door het menu Acties te openen",
+        "states": {
+            "stopped": "{{user}} heeft het spel gestopt"
+        },
+        "tooManyCards": "**{{name}}** verwijderd vanwege misbruik van het spel."
+    },
+    "leaderboard": {
+        "embed": {
+            "title": "Leaderboard voor **{{guild}}**",
+            "description": "Pagina {{currentPage}} van {{totalPages}}.{{userRank}}",
+            "yourRank": "\nUw rang: {{rank}}",
+            "fieldName": "{{rank} - {{member}",
+            "fieldValues": {
+                "wins_zero": "{{count}} winst",
+                "wins_one": "{{count}} winst",
+                "wins_other": "{{count}} winsten",
+                "losses_zero": "{{count}} verlies",
+                "losses_one": "{{count}} verlies",
+                "losses_other": "{{count}} verliezen",
+                "noLoss": "Geen verlies",
+                "wlr": "{{winLossRatio}} W/L Ratio"
+            },
+            "noLosses": "Geen verliezen"
+        }
+    },
+    "leave": {
+        "leaveAsHost": "Je kunt het spel niet verlaten als host.",
+        "prompt": "Weet je zeker dat je het spel wilt verlaten? Je kunt het spel niet meer opnieuw betreden."
+    },
+    "settings": {
+        "currentValue": "Huidige waarde: {{value}}",
+        "embed": {
+            "title": "Spelinstellingen",
+            "footer": "Instellingen worden automatisch opgeslagen per gilde en per lid."
+        },
+        "options": {
+            "timeoutDuration": "Time-outduur",
+            "kickOnTimeout": "Kick on time-out",
+            "allowSkipping": "Skip toestaan",
+            "antiSabotage": "Anti-sabotage",
+            "allowStacking": "Sta +4 en +2 stacking toe",
+            "randomizePlayerList": "Spelerslijst willekeurig maken",
+            "resendGameMessage": "Stuur het spelbericht elke paar berichten opnieuw",
+            "canJoinMidgame": "Sta spelers toe om in het midden van het spel te springen",
+            "sevenAndZero": "Wissel kaarten bij 7 en 0",
+            "shouldYellBUNO": "Gebruikers moeten Buno Out! roepen om te winnen",
+            "reverseAnything": "Omgekeerde kaart kan trekkingen forceren",
+            "allowContest": "Sta +4 challenge toe",
+            "adminabusemode": "Admin abuse mode"
+        },
+        "timeoutDuration": {
+            "modal": {
+                "fieldLabel": "Duur van time-out in seconden",
+                "title": "Stel spelduur in"
+            }
+        },
+        "placeholder": "Bewerk spelinstellingen en regels hier",
+        "value": {
+            "always": "Altijd",
+            "no": "Nee",
+            "temporarily": "Tijdelijk"
+        }
+    },
+    "time": {
+        "disabled": "Uitgeschakeld",
+        "dhms": "{{dagen}} $t(dagen, {\"aantal\":{{dagen}}), {{uren}} $t(uren, {\"aantal\":{{uren}}), {{minuten}} $t(minuten, {\"aantal\":{{minuten}}) en {{seconden}} $t(seconden, {\"aantal\":{{seconden}})",
+        "hms": "{{uren}} $t(uren, {\"aantal\":{{uren}}), {{minuten}} $t(minuten, {\"aantal\":{{minuten}}) en {{seconden}} $t(seconden, {\"aantal\":{{seconden}})",
+        "ms": "{{minuten}} $t(minuten, {\"aantal\":{{minuten}}) en {{seconden}} $t(seconden, {\"aantal\":{{seconden}})",
+        "s": "{{seconden}} $t(seconden, {\"aantal\":{{seconden}})",
+        "days": "dag",
+        "days_plural": "dagen",
+        "hours": "uur",
+        "hours_plural": "uren",
+        "minutes": "minuut",
+        "minutes_plural": "minuten",
+        "seconds": "**{{count}}** seconde",
+        "seconds_plural": "**{{count}}** seconden"
+    },
+    "variants": {
+        "0": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+        "6": "6",
+        "7": "7",
+        "8": "8",
+        "9": "9",
+        "+2": "+2",
+        "reverse": "Omkeren",
+        "block": "Blokkeren"
+    },
+    "words": {
+        "and": "en",
+        "channels_zero": "**{{count}}** kanaal",
+        "channels_one": "**{{count}}** kanaal",
+        "channels_other": "**{{count}}** kanalen",
+        "servers": "**{{count}}** server",
+        "servers_plural": "**{{count}}** servers",
+        "users": "**{{count}}** gebruiker",
+        "users_plural": "**{{count}}** gebruikers"
+    }
+}
