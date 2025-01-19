@@ -305,8 +305,8 @@
         "mention": "{{mention}}, c'est ton tour!",
         "message": {
             "embed": {
-                "cards": "carte",
-                "cards_plural": "cartes",
+                "cards_one": "carte",
+                "cards_other": "cartes",
                 "currentCard": "Carte actuelle: {{currentCardEmote}} **{{currentCard}}**",
                 "currentPlayer": "Personne jouant actuellement: **{{name}}**",
                 "drawStack": "**{{stack}}** cartes à tirer",
@@ -391,14 +391,14 @@
         "hms": "{{hours}} $t(hours, {\"count\":{{hours}}), {{minutes}} $t(minutes, {\"count\":{{minutes}}) et {{seconds}} $t(seconds, {\"count\":{{seconds}})",
         "ms": "{{minutes}} $t(minutes, {\"count\":{{minutes}}) et {{seconds}} $t(seconds, {\"count\":{{seconds}})",
         "s": "{{seconds}} $t(seconds, {\"count\":{{seconds}})",
-        "days": "jour",
-        "days_plural": "jours",
-        "hours": "heure",
-        "hours_plural": "heures",
-        "minutes": "minute",
-        "minutes_plural": "minutes",
-        "seconds": "**{{count}}** seconde",
-        "seconds_plural": "**{{count}}** secondes"
+        "days_one": "jour",
+        "days_other": "jours",
+        "hours_one": "heure",
+        "hours_other": "heures",
+        "minutes_one": "minute",
+        "minutes_other": "minutes",
+        "seconds_one": "**{{count}}** seconde",
+        "seconds_other": "**{{count}}** secondes"
     },
     "variants": {
         "0": "0",
@@ -422,9 +422,10 @@
         "channels_zero": "**{{count}}** salon",
         "channels_one": "**{{count}}** salons",
         "channels_other": "**{{count}}** salons",
-        "servers": "**{{count}}** serveur",
-        "servers_plural": "**{{count}}** serveurs",
-        "users": "**{{count}}** utilisateur",
-        "users_plural": "**{{count}}** utilisateurs"
+        "servers_one": "**{{count}}** serveur",
+        "servers_other": "**{{count}}** serveurs",
+        "time": "{{count}} fois",
+        "users_one": "**{{count}}** utilisateur",
+        "users_other": "**{{count}}** utilisateurs"
     }
 }

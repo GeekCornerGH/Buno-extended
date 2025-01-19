@@ -305,8 +305,8 @@
         "mention": "{{mention}}, it's now your turn!",
         "message": {
             "embed": {
-                "cards": "card",
-                "cards_plural": "cards",
+                "cards_one": "card",
+                "cards_other": "cards",
                 "currentCard": "Current card: {{currentCardEmote}} **{{currentCard}}**",
                 "currentPlayer": "Currently playing: **{{name}}**",
                 "drawStack": "**{{stack}}** cards to draw",
@@ -391,14 +391,14 @@
         "hms": "{{hours}} $t(hours, {\"count\":{{hours}}), {{minutes}} $t(minutes, {\"count\":{{minutes}}) and {{seconds}} $t(seconds, {\"count\":{{seconds}})",
         "ms": "{{minutes}} $t(minutes, {\"count\":{{minutes}}) and {{seconds}} $t(seconds, {\"count\":{{seconds}})",
         "s": "{{seconds}} $t(seconds, {\"count\":{{seconds}})",
-        "days": "day",
-        "days_plural": "days",
-        "hours": "hour",
-        "hours_plural": "hours",
-        "minutes": "minute",
-        "minutes_plural": "minutes",
-        "seconds": "**{{count}}** second",
-        "seconds_plural": "**{{count}}** seconds"
+        "days_one": "day",
+        "days_other": "days",
+        "hours_one": "hour",
+        "hours_other": "hours",
+        "minutes_one": "minute",
+        "minutes_other": "minutes",
+        "seconds_one": "**{{count}}** second",
+        "seconds_other": "**{{count}}** seconds"
     },
     "variants": {
         "0": "0",
@@ -422,9 +422,11 @@
         "channels_zero": "**{{count}}** channel",
         "channels_one": "**{{count}}** channel",
         "channels_other": "**{{count}}** channels",
-        "servers": "**{{count}}** server",
-        "servers_plural": "**{{count}}** servers",
-        "users": "**{{count}}** user",
-        "users_plural": "**{{count}}** users"
+        "servers_one": "**{{count}}** server",
+        "servers_other": "**{{count}}** servers",
+        "time_one": "{{count}} time",
+        "time_other": "{{count}} times",
+        "users_one": "**{{count}}** user",
+        "users_other": "**{{count}}** users"
     }
 }
