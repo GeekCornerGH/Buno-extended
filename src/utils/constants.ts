@@ -98,7 +98,8 @@ export const defaultSettings: unoSettings = {
     shouldYellBUNO: true,
     reverseAnything: false,
     allowContest: true,
-    adminabusemode: false
+    adminabusemode: false,
+    jumpIn: true
 } as const;
 
 export const maxRejoinableTurnCount = 30;

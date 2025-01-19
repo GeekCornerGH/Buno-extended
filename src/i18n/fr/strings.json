@@ -201,8 +201,8 @@
                         "value": "Utilise-le lorsque tu es l'hôte et que tu souhaite abuser de ton pouvoir."
                     },
                     "challenge": {
-                        "name": "🃏 - Défier le joueur précédent qui n'a pas crié \"Buno!\"",
-                        "value": "Utilisez-le lorsque le joueur précédent a oublié de crier. \"Buno\""
+                        "name": "🃏 - Défier le joueur précédent qui n'a pas crié \"Buno out!\"",
+                        "value": "Utilisez-le lorsque le joueur précédent a oublié de crier \"Buno out\""
                     },
                     "contestAa": {
                         "name": "🔨 - Contester l'abus",
@@ -213,7 +213,7 @@
                         "value": "Utilise-le lorsque tu penses que le joueur précédent pourrait jouer autre chose que +4."
                     },
                     "yell": {
-                        "name": "📣 - Crier \"Buno!\"",
+                        "name": "📣 - Crier \"Buno out!\"",
                         "value": "Utilise-le juste avant de jouer ton avant-dernière carte."
                     }
                 }
@@ -225,12 +225,12 @@
         },
         "buno": {
             "contest": {
-                "alreadyYelled": "**{{name}}** a déjà crié \"Buno!\"",
-                "drew": "**{{name}}** a fait remarquer que **{{drawer}}** a oublié de crier \"Buno!\"\n**{{drawer}}** a tiré des cartes.",
-                "tooManyCards": "**{{name}} a trop de cartes pour pouvoir crier \"Buno!\""
+                "alreadyYelled": "**{{name}}** a déjà crié \"Buno out!\"",
+                "drew": "**{{name}}** a fait remarquer que **{{drawer}}** a oublié de crier \"Buno out!\"\n**{{drawer}}** a tiré des cartes.",
+                "tooManyCards": "**{{name}} a trop de cartes pour pouvoir crier \"Buno out!\""
             },
             "yell": {
-                "already": "Tu as déjà crié \"Buno!\".",
+                "already": "Tu as déjà crié \"Buno out!\".",
                 "message": "**{{name}}** crie\n# {{yell}}!",
                 "notEnough": "Tu ne peux que crier \"Buno out!\" quand tu as 2 cartes."
             }
@@ -257,8 +257,8 @@
             "ephemeral": "Tu as tiré: {{card}}",
             "sab": "**{{name}}** a été supprimé pour avoir tenté de saboter le jeu",
             "select": {
-                "draw": "Tirer une carte",
-                "skip": "Passer ton tour"
+                "draw": "Tire une carte",
+                "skip": "Passe ton tour"
             },
             "skip": "**{{name}}** ont passé leur tour."
         },
@@ -296,6 +296,7 @@
             "text": "Tu dois répondre ou tirer {stack}} cartes."
         },
         "joined": "**{{name}}** a rejoint le jeu.",
+        "jumpedIn": "**{{name}}** a coupé le tour.",
         "left": "**{{name}}** a quitté le jeu.",
         "lobby": {
             "body": "Le jeu démarre automatiquement {{timer}}\nL'hôte actuel du jeu: {{host}}\n{{playerList}}",
@@ -365,10 +366,11 @@
             "resendGameMessage": "Renvoyer le message de jeu tous les quelques messages",
             "canJoinMidgame": "Autoriser les joueurs à rejoindre en cours de partie",
             "sevenAndZero": "Échanger les cartes sur 7 et 0",
-            "shouldYellBUNO": "Les utilisateurs doivent crier « Buno Out ! » pour gagner.",
-            "reverseAnything": "La carte Invesion peut inverser les tirages de force",
-            "allowContest": "Permettre un défi de +4",
-            "adminabusemode": "Mode Admin Abuse"
+            "shouldYellBUNO": "Les utilisateurs doivent crier « Buno ! » pour gagner.",
+            "reverseAnything": "La carte Invesion peut retourner les tirages forcés",
+            "allowContest": "Permettre de contester les +4",
+            "adminabusemode": "Mode Admin Abuse",
+            "jumpIn": "Permettre aux joueurs de jouer la même carte que celle qui actuellement en jeu"
         },
         "timeoutDuration": {
             "modal": {

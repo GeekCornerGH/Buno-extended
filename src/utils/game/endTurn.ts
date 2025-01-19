@@ -9,6 +9,7 @@ import { getUsername } from "../getUsername.js";
 import timeouts from "../timeoutManager.js";
 import endGame from "./endGame.js";
 import onTimeout from "./onTimeout.js";
+import toTitleCase from "./toTitleCase.js";
 
 export default async (client: Client, game: runningUnoGame, interaction: StringSelectMenuInteraction | ButtonInteraction, previousPlayer: string, type: "played" | "skipped" | "misc", toAppend?: string, showPlayedCard: boolean = true) => {
     if (!interaction.inGuild()) return;
@@ -18,7 +19,7 @@ export default async (client: Client, game: runningUnoGame, interaction: StringS
     if (showPlayedCard || type !== "misc") game.log.push({ player: previousPlayer, card: game.currentCard, adminAbused: game.adminAbused });
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
     const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
-    await (interaction.channel as TextChannel).send(`${showPlayedCard ? `${t("strings:game.played", { lng, name: await getUsername(client, game.guildId, game.currentPlayer), currentCardEmote, card: game.currentCard })}\n` : ""}${toAppend ?? ""}`.trim());
+    await (interaction.channel as TextChannel).send(`${showPlayedCard ? `${t("strings:game.played", { lng, name: await getUsername(client, game.guildId, previousPlayer), currentCardEmote, card: toTitleCase(game.currentCard, lng) })}\n` : ""}${toAppend ?? ""}`.trim());
     await interaction.channel?.messages.cache.get(game.messageId)?.delete();
     await interaction.deleteReply();
     if ((game._modified && game.players.length === 0) || (!game._modified && game.players.length === 1)) return endGame(game, interaction.client, "notEnoughPeople");
@@ -30,5 +31,6 @@ export default async (client: Client, game: runningUnoGame, interaction: StringS
         game.adminAbused = false;
         game.turnCount += 1;
         game.turnProgress = "chooseCard";
+        game.jumpedIn = false;
     }
 };

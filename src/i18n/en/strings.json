@@ -296,6 +296,7 @@
             "text": "You have to respond, or draw {{stack}} cards."
         },
         "joined": "**{{name}}** has joined the game.",
+        "jumpedIn": "**{{name}}** decided to jump in.",
         "left": "**{{name}}** has left the game.",
         "lobby": {
             "body": "Game will start automatically {{timer}}\nCurrent game host: {{host}}\n{{playerList}}",
@@ -368,7 +369,8 @@
             "shouldYellBUNO": "Users should yell Buno Out! in order to win",
             "reverseAnything": "Reverse card can reverse force draws",
             "allowContest": "Allow +4 challenge",
-            "adminabusemode": "Admin abuse mode"
+            "adminabusemode": "Admin abuse mode",
+            "jumpIn": "Allow players to cut by playing the same card"
         },
         "timeoutDuration": {
             "modal": {

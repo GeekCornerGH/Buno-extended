@@ -46,7 +46,8 @@ export type runningUnoGame = {
     }
     cards: {
         [user: string]: unoCard[];
-    }
+    },
+    jumpedIn: boolean
 };
 
 export type unoGame = waitingUnoGame | runningUnoGame;
@@ -67,6 +68,7 @@ export type unoSettings = {
     reverseAnything: boolean,
     allowContest: boolean,
     adminabusemode: boolean,
+    jumpIn: boolean
 };
 
 export type unoStats = {
