@@ -6,7 +6,6 @@ import { colors, SelectIDs, variants } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
 import endTurn from "../../utils/game/endTurn.js";
 import next from "../../utils/game/next.js";
-import toTitleCase from "../../utils/game/toTitleCase.js";
 import { getUsername } from "../../utils/getUsername.js";
 
 export const s: stringSelect = {
@@ -46,7 +45,7 @@ export const s: stringSelect = {
         }
         game.currentCard = `${color}-${game.playedCard}` as `${typeof colors[number]}-${typeof variants[number]}`;
         game.turnProgress = "chooseCard";
-        let toAppend: string = t("strings:game.color.switched", { lng, color: toTitleCase(color, lng) });
+        let toAppend: string = t("strings:game.color.switched", { lng, color: t(`strings:colors.${color}` as any, { lng }) });
         if (game.playedCard === "+4") {
             game.turnProgress = "chooseColor";
             if ((game.settings.allowStacking && game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].find(c => (c.startsWith(color) && c.endsWith("-+2")) || c === "+4")) || (game.settings.reverseAnything && game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].find(c => c.endsWith("-reverse")))) {
