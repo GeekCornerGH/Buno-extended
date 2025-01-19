@@ -134,6 +134,5 @@ function findMostProperty(objects: unoLog[], property: string): string {
         (maxEntry, [card, count]) => (count > maxEntry[1] ? [card, count] : maxEntry),
         ["", 0]
     );
-    console.log(mostCommon);
     return mostCommon[0];
 }

@@ -280,7 +280,7 @@
         "forceDraw": {
             "contestPlus4": "**{{name}}** contested **{cardPlayer}}**'s +4 card and won.\n**{{cardPlayer}}** drew **{{stack}}** cards",
             "contestPlus4AndFail": "**{{name}}** contested **{{cardPlayer}}**'s +4 card and failed.\n**{{name}}** drew {{stack}} cards",
-            "draw": "**{name}}** drew **{stack}}** cards and has been skipped.",
+            "draw": "**{{name}}** drew **{{stack}}** cards and has been skipped.",
             "noCard": "You don't have any card to play",
             "noStacking": "The Allow Stacking rule is disabled",
             "noReverse": "The Reverse Card rule is disabled",
