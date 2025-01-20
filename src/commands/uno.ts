@@ -56,7 +56,8 @@ export const c: command = {
             hostId: interaction.user.id,
             uid: randomUUID(),
             players: [interaction.user.id],
-            settings
+            settings,
+            guildApp: interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners
         } as unoGame;
         client.games.push(game);
         const message = await interaction.channel?.send(await lobbyGameMessage(client, game as waitingUnoGame, interaction.guild as Guild) as MessageCreateOptions);

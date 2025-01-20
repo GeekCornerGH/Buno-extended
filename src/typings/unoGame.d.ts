@@ -11,7 +11,8 @@ type waitingUnoGame = {
     hostId: string,
     players: string[]
     settings: unoSettings,
-    _modified: boolean
+    _modified: boolean,
+    guildApp: boolean
 };
 
 export type runningUnoGame = {
@@ -47,7 +48,8 @@ export type runningUnoGame = {
     cards: {
         [user: string]: unoCard[];
     },
-    jumpedIn: boolean
+    jumpedIn: boolean,
+    guildApp: boolean
 };
 
 export type unoGame = waitingUnoGame | runningUnoGame;
