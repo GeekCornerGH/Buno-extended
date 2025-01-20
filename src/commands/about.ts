@@ -11,8 +11,8 @@ export const c: command = {
         .setDescription(t("strings:commands.about.command.description", { lng: "en" }))
         .setNameLocalizations(generateLocalized("strings:commands.about.command.name"))
         .setDescriptionLocalizations(generateLocalized("strings:commands.about.command.description"))
-        .setContexts(InteractionContextType.Guild)
-        .setIntegrationTypes([ApplicationIntegrationType.GuildInstall]),
+        .setContexts([InteractionContextType.Guild, InteractionContextType.PrivateChannel])
+        .setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall]),
     execute: (client, interaction) => {
         const lng = interaction.locale.split("-")[0];
         return interaction.reply({

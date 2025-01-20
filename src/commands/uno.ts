@@ -16,8 +16,8 @@ export const c: command = {
         .setDescription(t("strings:commands.uno.command.description", { lng: "en" }))
         .setNameLocalizations(generateLocalized("strings:commands.uno.command.name"))
         .setDescriptionLocalizations(generateLocalized("strings:commands.uno.command.description"))
-        .setContexts(InteractionContextType.Guild)
-        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
+        .setContexts([InteractionContextType.Guild, InteractionContextType.PrivateChannel])
+        .setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall]),
     execute: async (client, interaction) => {
         if (!interaction.inGuild()) return;
         const isGame = client.games.find(g => g.channelId === interaction.channelId);
