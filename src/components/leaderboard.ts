@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, InteractionEditReplyOptions } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, InteractionEditReplyOptions, PartialGroupDMChannel, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import { Buno } from "../database/models/buno.js";
@@ -6,15 +6,14 @@ import { ButtonIDs } from "../utils/constants.js";
 import { getUsername } from "../utils/getUsername.js";
 
 export default async function (rows: Buno[], interaction: ChatInputCommandInteraction | ButtonInteraction, total: number, offset: number = 0): Promise<InteractionEditReplyOptions> {
-    if (!interaction.inGuild()) return {};
     const lng = interaction.locale.split("-")[0];
     const dataArray = await Promise.all(rows.map(async (r, index) => {
         const rank = (offset * 25) + index + 1;
-        return { rank, member: await getUsername(interaction.client, interaction.guildId, r.getDataValue("userId")), wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
+        return { rank, member: await getUsername(interaction.client, interaction.guildId ?? interaction.channelId, r.getDataValue("userId")), wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
     }));
 
     const embed = new EmbedBuilder()
-        .setTitle(t("strings:leaderboard.embed.title", { lng, guild: interaction.guild?.name }))
+        .setTitle(t("strings:leaderboard.embed.title", { lng, guild: interaction.guild?.name ?? (interaction.channel as TextChannel | PartialGroupDMChannel)?.name ?? "Private Message" }))
         .setColor("Random")
         .setDescription(t("strings:leaderboard.embed.description", {
             lng,
