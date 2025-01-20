@@ -11,5 +11,5 @@ export const databaseConfig: Options = {
     dialectOptions: {
         mode: [SQLite.OPEN_READWRITE, SQLite.OPEN_FULLMUTEX]
     },
-    logging: true
+    logging: false
 };
