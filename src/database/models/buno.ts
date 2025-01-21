@@ -20,13 +20,14 @@ Buno.init({
         primaryKey: true,
     },
     userId: {
-        type: DataTypes.STRING(18),
+        type: DataTypes.STRING(19),
         allowNull: false,
         unique: false
     },
     guildId: {
-        type: DataTypes.STRING(18),
-        allowNull: false
+        type: DataTypes.STRING(19),
+        allowNull: false,
+        unique: false
     },
     settings: {
         type: DataTypes.JSON
