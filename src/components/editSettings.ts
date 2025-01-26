@@ -25,7 +25,7 @@ const comp = async (game: unoGame) => {
             ...Object.keys(defaultSettings).map(e => {
                 const key = e as keyof unoSettings;
                 const value = game.settings[key];
-                return new StringSelectMenuOptionBuilder().setLabel(t("strings:settings.embed.footer", { lng })).setValue(e).setDescription(t("strings:settings.currentValue", { lng, value: value === true ? "✅" : value === false ? "❌" : typeof value === "number" ? value : t(`strings:settings.value.${value}`) }));
+                return new StringSelectMenuOptionBuilder().setLabel(t("strings:settings.embed.options." + e as any, { lng })).setValue(e).setDescription(t("strings:settings.currentValue", { lng, value: value === true ? "✅" : value === false ? "❌" : typeof value === "number" ? value : t(`strings:settings.value.${value}`) }));
             })
         ]).setMaxValues(1).setMinValues(1)
     ])];
