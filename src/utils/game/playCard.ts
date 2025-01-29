@@ -106,7 +106,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
             endTurn(interaction.client, game, interaction, interaction.user.id, "played", toAppend);
         }
     }
-    else if (game.settings.sevenAndZero && ["7", "0"].includes(type)) {
+    else if (game.settings.sevenAndZero && ["7", "0"].includes(type) && game.cards[interaction.user.id].length === 0) {
         if (type === "7") {
             game.turnProgress = "pickPlayer";
             game.playedCard = card as `${typeof colors[number]}-7`;
