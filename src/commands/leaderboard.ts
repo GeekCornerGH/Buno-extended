@@ -15,8 +15,6 @@ export const c: command = {
         .setContexts([InteractionContextType.Guild, InteractionContextType.PrivateChannel])
         .setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall]),
     execute: async (client, interaction) => {
-        // if (!interaction.inGuild()) return;
-        console.log(interaction.guildId, interaction.channelId);
         await interaction.deferReply();
         const lng = interaction.locale.split("-")[0];
         const cmd = client.application?.commands.cache.find(c => c.name === "uno");
