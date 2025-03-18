@@ -8,7 +8,7 @@ export default async function generatePlayerList(client: Client, game: unoGame):
     let string = "```diff\n";
     const usernames: { [key: Snowflake]: string } = {};
     for (const player of game.players) {
-        const username = await getUsername(client, game.guildId, player);
+        const username = await getUsername(client, game.guildId, player, !game.guildApp);
         usernames[player] = username;
     }
     // Generate the string

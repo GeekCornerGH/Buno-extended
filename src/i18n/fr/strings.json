@@ -118,6 +118,7 @@
         "alone": "Tu ne peux pas commencer une partie seul",
         "blacklisted": "Tu es sur la blacklist pour la raison:\n{{reason}}",
         "cantContestYourOwn": "Tu ne peux pas contester ton propre +4",
+        "ephemeral": "Ceci est un jeu multijoueur. Vous avez besoin des permissions suivantes pour jouer au jeu: \n- Intégrer des liens\n- Utiliser des emojis externes\n- Utiliser des applications externes\nVeuillez demander à un administrateur du serveur l'accès à ces permissions.",
         "execution": "Une erreur est survenue dans l'exécution de la commande.",
         "forbidden": "Tu n'as pas le droit d'arrêter le jeu.",
         "gameInChannel": "Un jeu existe déjà sur ce salon :point_right: {{url}}",
@@ -317,8 +318,9 @@
             }
         },
         "notPlayable": "Tu ne peux pas jouer cette carte.",
+        "noPlayers": "Personne n'était disponible pour jouer avec **{{name}}**",
         "notYourTurn": "Ce n'est pas votre tour.",
-        "played": "**{{name}}** a joué {{currentCardEmote}} {{card}}",
+        "played": "**{{name}}** a joué {{currentCardEmote}} **{{card}}**",
         "playerPicker": "Choisissez un joueur",
         "started": "**Le jeu est lancé !**",
         "startedAA": "\nLe mode de jeu «Admin abuse» est activé pour ce jeu. Tu peux éjecter l'hôte si tu pensez qu'il abuse en ouvrant le menu Actions.",
@@ -344,6 +346,10 @@
                 "wlr": "{winLossRatio}} W/L Ratio"
             },
             "noLosses": "Aucune défaite"
+        },
+        "words": {
+            "dm": "cette conversation privée",
+            "guild": "ce serveur"
         }
     },
     "leave": {

@@ -1,4 +1,4 @@
-import { ApplicationIntegrationType, EmbedBuilder, InteractionContextType, MessageFlags, PermissionFlagsBits, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, EmbedBuilder, InteractionContextType, InteractionReplyOptions, MessageCreateOptions, MessageFlags, PermissionFlagsBits, SlashCommandBuilder, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import { command } from "../typings/command.js";
@@ -11,16 +11,11 @@ export const c: command = {
         .setDescription(t("strings:commands.stop.command.description", { lng: "en" }))
         .setNameLocalizations(generateLocalized("strings:commands.stop.command.name"))
         .setDescriptionLocalizations(generateLocalized("strings:commands.stop.command.description"))
-        .setContexts([InteractionContextType.Guild, InteractionContextType.PrivateChannel])
+        .setContexts([InteractionContextType.Guild])
         .setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall]),
     execute: async (client, interaction) => {
-        if (!interaction.inGuild()) return;
         const lng = interaction.locale.split("-")[0];
         const game = client.games.find(g => g.channelId === interaction.channelId);
-        if (!config.developerIds.includes(interaction.user.id) && (interaction.member.permissions as PermissionsBitField).has(PermissionFlagsBits.ManageMessages)) return interaction.reply({
-            content: "nuh uh ☝️",
-            flags: MessageFlags.Ephemeral
-        });
         if (!game) return interaction.reply({
             content: t("strings:errors.gameNotFound", { lng }),
             flags: MessageFlags.Ephemeral
@@ -40,14 +35,18 @@ export const c: command = {
         const msg = interaction.channel?.messages.cache.get(game.messageId);
         if (msg) await msg.delete();
         client.games.splice(client.games.findIndex(g => g === game), 1);
-        interaction.channel?.send({
+        const toSend = {
             content: t("strings:game.states.stopped", { lng: game.locale, user: interaction.user.toString() }),
             embeds: [new EmbedBuilder()
                 .setColor("Red")
                 .setImage("https://media.tenor.com/TuaZhZCF4HQAAAAi/lucosgif.gif")
             ],
             allowedMentions: { parse: [] }
-        });
-        await interaction.deleteReply();
+        } satisfies MessageCreateOptions | InteractionReplyOptions;
+        if (game.guildApp) {
+            (interaction.channel as TextChannel)?.send(toSend);
+            await interaction.deleteReply();
+        }
+        else return interaction.reply(toSend);
     }
 };

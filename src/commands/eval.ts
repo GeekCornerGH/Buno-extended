@@ -38,6 +38,7 @@ export const c: command = {
             else return data;
 
         };
+
         const game = client.games.find(g => g.channelId === interaction.channelId);
         // eslint-disable-next-line no-unused-expressions
         game;
