@@ -1,28 +1,29 @@
-import { Client, DiscordAPIError, Guild, GuildMember, Snowflake, } from "discord.js";
+import { Client, Collection, DiscordAPIError, Guild, GuildMember, Snowflake } from "discord.js";
 
-const nonExistentMemberCache = new Map<Snowflake, boolean>();
+export const nameCache = new Collection<`${Snowflake | undefined}_${Snowflake}`, { name: string; timestamp: number }>();
 const CACHE_DURATION = 30000; // 30 seconds
 
-export async function getUsername(client: Client, guildId: Snowflake, memberId: Snowflake): Promise<string> {
+export async function getUsername(client: Client, guildId: Snowflake | undefined, memberId: Snowflake, isUserApp?: boolean): Promise<string> {
+    const cachedName = nameCache.get(`${guildId}_${memberId}`);
+    if (cachedName && Date.now() - cachedName.timestamp < CACHE_DURATION) {
+        return cachedName.name;
+    }
+
+    if (isUserApp || !guildId) return await fetchAndCacheUserDisplayName(client, memberId);
+
     try {
-        // Fetch guild
         const guild = client.guilds.cache.get(guildId) || await client.guilds.fetch(guildId);
 
-        // Check if member is cached as non-existent
-        if (nonExistentMemberCache.has(memberId)) {
-            return await fetchUserDisplayName(client, memberId);
-        }
-
-        // Attempt to fetch member
         try {
             const member = await fetchMember(guild, memberId);
-            return member.displayName;
+            const name = member.displayName;
+            nameCache.set(`${guildId}_${memberId}`, { name, timestamp: Date.now() });
+            return name;
         } catch (memberError) {
             if ((memberError as DiscordAPIError).code === 10007) { // Unknown member error
-                nonExistentMemberCache.set(memberId, true);
-                setTimeout(() => nonExistentMemberCache.delete(memberId), CACHE_DURATION);
+                return await fetchAndCacheUserDisplayName(client, memberId);
             }
-            return await fetchUserDisplayName(client, memberId);
+            throw memberError;
         }
     } catch (error) {
         console.error("Error in getUsername:", error);
@@ -34,10 +35,12 @@ async function fetchMember(guild: Guild, memberId: Snowflake): Promise<GuildMemb
     return guild.members.cache.get(memberId) || await guild.members.fetch(memberId);
 }
 
-async function fetchUserDisplayName(client: Client, userId: Snowflake): Promise<string> {
+async function fetchAndCacheUserDisplayName(client: Client, userId: Snowflake): Promise<string> {
     try {
         const user = client.users.cache.get(userId) || await client.users.fetch(userId);
-        return user.displayName;
+        const name = user.displayName;
+        nameCache.set(`${undefined}_${userId}`, { name, timestamp: Date.now() });
+        return name;
     } catch (error) {
         console.error("Error fetching user:", error);
         return "<Unknown player>";

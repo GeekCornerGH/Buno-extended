@@ -1,3 +1,5 @@
+import { ButtonInteraction, ChatInputCommandInteraction } from "discord.js";
+
 import { colors, uniqueVariants, variants } from "../utils/constants.js";
 
 type waitingUnoGame = {
@@ -12,7 +14,9 @@ type waitingUnoGame = {
     players: string[]
     settings: unoSettings,
     _modified: boolean,
-    guildApp: boolean
+    guildApp: boolean,
+    updateToken?: string,
+    interaction: ChatInputCommandInteraction | ButtonInteraction
 };
 
 export type runningUnoGame = {
@@ -49,7 +53,8 @@ export type runningUnoGame = {
         [user: string]: unoCard[];
     },
     jumpedIn: boolean,
-    guildApp: boolean
+    guildApp: boolean,
+    interaction: ChatInputCommandInteraction | ButtonInteraction
 };
 
 export type unoGame = waitingUnoGame | runningUnoGame;

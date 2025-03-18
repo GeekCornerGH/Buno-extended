@@ -24,8 +24,9 @@ export const b: button = {
             flags: MessageFlags.Ephemeral,
             content: t("strings:errors.alone", { lng })
         });
-        startGame(client, game, false, interaction.message);
-        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-        interaction.deleteReply();
+        if (game.guildApp) await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+        else await interaction.deferUpdate();
+        await startGame(client, game, false, interaction.message);
+        if (game.guildApp) interaction.deleteReply();
     }
 };

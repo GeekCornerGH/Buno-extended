@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, InteractionEditReplyOptions, PartialGroupDMChannel, TextChannel } from "discord.js";
+import { ActionRowBuilder, ApplicationIntegrationType, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, InteractionEditReplyOptions } from "discord.js";
 import { t } from "i18next";
 
 import { Buno } from "../database/models/buno.js";
@@ -13,7 +13,7 @@ export default async function (rows: Buno[], interaction: ChatInputCommandIntera
     }));
 
     const embed = new EmbedBuilder()
-        .setTitle(t("strings:leaderboard.embed.title", { lng, guild: interaction.guild?.name ?? (interaction.channel as TextChannel | PartialGroupDMChannel)?.name ?? "Private Message" }))
+        .setTitle(t("strings:leaderboard.embed.title", { lng, guild: interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners ? interaction.guild?.name : interaction.inGuild() ? t("strings:leaderboard.words.guild", { lng }) : t("strings:leaderboard.words.dm", { lng }) }))
         .setColor("Random")
         .setDescription(t("strings:leaderboard.embed.description", {
             lng,

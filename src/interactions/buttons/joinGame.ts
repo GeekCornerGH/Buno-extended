@@ -1,4 +1,4 @@
-import { EmbedBuilder, Guild, GuildMember, InteractionUpdateOptions, MessageFlags } from "discord.js";
+import { EmbedBuilder, InteractionUpdateOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import lobbyGameMessage from "../../components/lobbyGameMessage.js";
@@ -27,8 +27,8 @@ export const b: button = {
             content: t("strings:errors.tooManyInGame", { lng, count: maxPlayerInGame }),
             flags: MessageFlags.Ephemeral
         });
-        game.players.push((interaction.member as GuildMember).id);
-        await interaction.update(await lobbyGameMessage(client, game, interaction.guild as Guild) as InteractionUpdateOptions);
+        game.players.push(interaction.user.id);
+        await interaction.update(await lobbyGameMessage(client, game) as InteractionUpdateOptions);
         const now = new Date();
         // Run on april fools, january is 0, april is 3
         if (now.getMonth() === 3 && now.getDate() === 1) return interaction.followUp({
