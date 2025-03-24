@@ -5,11 +5,13 @@ const CACHE_DURATION = 30000; // 30 seconds
 
 export async function getUsername(client: Client, guildId: Snowflake | undefined, memberId: Snowflake, isUserApp?: boolean): Promise<string> {
     const cachedName = nameCache.get(`${guildId}_${memberId}`);
-    if (cachedName && Date.now() - cachedName.timestamp < CACHE_DURATION) {
+    if (cachedName && (Date.now() - cachedName.timestamp < CACHE_DURATION || isUserApp)) {
         return cachedName.name;
     }
 
-    if (isUserApp || !guildId) return await fetchAndCacheUserDisplayName(client, memberId);
+    if (isUserApp) return await fetchAndCacheUserDisplayName(client, memberId);
+
+    if (!guildId) return ""; // We'll never reach this, as that case only triggers when used as a user app.
 
     try {
         const guild = client.guilds.cache.get(guildId) || await client.guilds.fetch(guildId);

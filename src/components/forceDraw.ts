@@ -12,7 +12,6 @@ import { getUsername } from "../utils/getUsername.js";
 
 export default async (client: Client, interaction: ButtonInteraction, game: runningUnoGame, player: string): Promise<InteractionReplyOptions> => {
     const lng = game.locale;
-    if (!interaction.inGuild()) return { content: "This shouldn't happen" };
     const playerCards = game.cards[player].filter(c => c === "+4" || c.endsWith("-+2") || (game.settings.reverseAnything === true && c.endsWith("-reverse")));
     const cards = cardArrayToCount(playerCards as unoCard[]);
     const entries: SelectMenuComponentOptionData[] = [
@@ -36,7 +35,7 @@ export default async (client: Client, interaction: ButtonInteraction, game: runn
         if (game.currentPlayer === player) game.currentPlayer = next(game.players, game.players.indexOf(game.currentPlayer));
         delete game.cards[player];
         game.playersWhoLeft.push(player);
-        endTurn(client, game, interaction, player, "misc", t("strings:game.tooManyCards", { lng, name: await getUsername(client, interaction.guildId, player) }), false);
+        endTurn(client, game, interaction, player, "misc", t("strings:game.tooManyCards", { lng, name: await getUsername(client, interaction.guildId ?? interaction.channelId, player, !game.guildApp) }), false);
         game.canSkip = false;
         if (game.players.length === 1) {
             endGame(game, client, "notEnoughPeople", game.players[0]);

@@ -29,7 +29,7 @@ export const s: stringSelect = {
         });
         const target = interaction.values[0];
         await interaction.deferUpdate();
-        const options = await Promise.all(game.players.filter(p => p !== target).map(async p => new StringSelectMenuOptionBuilder().setLabel(await getUsername(client, game.guildId, interaction.user.id)).setValue(p)));
+        const options = await Promise.all(game.players.filter(p => p !== target).map(async p => new StringSelectMenuOptionBuilder().setLabel(await getUsername(client, game.guildId, interaction.user.id, !game.guildApp)).setValue(p)));
         return interaction.editReply({
             content: t("strings:game.aa.swap.from.select", { lng }),
             components: [

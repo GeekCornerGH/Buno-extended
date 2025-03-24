@@ -17,7 +17,14 @@ export const e: event = async (client, interaction: BaseInteraction) => {
         content: t("strings:errors.blacklisted", { lng, reason: blCheck.getDataValue("reason") }),
         flags: MessageFlags.Ephemeral
     });
-    nameCache.set(`${interaction.guildId ?? undefined}_${interaction.user.id}`, { name: interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners ? (interaction.member as GuildMember).displayName : interaction.inGuild() ? (interaction.member as APIGuildMember).nick ?? interaction.user.displayName : interaction.user.displayName, timestamp: Date.now() });
+    nameCache.set(`${interaction.guildId ?? undefined}_${interaction.user.id}`, {
+        name: interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners ?
+            (interaction.member as GuildMember).displayName
+            : interaction.inGuild() ?
+                (interaction.member as APIGuildMember).nick ?? interaction.user.displayName
+                : interaction.user.displayName,
+        timestamp: Date.now()
+    });
     if (interaction.isChatInputCommand()) {
         const i = interaction as ChatInputCommandInteraction;
         try {

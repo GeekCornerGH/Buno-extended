@@ -6,10 +6,11 @@ import { ButtonIDs } from "../utils/constants.js";
 import { getUsername } from "../utils/getUsername.js";
 
 export default async function (rows: Buno[], interaction: ChatInputCommandInteraction | ButtonInteraction, total: number, offset: number = 0): Promise<InteractionEditReplyOptions> {
+    const guildApp = interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners;
     const lng = interaction.locale.split("-")[0];
     const dataArray = await Promise.all(rows.map(async (r, index) => {
         const rank = (offset * 25) + index + 1;
-        return { rank, member: await getUsername(interaction.client, interaction.guildId ?? interaction.channelId, r.getDataValue("userId")), wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
+        return { rank, member: await getUsername(interaction.client, interaction.guildId ?? interaction.channelId, r.getDataValue("userId"), !guildApp), wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
     }));
 
     const embed = new EmbedBuilder()

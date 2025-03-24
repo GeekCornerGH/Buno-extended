@@ -25,7 +25,10 @@ export const b: button = {
             content: t("strings:errors.alone", { lng })
         });
         if (game.guildApp) await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-        else await interaction.deferUpdate();
+        else {
+            await interaction.deferUpdate();
+            game.interaction = interaction;
+        }
         await startGame(client, game, false, interaction.message);
         if (game.guildApp) interaction.deleteReply();
     }

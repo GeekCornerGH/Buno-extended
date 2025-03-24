@@ -25,13 +25,15 @@ export const b: button = {
             content: t("strings:errors.notInGame", { lng }),
             flags: MessageFlags.Ephemeral,
         });
-        if (game.currentPlayer !==interaction.user.id && game.settings.jumpIn && !game.jumpedIn && (game.cards[interaction.user.id].includes(game.currentCard) || ((game.currentCard.endsWith("-wild") || game.currentCard.endsWith("-+4") && game.cards[interaction.user.id].includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]))))) {
+        if (game.currentPlayer !== interaction.user.id && game.settings.jumpIn && !game.jumpedIn && (game.cards[interaction.user.id].includes(game.currentCard) || ((game.currentCard.endsWith("-wild") || game.currentCard.endsWith("-+4") && game.cards[interaction.user.id].includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]))))) {
             game.jumpedIn = true;
             await interaction.deferReply({
                 flags: MessageFlags.Ephemeral
             });
             game.currentPlayer = interaction.user.id;
-            await (interaction.channel as TextChannel).send(t("strings:game.jumpedIn", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }));
+            const jumpedInText = t("strings:game.jumpedIn", { lng, name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp) });
+            if (game.guildApp) await (interaction.channel as TextChannel).send(jumpedInText);
+            else game.previousActions?.push(jumpedInText);
             if (uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]) || game.currentCard.endsWith("-7")) {
                 game.playedCard = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]) ? game.currentCard.split("-")[1] as "wild" | "+4" : game.currentCard as `${typeof colors[number]}-7`;
                 if (game.playedCard.endsWith("-7")) {
@@ -47,7 +49,7 @@ export const b: button = {
             }
             else playCardLogic(game, game.currentCard, interaction, lng);
         }
-        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+        else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),
             flags: MessageFlags.Ephemeral
         });

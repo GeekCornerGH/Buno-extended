@@ -1,11 +1,18 @@
-// import { readFileSync } from "fs";
-
+import { ColorResolvable, Colors } from "discord.js";
 import { readFileSync } from "fs";
 
 import { unoCard, unoSettings } from "../typings/unoGame.js";
 import { config } from "./config.js";
 
 export const colors = ["red", "yellow", "green", "blue",] as const;
+
+export const embedMap: Record<typeof colors[number], ColorResolvable> = {
+    blue: Colors.Blue,
+    green: Colors.Green,
+    red: Colors.Red,
+    yellow: Colors.Yellow,
+} as const;
+
 // eslint-disable-next-line no-unused-vars
 export const colorEmotes: { [k in typeof colors[number] | "other"]: string } = {
     red: "🟥",
@@ -104,7 +111,7 @@ export const defaultSettings: unoSettings = {
 
 export const maxRejoinableTurnCount = 30;
 
-export const autoStartTimeout = 5 * 60 * 1000;
+export const autoStartTimeout = (5 * 60 + 5) * 1000;
 
 // do NOT use "__" in any id's
 export const ButtonIDs = Object.freeze({
@@ -176,3 +183,5 @@ export const maxWeightBeforeResend = 20;
 
 // It is recommended to not allow more than 12 users
 export const maxPlayerInGame = 12;
+
+export const maxActionShownInUserApp = 5;

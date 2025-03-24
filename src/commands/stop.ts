@@ -4,6 +4,7 @@ import { t } from "i18next";
 import { command } from "../typings/command.js";
 import { config } from "../utils/config.js";
 import generateLocalized from "../utils/i18n/generateLocalized.js";
+import timeouts from "../utils/timeoutManager.js";
 
 export const c: command = {
     data: new SlashCommandBuilder()
@@ -43,6 +44,7 @@ export const c: command = {
             ],
             allowedMentions: { parse: [] }
         } satisfies MessageCreateOptions | InteractionReplyOptions;
+        timeouts.delete(game.channelId);
         if (game.guildApp) {
             (interaction.channel as TextChannel)?.send(toSend);
             await interaction.deleteReply();

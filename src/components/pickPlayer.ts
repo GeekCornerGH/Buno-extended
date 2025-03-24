@@ -10,7 +10,7 @@ export default async (client: Client, game: runningUnoGame, player: string): Pro
     const createRow = async () => {
         const optionsPromises = game.players.map(async p => {
             if (player === p) return;
-            const displayName = await getUsername(client, game.guildId, p);
+            const displayName = await getUsername(client, game.guildId, p, !game.guildApp);
             return new StringSelectMenuOptionBuilder()
                 .setValue(p)
                 .setLabel(displayName);

@@ -1,6 +1,7 @@
 import { MessageFlags, TextChannel } from "discord.js";
 import { t } from "i18next";
 
+import runningGameMessage from "../../components/runningGameMessage.js";
 import { stringSelect } from "../../typings/stringSelect.js";
 import { unoCard } from "../../typings/unoGame.js";
 import { SelectIDs, uniqueVariants } from "../../utils/constants.js";
@@ -10,7 +11,6 @@ import { getUsername } from "../../utils/getUsername.js";
 export const s: stringSelect = {
     name: SelectIDs.CHOOSE_CARD,
     execute: async (client, interaction) => {
-        if (!interaction.inGuild()) return;
         const card = interaction.values[0] as unoCard | typeof uniqueVariants[number] | "draw" | "skip";
         const game = client.games.find(g => g.channelId === interaction.channelId);
         let lng = interaction.locale.split("-")[0];
@@ -35,7 +35,15 @@ export const s: stringSelect = {
             });
         }
         if (game.drawStack > 0) {
-            (interaction.channel as TextChannel).send(t("strings:game.card.avoidDraw", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }));
+            const msg = t("strings:game.card.avoidDraw", { lng, name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp) });
+            if (game.guildApp) await (interaction.channel as TextChannel).send(msg);
+            else {
+                game.previousActions.push(msg);
+                await interaction.editReply({
+                    message: game.messageId,
+                    ...await runningGameMessage(client, game)
+                });
+            }
             return interaction.editReply({
                 content: "nuh uh ☝️",
                 components: []

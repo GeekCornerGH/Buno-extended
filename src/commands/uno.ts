@@ -5,7 +5,7 @@ import { t } from "i18next";
 import lobbyGameMessage from "../components/lobbyGameMessage.js";
 import { Buno } from "../database/models/buno.js";
 import { command } from "../typings/command.js";
-import { unoGame, waitingUnoGame } from "../typings/unoGame.js";
+import { waitingUnoGame } from "../typings/unoGame.js";
 import { autoStartTimeout, defaultSettings } from "../utils/constants.js";
 import startGame from "../utils/game/startGame.js";
 import generateLocalized from "../utils/i18n/generateLocalized.js";
@@ -25,7 +25,7 @@ export const c: command = {
         if (isGame) {
             lng = isGame.locale;
             return await interaction.reply({
-                content: t("strings:errors.gameInChannel", { lng, url: "https://discord.com/channels/" + interaction.guildId + "/" + isGame.channelId + "/" + isGame.messageId }),
+                content: t("strings:errors.gameInChannel", { lng, url: "https://discord.com/channels/" + interaction.inGuild() ? interaction.guildId : "@me" + "/" + isGame.channelId + "/" + isGame.messageId }),
                 flags: MessageFlags.Ephemeral
             });
         }
@@ -66,7 +66,7 @@ export const c: command = {
             players: [interaction.user.id],
             settings,
             guildApp,
-        } as unoGame;
+        } as waitingUnoGame;
         client.games.push(game);
         const toSend = await lobbyGameMessage(client, game as waitingUnoGame) satisfies MessageCreateOptions | InteractionUpdateOptions;
         let message: Message | undefined;

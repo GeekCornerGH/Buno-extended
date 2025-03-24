@@ -26,7 +26,7 @@ export default async (client: Client, game: runningUnoGame, player: string) => {
             else {
                 game.drawStack += 4;
                 const nextPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
-                toAppend += `\n${t("strings:game.draw.drewAndSkipped", { lng, name: await getUsername(client, game.guildId, game.currentPlayer) })}`;
+                toAppend += `\n${t("strings:game.draw.drewAndSkipped", { lng, name: await getUsername(client, game.guildId, game.currentPlayer, !game.guildApp) })}`;
                 game.cards[nextPlayer] = game.cards[nextPlayer].concat(draw(game.cardsQuota, game.drawStack));
                 if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
                 game.turnProgress = "chooseCard";
@@ -42,7 +42,7 @@ export default async (client: Client, game: runningUnoGame, player: string) => {
         game.cards[chosenOne] = game.cards[previousPlayer];
         game.cards[previousPlayer] = tempHolder;
         game.currentCard = game.playedCard as unoCard;
-        toAppend += `\n${t("strings:game.card.swapped", { lng, from: await getUsername(client, game.guildId, player), to: await getUsername(client, game.guildId, chosenOne) })}`;
+        toAppend += `\n${t("strings:game.card.swapped", { lng, from: await getUsername(client, game.guildId, player, !game.guildApp), to: await getUsername(client, game.guildId, chosenOne, !game.guildApp) })}`;
         game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer), 1);
     }
     else {
@@ -53,17 +53,33 @@ export default async (client: Client, game: runningUnoGame, player: string) => {
         delete game.cards[previousPlayer];
         game.playersWhoLeft.push(previousPlayer);
     }
-    toAppend += `\n${game.settings.kickOnTimeout ? t("strings:game.afk.kicked", { lng, name: await getUsername(client, game.guildId, previousPlayer) }) : t("strings:game.afk.skipped", { lng, name: await getUsername(client, game.guildId, previousPlayer) })}`;
+    toAppend += `\n${game.settings.kickOnTimeout ? t("strings:game.afk.kicked", { lng, name: await getUsername(client, game.guildId, previousPlayer, !game.guildApp) }) : t("strings:game.afk.skipped", { lng, name: await getUsername(client, game.guildId, previousPlayer, !game.guildApp) })}`;
     const isUnique = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]);
     const currentCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
-    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(t("strings:game.played", { name: await getUsername(client, game.guildId, previousPlayer), lng, currentCardEmote, card: toTitleCase(game.currentCard, lng) }) + toAppend);
+    const playedMessage = t("strings:game.played", { name: await getUsername(client, game.guildId, previousPlayer, !game.guildApp), lng, currentCardEmote, card: toTitleCase(game.currentCard, lng) }) + toAppend;
+    if (game.guildApp) await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(playedMessage);
+    else game.previousActions.push(playedMessage);
+
     if (game.settings.kickOnTimeout) {
         if (game._modified && game.players.length === 0) return endGame(game, client, "notEnoughPeople");
         else if (game.players.length === 1) return endGame(game, client, "win", game.currentPlayer);
     }
-    await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).messages.cache.get(game.messageId)?.delete();
-    const msg = await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(await runningGameMessage(client, game));
-    game.messageId = msg.id;
+    const runningMessage = await runningGameMessage(client, game);
+    if (game.guildApp) {
+        await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).messages.cache.get(game.messageId)?.delete();
+        const msg = await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(runningMessage);
+        game.messageId = msg.id;
+    }
+    else {
+        await game.interaction.editReply({
+            message: game.messageId,
+            ...runningMessage
+        });
+        if (game.mentionId) await game.interaction.deleteReply(game.mentionId);
+        game.mentionId = (await game.interaction?.followUp({
+            content: t("strings:game.mention", { mention: `<@${game.currentPlayer}>`, lng }) + `\nhttps://discord.com/channels/${game.interaction.inGuild() ? game.interaction.guildId : "@me"}/${game.channelId}/${game.messageId}`,
+        }))?.id;
+    }
     game.turnProgress = "chooseCard";
     game.log.push({ player: previousPlayer, card: game.currentCard, adminAbused: game.adminAbused });
     game.canSkip = false;

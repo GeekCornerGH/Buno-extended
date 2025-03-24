@@ -49,6 +49,7 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     game.saboteurs = {};
     game.adminAbused = false;
     game.messageCount = 0;
+    if (!game.guildApp) game.previousActions = [];
     game.currentCard = draw(game.cardsQuota, 1, true)[0];
     use(game, game.currentCard, "0");
     game.log = [{ player: "0", card: game.currentCard, adminAbused: false }];
@@ -58,13 +59,18 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     const gameStartMessage = `${t("strings:game.started", { lng })}${game.settings.adminabusemode === true ? t("strings:game.startedAA", { lng }) : ""}`;
     let msg: Message;
     const toSend = await runningGameMessage(client, game);
-    if (game.guildApp) await (message.channel as GuildTextBasedChannel).send(gameStartMessage);
-    if (game.guildApp) msg = await (message.channel as GuildTextBasedChannel).send(toSend);
+    if (game.guildApp) {
+        await (message.channel as GuildTextBasedChannel).send(gameStartMessage);
+        msg = await (message.channel as GuildTextBasedChannel).send(toSend);
+    }
     else {
-        msg = await game.interaction.editReply({
+        msg = await game.interaction?.editReply({
             content: gameStartMessage,
             ...toSend
         });
+        game.mentionId = (await game.interaction?.followUp({
+            content: t("strings:game.mention", { mention: `<@${game.currentPlayer}>`, lng }) + `\nhttps://discord.com/channels/${game.interaction.inGuild() ? game.interaction.guildId : "@me"}/${game.channelId}/${game.messageId}`,
+        }))?.id;
     }
     game.messageId = msg.id;
     timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);

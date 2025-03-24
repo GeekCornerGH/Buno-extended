@@ -11,7 +11,6 @@ import { defaultSettings, SelectIDs, SettingsIDs } from "../../utils/constants.j
 export const s: stringSelect = {
     name: SelectIDs.EDIT_GAME_SETTINGS,
     execute: async (client, interaction) => {
-        if (!interaction.inGuild()) return;
         const option = interaction.values[0] as keyof unoSettings;
         const game = client.games.find(g => g.channelId === interaction.channelId && g.guildId === interaction.guildId);
         let lng = interaction.locale.split("-")[0];
@@ -30,13 +29,13 @@ export const s: stringSelect = {
         });
         const req = await Buno.findOne({
             where: {
-                guildId: interaction.guildId,
+                guildId: interaction.guildId ?? interaction.channelId,
                 userId: interaction.user.id
             }
         });
         if (!req) await Buno.create({
             userId: interaction.user.id,
-            guildId: interaction.guildId,
+            guildId: interaction.guildId ?? interaction.channelId,
             wins: 0,
             losses: 0,
             settings: {
@@ -51,7 +50,7 @@ export const s: stringSelect = {
             }, {
                 where: {
                     userId: game.hostId,
-                    guildId: interaction.guildId
+                    guildId: interaction.guildId ?? interaction.channelId
                 }
             });
             return interaction.update({ ...await editSettings(game) as InteractionUpdateOptions });
@@ -86,7 +85,7 @@ export const s: stringSelect = {
             }, {
                 where: {
                     userId: game.hostId,
-                    guildId: interaction.guildId
+                    guildId: interaction.guildId ?? interaction.channelId
                 }
             });
             return interaction.update({ ...await editSettings(game) as InteractionUpdateOptions });

@@ -35,15 +35,15 @@ export const b: button = {
             flags: MessageFlags.Ephemeral
         });
         if (game.cards[previousPlayer].length !== 1) return interaction.reply({
-            content: t("strings:game.buno.contest.tooManyCards", { lng, name: await getUsername(client, game.guildId, previousPlayer) }),
+            content: t("strings:game.buno.contest.tooManyCards", { lng, name: await getUsername(client, game.guildId, previousPlayer, !game.guildApp) }),
             flags: MessageFlags.Ephemeral
         });
         if (game.unoPlayers.includes(previousPlayer)) return interaction.reply({
-            content: t("strings:game.buno.contest.alreadyYelled", { lng, name: await getUsername(client, game.guildId, previousPlayer) }),
+            content: t("strings:game.buno.contest.alreadyYelled", { lng, name: await getUsername(client, game.guildId, previousPlayer, !game.guildApp) }),
             flags: MessageFlags.Ephemeral
         });
         await interaction.deferUpdate();
-        const toAppend = t("strings:game.buno.contest.drew", { lng, name: await getUsername(client, game.guildId, interaction.user.id), drawer: await getUsername(client, game.guildId, previousPlayer), stack: 2 });
+        const toAppend = t("strings:game.buno.contest.drew", { lng, name: await getUsername(client, game.guildId, interaction.user.id), drawer: await getUsername(client, game.guildId, previousPlayer, !game.guildApp), stack: 2 });
         game.cards[previousPlayer] = game.cards[previousPlayer].concat(draw(game.cardsQuota, 2));
         endTurn(client, game, interaction, interaction.user.id, "misc", toAppend, false);
     }
