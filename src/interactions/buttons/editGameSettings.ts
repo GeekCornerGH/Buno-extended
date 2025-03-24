@@ -24,7 +24,7 @@ export const b: button = {
         });
         const req = await Buno.findOne({
             where: {
-                guildId: interaction.guild?.id,
+                guildId: interaction.guildId ?? interaction.channelId,
                 userId: game.hostId
             }
         });

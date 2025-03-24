@@ -68,14 +68,14 @@ export const s: stringSelect = {
             game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
             if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
             if (game.players.length > 2) game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer), 2);
-            toAppend += t("strings:game.forceDraw.reverse.reverseMessage", { lng, stack: game.drawStack, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))) });
+            toAppend += t("strings:game.forceDraw.reverse.reverseMessage", { lng, stack: game.drawStack, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer)), !game.guildApp) });
             game.drawStack = 0;
             endTurn(client, game, interaction, interaction.user.id, "played", toAppend);
         }
         else if (playedCard === "draw") {
             game.cards[game.currentPlayer] = game.cards[game.currentPlayer].concat(draw(game.cardsQuota, game.drawStack));
             if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
-            toAppend += t("strings:game.forceDraw.draw", { name: await getUsername(client, game.guildId, game.currentPlayer), stack: game.drawStack, lng });
+            toAppend += t("strings:game.forceDraw.draw", { name: await getUsername(client, game.guildId, game.currentPlayer, !game.guildApp), stack: game.drawStack, lng });
             game.drawStack = 0;
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
             endTurn(client, game, interaction, interaction.user.id, "misc", toAppend);
@@ -106,7 +106,7 @@ export const s: stringSelect = {
             }
             else {
                 game.drawStack += 2;
-                toAppend = t("strings:game.forceDraw.draw", { name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))), lng, stack: game.drawStack });
+                toAppend = t("strings:game.forceDraw.draw", { name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer)), !game.guildApp), lng, stack: game.drawStack });
                 if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
                 game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
                 game.turnProgress = "chooseCard";

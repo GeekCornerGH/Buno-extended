@@ -34,7 +34,7 @@ export const b: button = {
             .setTitle(t("strings:game.aa.edit.embed.title", { lng }))
             .setDescription(t("strings:game.aa.edit.embed.description", { lng }));
         const options = await Promise.all(game.players.map(async p => new StringSelectMenuOptionBuilder()
-            .setLabel(await getUsername(client, game.guildId, p))
+            .setLabel(await getUsername(client, game.guildId, p, !game.guildApp))
             .setValue(p)
         ));
         const row = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents([new StringSelectMenuBuilder()

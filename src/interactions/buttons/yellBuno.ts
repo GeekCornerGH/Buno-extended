@@ -35,6 +35,6 @@ export const b: button = {
         });
         await interaction.deferUpdate();
         game.unoPlayers.push(interaction.user.id);
-        endTurn(client, game, interaction, interaction.user.id, "misc", t("game.buno.yell.message", { name: await getUsername(client, game.guildId, interaction.user.id), lng, yell: `BUN${"O".repeat(getRandomInt(1, 5))} O${"U".repeat(getRandomInt(1, 5))}T` }), false);
+        endTurn(client, game, interaction, interaction.user.id, "misc", t("game.buno.yell.message", { name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), lng, yell: `BUN${"O".repeat(getRandomInt(1, 5))} O${"U".repeat(getRandomInt(1, 5))}T` }), false);
     }
 };

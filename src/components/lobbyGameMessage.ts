@@ -8,7 +8,15 @@ import { getUsername } from "../utils/getUsername.js";
 
 export default async (client: Client, game: waitingUnoGame): Promise<MessageCreateOptions | InteractionUpdateOptions> => {
     const lng = game.locale;
-    const embed = new EmbedBuilder().setColor("Random").setTitle("Da Buno!").setDescription(t("strings:game.lobby.body", { timer: `<t:${Math.round(game.startsAt / 1000)}:R>`, host: await getUsername(client, game.guildId, game.hostId, !game.guildApp), playerList: await generatePlayerList(client, game), lng }));
+    const embed = new EmbedBuilder()
+        .setColor("Random")
+        .setTitle("Da Buno!")
+        .setDescription(t("strings:game.lobby.body", {
+            timer: `<t:${Math.round(game.startsAt / 1000)}:R>`,
+            host: await getUsername(client, game.guildId, game.hostId, !game.guildApp),
+            playerList: await generatePlayerList(client, game),
+            lng
+        }));
     if (game._modified) embed.setFooter({ text: t("strings:game.lobby.modified") });
     return {
         embeds: [embed],

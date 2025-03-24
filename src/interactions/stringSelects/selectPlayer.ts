@@ -51,6 +51,6 @@ export const s: stringSelect = {
             game.unoPlayers.push(interaction.user.id);
             game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === player), 1);
         }
-        endTurn(client, game, interaction, interaction.user.id, "played", `**${await getUsername(client, game.guildId, interaction.user.id)}** exchanged cards with **${await getUsername(client, game.guildId, player)}**`);
+        endTurn(client, game, interaction, interaction.user.id, "played", `**${await getUsername(client, game.guildId, interaction.user.id, !game.guildApp)}** exchanged cards with **${await getUsername(client, game.guildId, player, !game.guildApp)}**`);
     }
 };

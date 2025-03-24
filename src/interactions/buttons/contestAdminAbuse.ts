@@ -43,11 +43,11 @@ export const b: button = {
         if (!prevTurn.adminAbused) {
             game.cards[interaction.user.id] = game.cards[interaction.user.id].concat(draw(game.cardsQuota, 3));
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
-            endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.aa.messages.contestAndFailed", { lng, name: await getUsername(client, game.guildId, interaction.user.id), host: await getUsername(client, game.guildId, game.hostId), count: 3 }), false);
+            endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.aa.messages.contestAndFailed", { lng, name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), host: await getUsername(client, game.guildId, game.hostId, !game.guildApp), count: 3 }), false);
         }
         else {
             game.players.splice(game.players.findIndex(p => p === game.hostId), 1);
-            await endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.aa.messages.contestAndKicked", { lng, name: await getUsername(client, game.guildId, interaction.user.id), host: await getUsername(client, game.guildId, game.hostId) }));
+            await endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.aa.messages.contestAndKicked", { lng, name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), host: await getUsername(client, game.guildId, game.hostId, !game.guildApp) }));
         }
     }
 };

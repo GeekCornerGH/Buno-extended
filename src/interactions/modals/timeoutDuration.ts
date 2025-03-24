@@ -10,7 +10,6 @@ import { defaultSettings, SettingsIDs } from "../../utils/constants.js";
 export const m: modal = {
     name: SettingsIDs.TIMEOUT_DURATION_MODAL,
     execute: async (client, interaction) => {
-        if (!interaction.inGuild()) return;
         const game = client.games.find(g => g.channelId === interaction.channelId && g.guildId === interaction.guildId);
         let lng = interaction.locale.split("-")[0];
         if (game) lng = game.locale;
@@ -18,12 +17,8 @@ export const m: modal = {
             content: t("strings:errors.gameNotFound", { lng }),
             flags: MessageFlags.Ephemeral
         });
-        if (game.state === "waiting") return interaction.reply({
-            content: t("strings:errors.waiting", { lng }),
-            flags: MessageFlags.Ephemeral
-        });
-        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
-            content: t("strings:game.notYourTurn", { lng }),
+        if (game.state !== "waiting") return interaction.reply({
+            content: t("strings:errors.gameJustStarted", { lng }),
             flags: MessageFlags.Ephemeral
         });
         if (game.hostId !== interaction.user.id && !config.developerIds.includes(interaction.user.id)) return interaction.reply({
@@ -32,13 +27,13 @@ export const m: modal = {
         });
         const req = await Buno.findOne({
             where: {
-                guildId: interaction.guildId,
+                guildId: interaction.guildId ?? interaction.channelId as string,
                 userId: game.hostId
             }
         });
         if (!req) await Buno.create({
             userId: game.hostId,
-            guildId: interaction.guildId,
+            guildId: interaction.guildId ?? interaction.channelId as string,
             wins: 0,
             losses: 0,
             settings: {
@@ -58,7 +53,7 @@ export const m: modal = {
                 settings: { ...game.settings },
             }, {
                 where: {
-                    guildId: interaction.guildId,
+                    guildId: interaction.guildId ?? interaction.channelId as string,
                     userId: game.hostId
                 }
             });

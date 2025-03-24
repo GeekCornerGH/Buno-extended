@@ -3,12 +3,13 @@ import { t } from "i18next";
 
 import { Buno } from "../../database/models/buno.js";
 import { runningUnoGame, unoCard, unoLog } from "../../typings/unoGame.js";
-import { ButtonIDs, cardEmotes, defaultSettings } from "../constants.js";
+import { ButtonIDs, cardEmotes, defaultSettings, maxActionShownInUserApp } from "../constants.js";
 import { getUsername } from "../getUsername.js";
 import toHumanReadableTime from "../toHumanReadableTime.js";
 import toTitleCase from "./toTitleCase.js";
 
 export default async function (game: runningUnoGame, client: Client, reason: "notEnoughPeople" | "win", winner?: string) {
+    if (!game.guildApp) await game.interaction.deleteReply(game.mentionId);
     const calledTimestamp = new Date();
     const lng = game.locale;
     if (!game._modified && reason === "win") {
@@ -16,12 +17,12 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
             const dbReq = await Buno.findOne({
                 where: {
                     userId: p,
-                    guildId: game.guildId
+                    guildId: game.guildId ?? game.channelId
                 }
             });
             if (!dbReq) await Buno.create({
                 userId: p,
-                guildId: game.guildId,
+                guildId: game.guildId ?? game.channelId,
                 wins: winner && p === winner ? 1 : 0,
                 losses: !winner || p !== winner ? 1 : 0,
                 settings: {
@@ -37,7 +38,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                 }, {
                     where: {
                         userId: p,
-                        guildId: game.guildId
+                        guildId: game.guildId ?? game.channelId
                     }
                 });
             }
@@ -46,12 +47,12 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
             const dbReq = await Buno.findOne({
                 where: {
                     userId: winner,
-                    guildId: game.guildId
+                    guildId: game.guildId ?? game.channelId
                 }
             });
             if (!dbReq) await Buno.create({
                 userId: winner,
-                guildId: game.guildId,
+                guildId: game.guildId ?? game.channelId,
                 wins: 1,
                 losses: 0,
                 settings: {
@@ -63,29 +64,31 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
             }, {
                 where: {
                     userId: winner,
-                    guildId: game.guildId,
+                    guildId: game.guildId ?? game.channelId,
                 }
             });
         }
     }
     const mostPlayedCardName = findMostProperty(game.log, "card");
     const mostPlayedCard = `${cardEmotes[mostPlayedCardName[0] as unoCard] as unknown} ${toTitleCase(mostPlayedCardName[0], lng)} (${t("strings:words.time", { lng, count: mostPlayedCardName[1] })})`;
-    const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log, "player")[0]);
+    const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log.filter(p => p.player !== "0"), "player")[0], !game.guildApp);
     const players = [...game.players, ...game.playersWhoLeft];
     const playerNames = await Promise.all(players.map(async (p: Snowflake) => {
-        const name = await getUsername(client, game.guildId, p);
+        const name = await getUsername(client, game.guildId, p, !game.guildApp);
         return [p, name];
     }));
 
     const playerNamesObj = Object.fromEntries(playerNames);
     const playerList = t("strings:game.end.embed.stats.playersDesc", { amount: players.length, players: players.map(p => playerNamesObj[p]).join(", "), lng });
 
-    (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send({
-        content: game.players.length === 0 ? t("strings:game.end.noOne", { lng }) : t("strings:game.end.default", {
-            name: reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer) : "[This shouldn't be there]",
-            default: reason === "notEnoughPeople" ? " by default" : "",
-            lng
-        }),
+    const wonMsg = game.players.length === 0 ? t("strings:game.end.noOne", { lng }) : t("strings:game.end.default", {
+        name: reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer, !game.guildApp) : "[This shouldn't be there]",
+        default: reason === "notEnoughPeople" ? " by default" : "",
+        lng
+    });
+    if (!game.guildApp) game.previousActions?.push(wonMsg);
+    const endMsg = {
+        content: game.guildApp ? wonMsg : game.previousActions?.reverse().splice(0, maxActionShownInUserApp).reverse().join("\n"),
         embeds: [
             new EmbedBuilder()
                 .setTitle("Game statistics")
@@ -93,7 +96,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                 .addFields([
                     {
                         name: t("strings:game.end.embed.stats.winner", { lng }),
-                        value: `${reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer) : t("strings:game.end.noWinner", { lng })}`
+                        value: `${reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer, !game.guildApp) : t("strings:game.end.noWinner", { lng })}`
                     }, {
                         name: t("strings:game.end.embed.stats.mostPlayedCard", { lng }),
                         value: `${mostPlayedCard}`
@@ -117,6 +120,11 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                 .setStyle(ButtonStyle.Success)
                 .setDisabled(true)
         ])]
+    };
+    if (game.guildApp) await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(endMsg);
+    else await game.interaction.editReply({
+        ...endMsg,
+        message: game.messageId
     });
     client.games.splice(client.games.findIndex(g => g === game), 1);
 }
