@@ -111,7 +111,7 @@ export const defaultSettings: unoSettings = {
 
 export const maxRejoinableTurnCount = 30;
 
-export const autoStartTimeout = 5 * 60 * 1000;
+export const autoStartTimeout = (5 * 60 + 5) * 1000;
 
 // do NOT use "__" in any id's
 export const ButtonIDs = Object.freeze({

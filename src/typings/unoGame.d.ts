@@ -23,10 +23,7 @@ type baseWaitingUnoGame = {
     players: Snowflake[]
     settings: unoSettings,
     _modified: boolean,
-    guildApp: boolean,
-    updateToken?: string,
-    interaction: ChatInputCommandInteraction | ButtonInteraction
-};
+}
 
 export type runningUnoGame = guildRunningGame | userRunningGame;
 interface guildRunningGame extends baseRunningUnoGame {
@@ -72,9 +69,7 @@ type baseRunningUnoGame = {
     cards: {
         [user: string]: unoCard[];
     },
-    jumpedIn: boolean,
-    guildApp: boolean,
-    interaction: ChatInputCommandInteraction | ButtonInteraction
+    jumpedIn: boolean
 };
 
 export type unoGame = waitingUnoGame | runningUnoGame;
