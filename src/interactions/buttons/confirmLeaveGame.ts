@@ -1,5 +1,5 @@
 
-import { MessageFlags, TextChannel } from "discord.js";
+import { MessageEditOptions, MessageFlags, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
@@ -50,7 +50,7 @@ export const b: button = {
         }
         else await interaction.editReply({
             message: game.messageId,
-            ...await runningGameMessage(client, game)
+            ...await runningGameMessage(client, game) as MessageEditOptions
         });
     }
 };

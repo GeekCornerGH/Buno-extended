@@ -1,4 +1,4 @@
-import { MessageFlags } from "discord.js";
+import { InteractionUpdateOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import editSettings from "../../components/editSettings.js";
@@ -57,7 +57,7 @@ export const m: modal = {
                     userId: game.hostId
                 }
             });
-            return await interaction.editReply({ ...await editSettings(game) });
+            return await interaction.editReply({ ...await editSettings(game) as InteractionUpdateOptions });
         }
     }
 };
