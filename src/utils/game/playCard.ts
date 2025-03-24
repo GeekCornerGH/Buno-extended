@@ -47,7 +47,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
         }
         else {
             game.canSkip = true;
-            const toSend = await playCard(interaction.client, interaction, game, interaction.user.id, game.canSkip, newCard);
+            const toSend = await playCard(interaction.client, interaction, game, interaction.user.id, game.canSkip, newCard) as InteractionUpdateOptions;
             const drewMessage = t("strings:game.draw.drew", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id, !game.guildApp) });
             if (game.guildApp) (interaction.channel as TextChannel).send(drewMessage);
             else {
@@ -73,7 +73,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
             game.previousActions.push(msg);
             return await interaction.editReply({
                 message: game.messageId,
-                ...await runningGameMessage(interaction.client, game)
+                ...await runningGameMessage(interaction.client, game) as InteractionUpdateOptions
             });
         }
         return interaction.editReply({
@@ -127,7 +127,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
         if (type === "7") {
             game.turnProgress = "pickPlayer";
             game.playedCard = card as `${typeof colors[number]}-7`;
-            return interaction.editReply({ ... await pickPlayer(interaction.client, game, interaction.user.id) });
+            return interaction.editReply({ ... await pickPlayer(interaction.client, game, interaction.user.id) as InteractionUpdateOptions });
         }
         else if (type === "0") {
             game.currentCard = card;

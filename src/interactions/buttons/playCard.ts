@@ -1,4 +1,4 @@
-import { InteractionReplyOptions, MessageFlags, TextChannel } from "discord.js";
+import { InteractionUpdateOptions, MessageEditOptions, MessageFlags, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
@@ -39,12 +39,12 @@ export const b: button = {
                 if (game.playedCard.endsWith("-7")) {
                     game.turnProgress = "pickPlayer";
                     return await interaction.editReply({
-                        ...await pickPlayer(client, game, interaction.user.id)
+                        ...await pickPlayer(client, game, interaction.user.id) as MessageEditOptions
                     });
                 }
                 game.turnProgress = "chooseColor";
                 return await interaction.editReply({
-                    ...chooseColor(game.playedCard as typeof uniqueVariants[number], lng)
+                    ...chooseColor(game.playedCard as typeof uniqueVariants[number], lng) as MessageEditOptions
                 });
             }
             else playCardLogic(game, game.currentCard, interaction, lng);
@@ -58,23 +58,23 @@ export const b: button = {
         });
         if (game.turnProgress === "chooseColor") {
             return interaction.editReply({
-                ...chooseColor(game.playedCard as typeof uniqueVariants[number], lng) as InteractionReplyOptions
+                ...chooseColor(game.playedCard as typeof uniqueVariants[number], lng) as InteractionUpdateOptions
             });
         }
         else if (game.turnProgress === "pickPlayer") {
             return interaction.editReply({
-                ... await pickPlayer(client, game, interaction.user.id)
+                ... await pickPlayer(client, game, interaction.user.id) as InteractionUpdateOptions
             });
         }
         else if ((game.settings.allowStacking || game.settings.reverseAnything) && game.drawStack > 0) {
-            const toSend = await forceDraw(client, interaction, game, interaction.user.id);
+            const toSend = await forceDraw(client, interaction, game, interaction.user.id) as InteractionUpdateOptions;
             if (Object.keys(toSend).length === 0) return;
             return interaction.editReply({
                 ...toSend,
                 content: `${game.settings.allowContest && game.currentCard.endsWith("+4") && game.drawStack === 4 ? "Allow +4 contest rule is enabled. You may contest the card through the Actions menu." : ""}`,
             });
         }
-        const toSend = await playCard(client, interaction, game, interaction.user.id, game.canSkip);
+        const toSend = await playCard(client, interaction, game, interaction.user.id, game.canSkip) as InteractionUpdateOptions;
         if (Object.keys(toSend).length === 0) return;
         return interaction.editReply({
             ...toSend,

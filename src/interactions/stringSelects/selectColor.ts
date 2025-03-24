@@ -1,4 +1,4 @@
-import { TextChannel } from "discord.js";
+import { InteractionUpdateOptions, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
@@ -44,7 +44,7 @@ export const s: stringSelect = {
                 game.previousActions.push(msg);
                 await interaction.editReply({
                     message: game.messageId,
-                    ...await runningGameMessage(client, game)
+                    ...await runningGameMessage(client, game) as InteractionUpdateOptions
                 });
             }
             return interaction.editReply({

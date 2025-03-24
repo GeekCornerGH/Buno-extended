@@ -1,4 +1,4 @@
-import { Client, GuildTextBasedChannel } from "discord.js";
+import { Client, GuildTextBasedChannel, MessageEditOptions } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
@@ -73,7 +73,7 @@ export default async (client: Client, game: runningUnoGame, player: string) => {
     else {
         await game.interaction.editReply({
             message: game.messageId,
-            ...runningMessage
+            ...runningMessage as MessageEditOptions
         });
         if (game.mentionId) await game.interaction.deleteReply(game.mentionId);
         game.mentionId = (await game.interaction?.followUp({

@@ -66,7 +66,7 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     else {
         msg = await game.interaction?.editReply({
             content: gameStartMessage,
-            ...toSend
+            ...toSend as MessageEditOptions
         });
         game.mentionId = (await game.interaction?.followUp({
             content: t("strings:game.mention", { mention: `<@${game.currentPlayer}>`, lng }) + `\nhttps://discord.com/channels/${game.interaction.inGuild() ? game.interaction.guildId : "@me"}/${game.channelId}/${game.messageId}`,
