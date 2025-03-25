@@ -1,4 +1,17 @@
 {
+    "access": {
+        "button": "Request access",
+        "description": "Want access? Feel free to click the button below.",
+        "modal": {
+            "preapproved": "You already have access to Buno Everywhere.",
+            "question": {
+                "label": "Why would you like access to Buno Everywhere?"
+            },
+            "received": "Your application has been received. Please check back in 24-48h to see if it got approved",
+            "title": "Gaining access to Buno Everywhere"
+        },
+        "title": "Buno Everywhere access is restricted."
+    },
     "aprilFools": "Happy april fools!",
     "cardFormat": "{{color}} {{variant}}",
     "colors": {

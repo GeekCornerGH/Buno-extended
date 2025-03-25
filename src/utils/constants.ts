@@ -138,7 +138,10 @@ export const ButtonIDs = Object.freeze({
     ADMIN_ABUSE_VIEW_CARDS: "view-other-players-cards",
     ADMIN_ABUSE_EDIT_CARDS: "edit-other-players-cards",
     ADMIN_ABUSE_SWAP_CARDS: "swap-cards-between-2-players",
-    DISABLED_BUTTON: "Never gonna give you up you curious :v"
+    DISABLED_BUTTON: "Never gonna give you up you curious :v",
+    REQUEST_ACCESS: "request-everywhere-access",
+    APPROVE_ACCESS: "approve-everywhere-access",
+    DENY_ACCESS: "deny-everywhere-access",
 });
 
 export const SelectIDs = Object.freeze({
@@ -156,7 +159,9 @@ export const SelectIDs = Object.freeze({
 
 export const ModalsIDs = Object.freeze({
     ADMIN_ABUSE_EDIT_CARDS: "admin-abuse-edit-cards-modal",
-    ADMIN_ABUSE_EDIT_CARDS_FIELD: "admin-abuse-edit-cards-field"
+    ADMIN_ABUSE_EDIT_CARDS_FIELD: "admin-abuse-edit-cards-field",
+    BUNO_EVERYWHERE_ACCESS: "access-to-buno-everywhere",
+    BUNO_EVERYWHERE_ACCESS_QUESTION: "why-access-buno-everywhere"
 
 });
 
