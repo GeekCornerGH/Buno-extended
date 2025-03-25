@@ -1,4 +1,17 @@
 {
+    "access": {
+        "button": "Request access",
+        "description": "Envie d'avoir accès? N'hésitez pas à cliquez sur le bouton ci-dessous.",
+        "modal": {
+            "preapproved": "Vous avez déjà accès à Buno Everywhere.",
+            "question": {
+                "label": "Pourquoi aimeriez-vous avoir accès à Buno Everywhere?"
+            },
+            "received": "Votre demande a été enregistrée. N'hésitez pas à revenir d'ici 24-48 heures pour voir si elle a été acceptée",
+            "title": "Obtenir l'accès à Buno Everywhere"
+        },
+        "title": "L'accès à Buno Everywhere est restreint."
+    },
     "aprilFools": "Joyeux premier avril !",
     "cardFormat": "{{variant}} {{color}}",
     "colors": {

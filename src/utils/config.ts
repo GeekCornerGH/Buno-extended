@@ -6,7 +6,7 @@ import { Config } from "../typings/config.js";
 export const defaultConfig: Config = Object.freeze({
     emoteless: true,
     developerIds: [],
-    logChannel: undefined,
+    approvalChannel: undefined,
 });
 
 const configFile: Partial<Config> = parse(readFileSync(import.meta.dirname + "/../../config.toml", "utf-8"));
