@@ -4,7 +4,7 @@ import { t } from "i18next";
 import runningGameMessage from "../../components/runningGameMessage.js";
 import { stringSelect } from "../../typings/stringSelect.js";
 import { colors, SelectIDs, variants } from "../../utils/constants.js";
-import draw from "../../utils/game/draw.js";
+import draw4 from "../../utils/game/draw4.js";
 import endTurn from "../../utils/game/endTurn.js";
 import next from "../../utils/game/next.js";
 import { getUsername } from "../../utils/getUsername.js";
@@ -54,27 +54,15 @@ export const s: stringSelect = {
         }
         game.currentCard = `${color}-${game.playedCard}` as `${typeof colors[number]}-${typeof variants[number]}`;
         game.turnProgress = "chooseCard";
-        let toAppend: string = t("strings:game.color.switched", { lng, color: t(`strings:colors.${color}` as any, { lng }) });
+        const toAppend: string = t("strings:game.color.switched", { lng, color: t(`strings:colors.${color}` as any, { lng }) });
         if (game.playedCard === "+4") {
-            game.turnProgress = "chooseColor";
-            if ((game.settings.allowStacking && game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].find(c => (c.startsWith(color) && c.endsWith("-+2")) || c === "+4")) || (game.settings.reverseAnything && game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].find(c => c.endsWith("-reverse")))) {
-                game.drawStack += 4;
-                game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
-            }
-            else {
-                game.drawStack += 4;
-                const nextPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
-                toAppend += `\n${t("strings:game.draw.drewAndSkipped", { name: await getUsername(client, game.guildId, nextPlayer, !game.guildApp), lng, stack: game.drawStack })}`;
-                game.cards[nextPlayer] = game.cards[nextPlayer].concat(draw(game.cardsQuota, game.drawStack));
-                if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
-                game.turnProgress = "chooseCard";
-                game.drawStack = 0;
-                game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id), 2);
-            }
+            return draw4(game, toAppend, client, interaction, null);
         }
-        else game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
-        game.playedCard = undefined;
+        else {
+            game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
+            game.playedCard = undefined;
 
-        endTurn(client, game, interaction, interaction.user.id, "played", toAppend);
+            endTurn(client, game, interaction, interaction.user.id, "played", toAppend);
+        }
     }
 };

@@ -10,7 +10,7 @@ import { SelectIDs } from "../utils/constants.js";
 const comp = async (game: unoGame) => {
     const lng = game.locale;
     const blacklistedSettings = ["antiSabotage"];
-    const noEverywhere = ["resendGameMessage"];
+    const noEverywhere = ["resendGameMessage", "amountOfAiBots"];
     const embed = new EmbedBuilder()
         .setColor("Random")
         .setTitle(t("strings:settings.embed.title", { lng }))

@@ -69,7 +69,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
             });
         }
     }
-    const mostPlayedCardName = findMostProperty(game.log, "card");
+    const mostPlayedCardName = findMostProperty(game.log.filter((c: unoLog) => c.card !== "draw" && c.card !== "forceDraw"), "card");
     const mostPlayedCard = `${cardEmotes[mostPlayedCardName[0] as unoCard] as unknown} ${toTitleCase(mostPlayedCardName[0], lng)} (${t("strings:words.time", { lng, count: mostPlayedCardName[1] })})`;
     const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log.filter(p => p.player !== "0"), "player")[0], !game.guildApp);
     const players = [...game.players, ...game.playersWhoLeft];

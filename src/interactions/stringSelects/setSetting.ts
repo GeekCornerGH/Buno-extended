@@ -6,7 +6,7 @@ import { Buno } from "../../database/models/buno.js";
 import { stringSelect } from "../../typings/stringSelect.js";
 import { unoSettings } from "../../typings/unoGame.js";
 import { config } from "../../utils/config.js";
-import { defaultSettings, SelectIDs, SettingsIDs } from "../../utils/constants.js";
+import { defaultSettings, maxAmountOfAIBots, ModalsIDs, SelectIDs, SettingsIDs } from "../../utils/constants.js";
 
 export const s: stringSelect = {
     name: SelectIDs.EDIT_GAME_SETTINGS,
@@ -67,8 +67,23 @@ export const s: stringSelect = {
                                 .setMinLength(2)
                                 .setMaxLength(4)
                                 .setStyle(TextInputStyle.Short)
-                                .setValue(game.settings.timeoutDuration.toString() ?? "90")
+                                .setValue(game.settings.timeoutDuration.toString() ?? defaultSettings.timeoutDuration.toString())
                                 .setCustomId(SettingsIDs.TIMEOUT_DURATION_MODAL_SETTING)
+                        ])]));
+            }
+            else if (option === "amountOfAiBots") {
+                return await interaction.showModal(new ModalBuilder()
+                    .setTitle(t("strings:settings.ai.modal.title", { lng }))
+                    .setCustomId(ModalsIDs.AI_BOTS)
+                    .setComponents([new ActionRowBuilder<ModalActionRowComponentBuilder>()
+                        .setComponents([
+                            new TextInputBuilder()
+                                .setLabel(t("strings:settings.ai.modal.label", { lng, amount: maxAmountOfAIBots }))
+                                .setMinLength(1)
+                                .setMaxLength(1)
+                                .setStyle(TextInputStyle.Short)
+                                .setValue(game.settings.amountOfAiBots.toString() ?? defaultSettings.amountOfAiBots.toString())
+                                .setCustomId(ModalsIDs.AI_BOTS_FIELD)
                         ])]));
             }
         }

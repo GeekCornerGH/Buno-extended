@@ -238,6 +238,8 @@
             "kicked": "**{{name}}** was inactive and has been kicked.",
             "skipped": "**{{name}}** was inactive and has been skipped."
         },
+        "ai": "**{{name}}** is thinking",
+        "aiStart": "AI bots have joined the game, meaning the game won't count in the leaderboards.",
         "buno": {
             "contest": {
                 "alreadyYelled": "**{{name}}** already yelled \"Buno out!\"",
@@ -371,6 +373,12 @@
         "prompt": "Are you sure you want to leave the game? You won't be able to rejoin the game."
     },
     "settings": {
+        "ai": {
+            "modal": {
+                "label": "Amount of AI bots to have (max {{amount}})",
+                "title": "Amount of AI bots"
+            }
+        },
         "currentValue": "Current value: {{value}}",
         "embed": {
             "title": "Game settings",
@@ -390,7 +398,8 @@
             "reverseAnything": "Reverse card can reverse force draws",
             "allowContest": "Allow +4 challenge",
             "adminabusemode": "Admin abuse mode",
-            "jumpIn": "Allow players to cut by playing the same card"
+            "jumpIn": "Allow players to cut by playing the same card",
+            "amountOfAiBots": "Amount of AI bots to play with you"
         },
         "timeoutDuration": {
             "modal": {
