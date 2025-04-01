@@ -23,8 +23,7 @@
         "openai": "^4.89.0",
         "sequelize": "^6.37.6",
         "sqlite3": "^5.1.7",
-        "toml": "^3.0.0",
-        "zod": "^3.24.2"
+        "toml": "^3.0.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.23.0",
