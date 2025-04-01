@@ -22,7 +22,7 @@ importers:
         version: 24.2.3(typescript@5.8.2)
       openai:
         specifier: ^4.89.0
-        version: 4.89.0(encoding@0.1.13)(ws@8.18.0)(zod@3.24.2)
+        version: 4.89.0(encoding@0.1.13)(ws@8.18.0)
       sequelize:
         specifier: ^6.37.6
         version: 6.37.6(sqlite3@5.1.7)
@@ -32,9 +32,6 @@ importers:
       toml:
         specifier: ^3.0.0
         version: 3.0.0
-      zod:
-        specifier: ^3.24.2
-        version: 3.24.2
     devDependencies:
       '@eslint/js':
         specifier: ^9.23.0
@@ -2332,9 +2329,6 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
-
 snapshots:
 
   '@aashutoshrathi/word-wrap@1.2.6': {}
@@ -4150,7 +4144,7 @@ snapshots:
     dependencies:
       fn.name: 1.1.0
 
-  openai@4.89.0(encoding@0.1.13)(ws@8.18.0)(zod@3.24.2):
+  openai@4.89.0(encoding@0.1.13)(ws@8.18.0):
     dependencies:
       '@types/node': 18.19.83
       '@types/node-fetch': 2.6.12
@@ -4161,7 +4155,6 @@ snapshots:
       node-fetch: 2.7.0(encoding@0.1.13)
     optionalDependencies:
       ws: 8.18.0
-      zod: 3.24.2
     transitivePeerDependencies:
       - encoding
 
@@ -4826,5 +4819,3 @@ snapshots:
   yallist@4.0.0: {}
 
   yocto-queue@0.1.0: {}
-
-  zod@3.24.2: {}
