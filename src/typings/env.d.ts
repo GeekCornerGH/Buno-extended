@@ -4,6 +4,8 @@ declare global {
             TOKEN: string
             CLIENTID: string
             IGNORED_PLAYERS?: string
+            AI_BASE: string
+            AI_TOKEN: string
         }
     }
 }

@@ -47,7 +47,7 @@ export const b: button = {
                     ...chooseColor(game.playedCard as typeof uniqueVariants[number], lng) as MessageEditOptions
                 });
             }
-            else playCardLogic(game, game.currentCard, interaction, lng);
+            else playCardLogic(game, game.currentCard, interaction, lng, client);
         }
         else if (game.currentPlayer !== interaction.user.id) return interaction.reply({
             content: t("strings:game.notYourTurn", { lng }),

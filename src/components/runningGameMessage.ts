@@ -33,7 +33,7 @@ export default async (client: Client, game: runningUnoGame): Promise<MessageCrea
         new ButtonBuilder().setEmoji("📥").setCustomId(ButtonIDs.JOIN_MID_GAME).setStyle(ButtonStyle.Primary).setDisabled(!canJoinMidGame(game))
     ])];
     return {
-        content: game.guildApp ? t("strings:game.mention", { mention: `<@${game.currentPlayer}>`, lng }) : game.previousActions?.slice(-maxActionShownInUserApp).join("\n"),
+        content: game.guildApp ? game.currentPlayer.startsWith("AI-") ? t("strings:game.ai", { name: await getUsername(client, game.guildId, game.currentPlayer, !game.guildApp) }) : t("strings:game.mention", { mention: `<@${game.currentPlayer}>`, lng }) : game.previousActions?.slice(-maxActionShownInUserApp).join("\n"),
         allowedMentions: { parse: [AllowedMentionsTypes.User] },
         embeds: [embed],
         components: rows

@@ -1,4 +1,5 @@
 import { ButtonInteraction, ChatInputCommandInteraction, Snowflake, StringSelectMenuInteraction } from "discord.js";
+import { ChatCompletionMessageParam } from "openai/resources/index.js";
 
 import { colors, uniqueVariants, variants } from "../utils/constants.js";
 
@@ -28,6 +29,7 @@ type baseWaitingUnoGame = {
 export type runningUnoGame = guildRunningGame | userRunningGame;
 interface guildRunningGame extends baseRunningUnoGame {
     guildApp: true,
+    aiConversation: ChatCompletionMessageParam[]
 }
 interface userRunningGame extends baseRunningUnoGame {
     guildApp: false,
@@ -90,7 +92,8 @@ export type unoSettings = {
     reverseAnything: boolean,
     allowContest: boolean,
     adminabusemode: boolean,
-    jumpIn: boolean
+    jumpIn: boolean,
+    amountOfAiBots: number
 };
 
 export type unoStats = {
@@ -98,8 +101,16 @@ export type unoStats = {
     loses: number
 };
 
-export type unoLog = {
+export type unoLog = baseUnoLog | forceDrawUnoLog;
+
+interface forceDrawUnoLog extends baseUnoLog {
+    card: "forceDraw",
+    amount: number,
+}
+
+type baseUnoLog = {
     player: string,
-    card: unoCard,
+    card: unoCard | "draw",
     adminAbused?: boolean
 }
+

@@ -49,6 +49,6 @@ export const s: stringSelect = {
                 components: []
             });
         }
-        return playCard(game, card, interaction, lng);
+        return playCard(game, card, interaction, lng, client);
     }
 };

@@ -4,6 +4,7 @@ export const nameCache = new Collection<`${Snowflake | undefined}_${Snowflake}`,
 const CACHE_DURATION = 30000; // 30 seconds
 
 export async function getUsername(client: Client, guildId: Snowflake | undefined, memberId: Snowflake, isUserApp?: boolean): Promise<string> {
+    if (memberId.startsWith("AI")) return memberId.split("-")[1] + " 🤖";
     const cachedName = nameCache.get(`${guildId}_${memberId}`);
     if (cachedName && (Date.now() - cachedName.timestamp < CACHE_DURATION || isUserApp)) {
         return cachedName.name;
