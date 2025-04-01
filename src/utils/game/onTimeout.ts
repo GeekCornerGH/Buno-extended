@@ -6,6 +6,7 @@ import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 import { config } from "../config.js";
 import { cardEmotes, coloredUniqueCards, colorEmotes, colors, uniqueVariants } from "../constants.js";
 import { getUsername } from "../getUsername.js";
+import { aiPlay } from "./aiPlay.js";
 import draw from "./draw.js";
 import endGame from "./endGame.js";
 import next from "./next.js";
@@ -69,6 +70,7 @@ export default async (client: Client, game: runningUnoGame, player: string) => {
         await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).messages.cache.get(game.messageId)?.delete();
         const msg = await (client.channels.cache.get(game.channelId) as GuildTextBasedChannel).send(runningMessage);
         game.messageId = msg.id;
+        if (game.currentPlayer.startsWith("AI-")) await aiPlay(client, game);
     }
     else {
         await game.interaction.editReply({

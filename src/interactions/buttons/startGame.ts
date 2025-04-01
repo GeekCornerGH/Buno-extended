@@ -20,7 +20,7 @@ export const b: button = {
             content: t("strings:errors.notTheHost", { lng }),
             flags: MessageFlags.Ephemeral
         });
-        if (game.players.length < 2 && game._modified !== true) return interaction.reply({
+        if (!(game.players.length >= 2 || (game.guildApp && game.settings.amountOfAiBots > 0) || game._modified)) return interaction.reply({
             flags: MessageFlags.Ephemeral,
             content: t("strings:errors.alone", { lng })
         });

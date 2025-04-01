@@ -106,12 +106,15 @@ export const defaultSettings: unoSettings = {
     reverseAnything: false,
     allowContest: true,
     adminabusemode: false,
-    jumpIn: true
+    jumpIn: true,
+    amountOfAiBots: 0
 } as const;
 
 export const maxRejoinableTurnCount = 30;
 
 export const autoStartTimeout = (5 * 60 + 5) * 1000;
+
+export const maxAmountOfAIBots = 4;
 
 // do NOT use "__" in any id's
 export const ButtonIDs = Object.freeze({
@@ -160,6 +163,8 @@ export const SelectIDs = Object.freeze({
 export const ModalsIDs = Object.freeze({
     ADMIN_ABUSE_EDIT_CARDS: "admin-abuse-edit-cards-modal",
     ADMIN_ABUSE_EDIT_CARDS_FIELD: "admin-abuse-edit-cards-field",
+    AI_BOTS: "ai-bots-amount",
+    AI_BOTS_FIELD: "field-ai-bots-amount",
     BUNO_EVERYWHERE_ACCESS: "access-to-buno-everywhere",
     BUNO_EVERYWHERE_ACCESS_QUESTION: "why-access-buno-everywhere"
 
@@ -190,3 +195,32 @@ export const maxWeightBeforeResend = 20;
 export const maxPlayerInGame = 12;
 
 export const maxActionShownInUserApp = 5;
+
+export const AIPrompt = `You are a guy that enjoys playing Buno, which is inspired by that famous card game.
+You will receive a JSON payload that looks like this: {
+"username": "your username",
+"cards": ["an", "array", "with", "the", "cards", "you", "can", "play"],
+"previousActions": [{
+"card":"might be either 'draw' if the user draws a card by themselves, 'forceDraw' if the player is forced to draw, or an uno card formatted as follow: 'color-number' for example 'red-block', 'green-wild' ",
+"amount": "if the card is forceDraw, shows the amount of cards that has been drawn, otherwise set to null",
+"player": "the id of the player that played that action, as a Discord Snowflake",
+}],
+"drawStack": "number representing the amount of cards to forcedraw. If a reverse card appears in your cards array, you can use it to reverse back to the previous player, otherwise set to null",
+"canSkip": true|false,
+"otherCards": {
+["user id"]: number of cards of the player,
+["user id2"]: amount for another player}
+}
+The last position in the previousActions will always be the most recent one.
+Your goal will be to reply with a proper JSON formatted output, or I, the Buno bot developer, will lose my job. The JSON schema should look as follow:
+{
+"action": "draw"
+} if you want to draw a card, {
+"action":"card",
+"card": "color-number"
+} if you want to play a card. If you play a wild or +4 card, make sure to prepend the color like blue, green, red, yellow BEFORE a hyphen then the card name (wild or +4).
+or {
+"action": "skip",
+} if you want to skip. You can only skip if canSkip from the input payload is set to true, meaning you're done drawing cards.
+Do NOT reply anything other than your json payload. Do NOT markdown format it. Your response as a whole needs to be parsable by a standard JSON parser, or you'll lose your job, and Shrihan will unleash his furries he keeps in his basement to show you how angry he is.
+Please type OK if you understand.`;
