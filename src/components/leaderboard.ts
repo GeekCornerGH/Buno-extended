@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, InteractionEditReplyOptions } from "discord.js";
+import { ActionRowBuilder, ApplicationIntegrationType, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, InteractionEditReplyOptions } from "discord.js";
 import { t } from "i18next";
 
 import { Buno } from "../database/models/buno.js";
@@ -6,15 +6,15 @@ import { ButtonIDs } from "../utils/constants.js";
 import { getUsername } from "../utils/getUsername.js";
 
 export default async function (rows: Buno[], interaction: ChatInputCommandInteraction | ButtonInteraction, total: number, offset: number = 0): Promise<InteractionEditReplyOptions> {
-    if (!interaction.inGuild()) return {};
+    const guildApp = interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners;
     const lng = interaction.locale.split("-")[0];
     const dataArray = await Promise.all(rows.map(async (r, index) => {
         const rank = (offset * 25) + index + 1;
-        return { rank, member: await getUsername(interaction.client, interaction.guildId, r.getDataValue("userId")), wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
+        return { rank, member: await getUsername(interaction.client, interaction.guildId ?? interaction.channelId, r.getDataValue("userId"), !guildApp), wins: r.getDataValue("wins"), losses: r.getDataValue("losses") };
     }));
 
     const embed = new EmbedBuilder()
-        .setTitle(t("strings:leaderboard.embed.title", { lng, guild: interaction.guild?.name }))
+        .setTitle(t("strings:leaderboard.embed.title", { lng, guild: interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners ? interaction.guild?.name : interaction.inGuild() ? t("strings:leaderboard.words.guild", { lng }) : t("strings:leaderboard.words.dm", { lng }) }))
         .setColor("Random")
         .setDescription(t("strings:leaderboard.embed.description", {
             lng,

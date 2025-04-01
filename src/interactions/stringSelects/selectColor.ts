@@ -1,6 +1,7 @@
-import { TextChannel } from "discord.js";
+import { InteractionUpdateOptions, TextChannel } from "discord.js";
 import { t } from "i18next";
 
+import runningGameMessage from "../../components/runningGameMessage.js";
 import { stringSelect } from "../../typings/stringSelect.js";
 import { colors, SelectIDs, variants } from "../../utils/constants.js";
 import draw from "../../utils/game/draw.js";
@@ -37,7 +38,15 @@ export const s: stringSelect = {
             });
         }
         if (!colors.includes(color)) {
-            (interaction.channel as TextChannel)?.send(t("strings:game.card.unknownColor", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }));
+            const msg = t("strings:game.card.unknownColor", { lng, name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp) });
+            if (game.guildApp) await (interaction.channel as TextChannel).send(msg);
+            else {
+                game.previousActions.push(msg);
+                await interaction.editReply({
+                    message: game.messageId,
+                    ...await runningGameMessage(client, game) as InteractionUpdateOptions
+                });
+            }
             return interaction.editReply({
                 content: "nuh uh ☝️",
                 components: []
@@ -55,7 +64,7 @@ export const s: stringSelect = {
             else {
                 game.drawStack += 4;
                 const nextPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
-                toAppend += `\n${t("strings:game.draw.drewAndSkipped", { name: await getUsername(client, game.guildId, nextPlayer), lng, stack: game.drawStack })}`;
+                toAppend += `\n${t("strings:game.draw.drewAndSkipped", { name: await getUsername(client, game.guildId, nextPlayer, !game.guildApp), lng, stack: game.drawStack })}`;
                 game.cards[nextPlayer] = game.cards[nextPlayer].concat(draw(game.cardsQuota, game.drawStack));
                 if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
                 game.turnProgress = "chooseCard";

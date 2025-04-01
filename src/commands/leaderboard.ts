@@ -12,17 +12,16 @@ export const c: command = {
         .setNameLocalizations(generateLocalized("strings:commands.leaderboard.command.name"))
         .setDescription(t("strings:commands.leaderboard.command.description", { lng: "en" }))
         .setDescriptionLocalizations(generateLocalized("strings:commands.leaderboard.command.description"))
-        .setContexts(InteractionContextType.Guild)
-        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
+        .setContexts([InteractionContextType.Guild, InteractionContextType.PrivateChannel])
+        .setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall]),
     execute: async (client, interaction) => {
-        if (!interaction.inGuild()) return;
         await interaction.deferReply();
         const lng = interaction.locale.split("-")[0];
         const cmd = client.application?.commands.cache.find(c => c.name === "uno");
         if (!cmd) return interaction.editReply(t("strings:errors.execution", { lng }));
         const dbReq = await Buno.findAndCountAll({
             where: {
-                guildId: interaction.guildId
+                guildId: interaction.guildId ?? interaction.channelId
             },
             order: [["wins", "DESC"]],
             limit: 25,

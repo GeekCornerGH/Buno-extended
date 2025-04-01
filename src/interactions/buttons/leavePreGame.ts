@@ -1,4 +1,4 @@
-import { Guild, InteractionUpdateOptions, MessageFlags } from "discord.js";
+import { InteractionUpdateOptions, MessageFlags } from "discord.js";
 import { t } from "i18next";
 
 import lobbyGameMessage from "../../components/lobbyGameMessage.js";
@@ -29,6 +29,6 @@ export const b: button = {
             flags: MessageFlags.Ephemeral
         });
         game.players.splice(game.players.findIndex(p => p === interaction.user.id), 1);
-        interaction.update({ ...await lobbyGameMessage(client, game, interaction.guild as Guild) as InteractionUpdateOptions });
+        interaction.update({ ...await lobbyGameMessage(client, game) as InteractionUpdateOptions });
     }
 };

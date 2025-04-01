@@ -1,5 +1,5 @@
 
-import { MessageFlags, TextChannel } from "discord.js";
+import { MessageEditOptions, MessageFlags, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
@@ -37,10 +37,20 @@ export const b: button = {
         game.playersWhoLeft.push(interaction.user.id);
         timeouts.delete(game.channelId);
         timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);
-        await interaction.channel?.messages.cache.get(game.messageId)?.delete();
-        await (interaction.channel as TextChannel).send(t("strings:game.left", { name: await getUsername(client, game.guildId, interaction.user.id), lng }));
+        const leaveMessage = t("strings:game.left", { name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), lng });
+        if (game.guildApp) {
+            await interaction.channel?.messages.cache.get(game.messageId)?.delete();
+            await (interaction.channel as TextChannel).send(leaveMessage);
+        }
+        else game.previousActions.push(leaveMessage);
         if ((game._modified && game.players.length === 0) || (!game._modified && game.players.length === 1)) return endGame(game, interaction.client, "notEnoughPeople");
-        const msg = await (interaction.channel as TextChannel).send(await runningGameMessage(client, game));
-        game.messageId = msg.id;
+        if (game.guildApp) {
+            const msg = await (interaction.channel as TextChannel).send(await runningGameMessage(client, game));
+            game.messageId = msg.id;
+        }
+        else await interaction.editReply({
+            message: game.messageId,
+            ...await runningGameMessage(client, game) as MessageEditOptions
+        });
     }
 };

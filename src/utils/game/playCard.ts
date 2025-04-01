@@ -4,6 +4,7 @@ import { t } from "i18next";
 import chooseColor from "../../components/chooseColor.js";
 import pickPlayer from "../../components/pickPlayer.js";
 import playCard from "../../components/playCard.js";
+import runningGameMessage from "../../components/runningGameMessage.js";
 import { runningUnoGame, unoCard } from "../../typings/unoGame.js";
 import { colors, maxDrawAsSabotage, uniqueVariants, variants } from "../constants.js";
 import { getUsername } from "../getUsername.js";
@@ -28,7 +29,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
         if (game.saboteurs[interaction.user.id] && game.saboteurs[interaction.user.id] >= maxDrawAsSabotage) {
             game.players.splice(game.players.findIndex(p => p === interaction.user.id), 1);
             game.playersWhoLeft.push(interaction.user.id);
-            toAppend = t("strings:game.draw.sab", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id) });
+            toAppend = t("strings:game.draw.sab", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id, !game.guildApp) });
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
             return endTurn(interaction.client, game, interaction, game.currentPlayer, "misc", toAppend, false);
         }
@@ -42,12 +43,20 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
         if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
         if (!game.settings.allowSkipping) {
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
-            return endTurn(interaction.client, game, interaction, interaction.user.id, "misc", t("strings:game.draw.drew", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id) }), false);
+            return endTurn(interaction.client, game, interaction, interaction.user.id, "misc", t("strings:game.draw.drew", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id, !game.guildApp) }), false);
         }
         else {
             game.canSkip = true;
-            const toSend = await playCard(interaction.client, interaction, game, interaction.user.id, game.canSkip, newCard);
-            (interaction.channel as TextChannel).send(t("strings:game.draw.drew", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id) }));
+            const toSend = await playCard(interaction.client, interaction, game, interaction.user.id, game.canSkip, newCard) as InteractionUpdateOptions;
+            const drewMessage = t("strings:game.draw.drew", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id, !game.guildApp) });
+            if (game.guildApp) (interaction.channel as TextChannel).send(drewMessage);
+            else {
+                game.previousActions.push(drewMessage);
+                await interaction.editReply({
+                    message: game.messageId,
+                    content: drewMessage
+                });
+            }
             if (Object.keys(toSend).length === 0) return;
             return await interaction.editReply({ ...toSend });
         }
@@ -55,10 +64,18 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
     else if (card === "skip") {
         game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
         game.canSkip = false;
-        return endTurn(interaction.client, game, interaction, interaction.user.id, "misc", t("strings:game.draw.skip", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id) }), false);
+        return endTurn(interaction.client, game, interaction, interaction.user.id, "misc", t("strings:game.draw.skip", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id, !game.guildApp) }), false);
     }
     if (index < 0) {
-        (interaction.channel as TextChannel)?.send(t("strings:game.card.unknown", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id) }));
+        const msg = t("strings:game.card.unknown", { lng, name: await getUsername(interaction.client, game.guildId, interaction.user.id, !game.guildApp) });
+        if (game.guildApp) await (interaction.channel as TextChannel)?.send(msg);
+        else {
+            game.previousActions.push(msg);
+            return await interaction.editReply({
+                message: game.messageId,
+                ...await runningGameMessage(interaction.client, game) as InteractionUpdateOptions
+            });
+        }
         return interaction.editReply({
             content: "nuh uh ☝️",
             components: []
@@ -75,7 +92,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
     if (type === "reverse") {
         game.currentCard = card;
         game.players = game.players.reverse();
-        if (game.players.length <= 2) toAppend = t("strings:game.card.skippedPlayer", { lng, name: await getUsername(interaction.client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))) });
+        if (game.players.length <= 2) toAppend = t("strings:game.card.skippedPlayer", { lng, name: await getUsername(interaction.client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer)), !game.guildApp) });
         else {
             toAppend = t("strings:game.card.reversed", { lng });
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
@@ -84,7 +101,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
     }
     else if (type === "block") {
         game.currentCard = card;
-        toAppend = t("strings:game.card.skippedPlayer", { lng, name: await getUsername(interaction.client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))) });
+        toAppend = t("strings:game.card.skippedPlayer", { lng, name: await getUsername(interaction.client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer)), !game.guildApp) });
         game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id), 2);
         endTurn(interaction.client, game, interaction, interaction.user.id, "played", toAppend);
     }
@@ -97,7 +114,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
         }
         else {
             game.drawStack += 2;
-            toAppend = t("strings:game.draw.drewAndSkipped", { lng, name: await getUsername(interaction.client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer))), stack: game.drawStack });
+            toAppend = t("strings:game.draw.drewAndSkipped", { lng, name: await getUsername(interaction.client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer)), !game.guildApp), stack: game.drawStack });
             if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
             game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
             game.turnProgress = "chooseCard";
@@ -110,7 +127,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
         if (type === "7") {
             game.turnProgress = "pickPlayer";
             game.playedCard = card as `${typeof colors[number]}-7`;
-            return interaction.editReply({ ... await pickPlayer(interaction.client, game, interaction.user.id) });
+            return interaction.editReply({ ... await pickPlayer(interaction.client, game, interaction.user.id) as InteractionUpdateOptions });
         }
         else if (type === "0") {
             game.currentCard = card;

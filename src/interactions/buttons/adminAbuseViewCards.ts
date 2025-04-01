@@ -36,7 +36,7 @@ export const b: button = {
         await interaction.deferUpdate();
         const fields = await Promise.all(game.players.map(async p => {
             return {
-                name: await getUsername(client, game.guildId, p),
+                name: await getUsername(client, game.guildId, p, !game.guildApp),
                 value: (() => {
                     const cards = game.cards[p] as unoCard[];
 

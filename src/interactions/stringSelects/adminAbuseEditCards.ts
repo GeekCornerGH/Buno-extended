@@ -34,7 +34,7 @@ export const s: stringSelect = {
         game.adminAbused = true;
         await interaction.showModal(new ModalBuilder()
             .setCustomId(ModalsIDs.ADMIN_ABUSE_EDIT_CARDS + "_" + interaction.values[0])
-            .setTitle(t("strings:game.aa.edit.modal.title", { lng, name: await getUsername(client, game.guildId, interaction.user.id) }))
+            .setTitle(t("strings:game.aa.edit.modal.title", { lng, name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp) }))
             .setComponents([
                 new ActionRowBuilder<TextInputBuilder>()
                     .setComponents([

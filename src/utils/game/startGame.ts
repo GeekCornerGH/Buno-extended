@@ -1,26 +1,28 @@
-import { Client, GuildTextBasedChannel, Message } from "discord.js";
+import { Client, GuildTextBasedChannel, Message, MessageEditOptions } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
 import { Buno } from "../../database/models/buno.js";
 import { runningUnoGame, unoGame } from "../../typings/unoGame.js";
 import { averageUnoGameCount, defaultSettings } from "../constants.js";
+import { getUsername } from "../getUsername.js";
 import timeouts from "../timeoutManager.js";
 import draw from "./draw.js";
 import onTimeout from "./onTimeout.js";
 import use from "./use.js";
 
 export default async (client: Client, game: unoGame, automatic: boolean, message: Message) => {
-    if (!message.inGuild()) return;
     const lng = game.locale;
     if (automatic && game.players.length < 2 && game._modified !== true) {
         client.games.splice(client.games.findIndex(g => g === game), 1);
-        return message.edit({ content: `No one was available to play with ${message.guild.members.cache.get(game.hostId)?.toString()}.`, components: [], embeds: [] });
+        const editContent = { content: t("strings:game.noPlayers", { name: await getUsername(client, message.guildId ?? undefined, game.hostId, !game.guildApp), lng }), components: [], embeds: [] } satisfies MessageEditOptions;
+        if (game.guildApp) return message.edit(editContent);
+        else return game.interaction.editReply(editContent);
     }
     const dbReq = await Buno.findOne({
         where: {
             userId: game.hostId,
-            guildId: message.guildId
+            guildId: message.guildId ?? message.channelId
         }
     });
     game.settings = {
@@ -47,14 +49,29 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     game.saboteurs = {};
     game.adminAbused = false;
     game.messageCount = 0;
+    if (!game.guildApp) game.previousActions = [];
     game.currentCard = draw(game.cardsQuota, 1, true)[0];
     use(game, game.currentCard, "0");
     game.log = [{ player: "0", card: game.currentCard, adminAbused: false }];
     game.currentPlayer = game.players[0];
-    await message.delete();
+    if (game.guildApp) await message.delete();
     game.startingDate = new Date(Date.now());
-    await (message.channel as GuildTextBasedChannel).send(`${t("strings:game.started", { lng })}${game.settings.adminabusemode === true ? t("strings:game.startedAA", { lng }) : ""}`);
-    const msg = await (message.channel as GuildTextBasedChannel).send(await runningGameMessage(client, game));
+    const gameStartMessage = `${t("strings:game.started", { lng })}${game.settings.adminabusemode === true ? t("strings:game.startedAA", { lng }) : ""}`;
+    let msg: Message;
+    const toSend = await runningGameMessage(client, game);
+    if (game.guildApp) {
+        await (message.channel as GuildTextBasedChannel).send(gameStartMessage);
+        msg = await (message.channel as GuildTextBasedChannel).send(toSend);
+    }
+    else {
+        msg = await game.interaction?.editReply({
+            content: gameStartMessage,
+            ...toSend as MessageEditOptions
+        });
+        game.mentionId = (await game.interaction?.followUp({
+            content: t("strings:game.mention", { mention: `<@${game.currentPlayer}>`, lng }) + `\nhttps://discord.com/channels/${game.interaction.inGuild() ? game.interaction.guildId : "@me"}/${game.channelId}/${game.messageId}`,
+        }))?.id;
+    }
     game.messageId = msg.id;
     timeouts.set(game.channelId, () => onTimeout(client, game, game.currentPlayer), game.settings.timeoutDuration * 1000);
 };

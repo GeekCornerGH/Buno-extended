@@ -1,11 +1,18 @@
-// import { readFileSync } from "fs";
-
+import { ColorResolvable, Colors } from "discord.js";
 import { readFileSync } from "fs";
 
 import { unoCard, unoSettings } from "../typings/unoGame.js";
 import { config } from "./config.js";
 
 export const colors = ["red", "yellow", "green", "blue",] as const;
+
+export const embedMap: Record<typeof colors[number], ColorResolvable> = {
+    blue: Colors.Blue,
+    green: Colors.Green,
+    red: Colors.Red,
+    yellow: Colors.Yellow,
+} as const;
+
 // eslint-disable-next-line no-unused-vars
 export const colorEmotes: { [k in typeof colors[number] | "other"]: string } = {
     red: "🟥",
@@ -131,7 +138,10 @@ export const ButtonIDs = Object.freeze({
     ADMIN_ABUSE_VIEW_CARDS: "view-other-players-cards",
     ADMIN_ABUSE_EDIT_CARDS: "edit-other-players-cards",
     ADMIN_ABUSE_SWAP_CARDS: "swap-cards-between-2-players",
-    DISABLED_BUTTON: "Never gonna give you up you curious :v"
+    DISABLED_BUTTON: "Never gonna give you up you curious :v",
+    REQUEST_ACCESS: "request-everywhere-access",
+    APPROVE_ACCESS: "approve-everywhere-access",
+    DENY_ACCESS: "deny-everywhere-access",
 });
 
 export const SelectIDs = Object.freeze({
@@ -149,7 +159,9 @@ export const SelectIDs = Object.freeze({
 
 export const ModalsIDs = Object.freeze({
     ADMIN_ABUSE_EDIT_CARDS: "admin-abuse-edit-cards-modal",
-    ADMIN_ABUSE_EDIT_CARDS_FIELD: "admin-abuse-edit-cards-field"
+    ADMIN_ABUSE_EDIT_CARDS_FIELD: "admin-abuse-edit-cards-field",
+    BUNO_EVERYWHERE_ACCESS: "access-to-buno-everywhere",
+    BUNO_EVERYWHERE_ACCESS_QUESTION: "why-access-buno-everywhere"
 
 });
 
@@ -176,3 +188,5 @@ export const maxWeightBeforeResend = 20;
 
 // It is recommended to not allow more than 12 users
 export const maxPlayerInGame = 12;
+
+export const maxActionShownInUserApp = 5;

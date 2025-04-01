@@ -1,4 +1,17 @@
 {
+    "access": {
+        "button": "Request access",
+        "description": "Want access? Feel free to click the button below.",
+        "modal": {
+            "preapproved": "You already have access to Buno Everywhere.",
+            "question": {
+                "label": "Why would you like access to Buno Everywhere?"
+            },
+            "received": "Your application has been received. Please check back in 24-48h to see if it got approved",
+            "title": "Gaining access to Buno Everywhere"
+        },
+        "title": "Buno Everywhere access is restricted."
+    },
     "aprilFools": "Happy april fools!",
     "cardFormat": "{{color}} {{variant}}",
     "colors": {
@@ -118,6 +131,7 @@
         "alone": "You can't start a game alone",
         "blacklisted": "You are blacklisted for the following reason:\n{reason}",
         "cantContestYourOwn": "You can't contest your own +4",
+        "ephemeral": "This is not a single player game. This means you need to need the following permissions to play the game.\n- Embed links\n- Use external emojis\n- Use external apps\nPlease ask an administrator of your guild to turn on the permissions for you.",
         "execution": "An error occured while executing this command.",
         "forbidden": "You are not allowed to stop the game.",
         "gameInChannel": "A game already exists on this channel :point_right: {{url}}",
@@ -137,6 +151,7 @@
         "notTheHost": "Only the host can do this.",
         "paginationForbidden": "You are not allowed to control this pagination.",
         "paginationTooOld": "The pagination is too old.",
+        "permissions": "This bot requires the following permissions:\n- View channel\n- Read messages history\n- Send messages",
         "playerLeft": "You can't join a game you left.",
         "tooManyInGame": "The game reached its maximum capacity ({{count}} players)",
         "unusable": "You can't use this button right now.",
@@ -317,8 +332,9 @@
             }
         },
         "notPlayable": "You can't play this card.",
+        "noPlayers": "Nobody was available to play with **{{name}}**",
         "notYourTurn": "It's not your turn",
-        "played": "**{{name}}** played {{currentCardEmote}} {{card}}",
+        "played": "**{{name}}** played {{currentCardEmote}} **{{card}}**",
         "playerPicker": "Choose a player",
         "started": "**The game has just started!**",
         "startedAA": "\nThe admin abuse gamemode is enabled for this game. You can eject the host if you think they are abusing by opening the Actions menu",
@@ -344,6 +360,10 @@
                 "wlr": "{{winLossRatio}} W/L Ratio"
             },
             "noLosses": "No losses"
+        },
+        "words": {
+            "dm": "this private chat",
+            "guild": "this guild"
         }
     },
     "leave": {

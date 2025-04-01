@@ -1,9 +1,10 @@
-import { BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, MessageFlags, ModalSubmitInteraction, RepliableInteraction, StringSelectMenuInteraction } from "discord.js";
+import { APIGuildMember, ApplicationIntegrationType, BaseInteraction, ButtonInteraction, ChatInputCommandInteraction, GuildMember, MessageFlags, ModalSubmitInteraction, RepliableInteraction, StringSelectMenuInteraction } from "discord.js";
 import { t } from "i18next";
 
 import { Blacklisted } from "../database/models/blacklisted.js";
 import { event } from "../typings/event.js";
 import { config } from "../utils/config.js";
+import { nameCache } from "../utils/getUsername.js";
 
 export const e: event = async (client, interaction: BaseInteraction) => {
     const lng = interaction.locale.split("-")[0];
@@ -15,6 +16,14 @@ export const e: event = async (client, interaction: BaseInteraction) => {
     if (blCheck && !config.developerIds.includes(interaction.user.id)) return (interaction as RepliableInteraction).reply({
         content: t("strings:errors.blacklisted", { lng, reason: blCheck.getDataValue("reason") }),
         flags: MessageFlags.Ephemeral
+    });
+    nameCache.set(`${interaction.guildId ?? undefined}_${interaction.user.id}`, {
+        name: interaction.inGuild() && ApplicationIntegrationType.GuildInstall in interaction.authorizingIntegrationOwners ?
+            (interaction.member as GuildMember).displayName
+            : interaction.inGuild() ?
+                (interaction.member as APIGuildMember).nick ?? interaction.user.displayName
+                : interaction.user.displayName,
+        timestamp: Date.now()
     });
     if (interaction.isChatInputCommand()) {
         const i = interaction as ChatInputCommandInteraction;

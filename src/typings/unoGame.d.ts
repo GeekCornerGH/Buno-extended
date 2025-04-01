@@ -1,42 +1,64 @@
+import { ButtonInteraction, ChatInputCommandInteraction, Snowflake, StringSelectMenuInteraction } from "discord.js";
+
 import { colors, uniqueVariants, variants } from "../utils/constants.js";
 
-type waitingUnoGame = {
+type waitingUnoGame = userWaitingUnoGame | guildWaitingGame;
+
+interface userWaitingUnoGame extends baseWaitingUnoGame {
+    guildApp: false,
+    interaction: ChatInputCommandInteraction | ButtonInteraction | StringSelectMenuInteraction
+}
+interface guildWaitingGame extends baseWaitingUnoGame {
+    guildApp: true
+}
+type baseWaitingUnoGame = {
     state: "waiting",
     startsAt: number,
     locale: string,
     uid: string,
     guildId: string,
-    channelId: string,
-    messageId: string,
-    hostId: string,
-    players: string[]
+    channelId: Snowflake,
+    messageId: Snowflake,
+    hostId: Snowflake,
+    players: Snowflake[]
     settings: unoSettings,
-    _modified: boolean
-};
+    _modified: boolean,
+}
 
-export type runningUnoGame = {
+export type runningUnoGame = guildRunningGame | userRunningGame;
+interface guildRunningGame extends baseRunningUnoGame {
+    guildApp: true,
+}
+interface userRunningGame extends baseRunningUnoGame {
+    guildApp: false,
+    interaction: ChatInputCommandInteraction | ButtonInteraction | StringSelectMenuInteraction,
+    previousActions: string[],
+    mentionId?: Snowflake
+}
+
+type baseRunningUnoGame = {
     state: "inProgress",
     locale: string,
     messageCount: number,
     uid: string,
-    guildId: string,
-    channelId: string,
-    hostId: string,
-    players: string[],
-    playersWhoLeft: string[],
+    guildId: Snowflake,
+    channelId: Snowflake,
+    hostId: Snowflake,
+    players: Snowflake[],
+    playersWhoLeft: Snowflake[],
     startingDate: Date,
-    messageId: string,
+    messageId: Snowflake,
     turnProgress: "chooseCard" | "chooseColor" | "pickPlayer",
     playedCard?: typeof uniqueVariants[number] | `${typeof colors[number]}-7`,
     drawStack: number,
     canSkip: boolean;
-    currentPlayer: string,
+    currentPlayer: Snowflake,
     settings: unoSettings,
     adminAbused: boolean,
     saboteurs: {
-        [user: string]: number
+        [user: Snowflake]: number
     },
-    unoPlayers: string[],
+    unoPlayers: Snowflake[],
     _modified: boolean,
     currentCard: unoCard,
     log: unoLog[],

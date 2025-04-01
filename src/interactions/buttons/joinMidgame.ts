@@ -35,6 +35,6 @@ export const b: button = {
         });
         game.players.push(interaction.user.id);
         game.cards[interaction.user.id] = draw(game.cardsQuota, Math.ceil((Object.keys(game.cards).map(p => game.cards[p].length).reduce((a, b) => a + b, 0)) / Object.keys(game.cards).length));
-        await endTurn(client, game, interaction, game.currentPlayer, "misc", t("strings:game.joined", { name: await getUsername(client, game.guildId, interaction.user.id), lng }), false);
+        await endTurn(client, game, interaction, game.currentPlayer, "misc", t("strings:game.joined", { name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), lng }), false);
     }
 };
