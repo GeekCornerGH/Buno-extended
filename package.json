@@ -16,7 +16,7 @@
     "author": "",
     "license": "AGPL-3.0-only",
     "dependencies": {
-        "discord.js": "^14.17.3",
+        "discord.js": "^14.18.0",
         "dotenv": "^16.4.7",
         "forever": "^4.0.3",
         "i18next": "^24.2.1",
