@@ -7,9 +7,11 @@ import { colors, uniqueVariants } from "../constants.js";
 import { getUsername } from "../getUsername.js";
 import openAIClient from "../openAIClient.js";
 import endGame from "./endGame.js";
+import endTurn from "./endTurn.js";
 import next from "./next.js";
 import playableCards from "./playableCard.js";
 import playCard from "./playCard.js";
+
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 export async function aiPlay(client: Client, game: guildRunningGame): Promise<unknown> {
@@ -72,11 +74,12 @@ export async function aiPlay(client: Client, game: guildRunningGame): Promise<un
 }
 
 async function leave(client: Client, game: runningUnoGame, channel: Channel, player: string) {
-    game.playersWhoLeft.push(game.currentPlayer);
+    game.playersWhoLeft.push(player);
     game.currentPlayer = next(game.players, game.players.findIndex(p => p === player), 1);
     game.players.splice(game.players.findIndex(p => p === player), 1);
-    if (channel?.isSendable()) await channel.send(t("strings:game.left", { lng: game.locale.split("-")[0], name: await getUsername(client, game.guildId, player, !game.guildApp) }));
+    if (game.guildApp && channel.isSendable()) await channel.send(t("strings:game.left", { lng: game.locale.split("-")[0], name: await getUsername(client, game.guildId, player, !game.guildApp) }));
     if (game.players.length < 2) return endGame(game, client, "notEnoughPeople", game.players[0] ?? undefined);
+    endTurn(client, game, null, player, "misc");
 }
 
 type aiDraws = {
