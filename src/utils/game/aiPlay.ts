@@ -78,8 +78,8 @@ async function leave(client: Client, game: runningUnoGame, channel: Channel, pla
     game.currentPlayer = next(game.players, game.players.findIndex(p => p === player), 1);
     game.players.splice(game.players.findIndex(p => p === player), 1);
     if (game.guildApp && channel.isSendable()) await channel.send(t("strings:game.left", { lng: game.locale.split("-")[0], name: await getUsername(client, game.guildId, player, !game.guildApp) }));
+    await endTurn(client, game, null, player, "misc");
     if (game.players.length < 2) return endGame(game, client, "notEnoughPeople", game.players[0] ?? undefined);
-    endTurn(client, game, null, player, "misc");
 }
 
 type aiDraws = {
