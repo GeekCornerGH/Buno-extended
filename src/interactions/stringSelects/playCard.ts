@@ -1,4 +1,4 @@
-import { InteractionUpdateOptions, MessageFlags, TextChannel } from "discord.js";
+import { InteractionUpdateOptions, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
@@ -16,17 +16,14 @@ export const s: stringSelect = {
         let lng = interaction.locale.split("-")[0];
         if (game) lng = game.locale;
         await interaction.deferUpdate();
-        if (!game) return interaction.reply({
+        if (!game) return interaction.editReply({
             content: t("strings:errors.gameNotFound", { lng }),
-            flags: MessageFlags.Ephemeral
         });
-        if (game.state === "waiting") return interaction.reply({
+        if (game.state === "waiting") return interaction.editReply({
             content: t("strings:errors.waiting", { lng }),
-            flags: MessageFlags.Ephemeral
         });
-        if (game.currentPlayer !== interaction.user.id) return interaction.reply({
+        if (game.currentPlayer !== interaction.user.id) return interaction.editReply({
             content: t("strings:game.notYourTurn", { lng }),
-            flags: MessageFlags.Ephemeral
         });
         if (game.currentPlayer !== interaction.user.id) {
             return interaction.editReply({
