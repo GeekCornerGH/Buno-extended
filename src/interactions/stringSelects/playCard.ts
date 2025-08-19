@@ -1,4 +1,4 @@
-import { InteractionUpdateOptions, MessageFlags, TextChannel } from "discord.js";
+import { InteractionUpdateOptions, TextChannel } from "discord.js";
 import { t } from "i18next";
 
 import runningGameMessage from "../../components/runningGameMessage.js";
