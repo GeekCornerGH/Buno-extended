@@ -266,18 +266,18 @@
             "text": "Veuillez sélectionner une couleur"
         },
         "draw": {
-            "drew": "**{{name}}** da tiré une carte.",
+            "drew": "**{{name}}** a tiré une carte.",
             "drewAndSkipped": "**{{name}}** a tiré **{{stack}}** cartes et a été ignoré.",
             "ephemeral": "Tu as tiré: {{card}}",
-            "sab": "**{{name}}** a été supprimé pour avoir tenté de saboter le jeu",
+            "sab": "**{{name}}** a été éjecté pour avoir tenté de saboter le jeu",
             "select": {
-                "draw": "Tire une carte",
-                "skip": "Passe ton tour"
+                "draw": "Tiree une carte",
+                "skip": "Passer son tour"
             },
             "skip": "**{{name}}** ont passé leur tour."
         },
         "end": {
-            "default": "**{{name}}** a gagné le match{{default}}.",
+            "default": "**{{name}}** a gagné la partie{{default}}.",
             "embed": {
                 "stats": {
                     "duration": "⏱️ Le jeu a duré",
@@ -447,4 +447,5 @@
         "users_one": "**{{count}}** utilisateur",
         "users_other": "**{{count}}** utilisateurs"
     }
+
 }
