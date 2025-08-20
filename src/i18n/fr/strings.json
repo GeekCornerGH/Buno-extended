@@ -1,11 +1,11 @@
 {
     "access": {
-        "button": "Request access",
+        "button": "Demander accès",
         "description": "Envie d'avoir accès? N'hésitez pas à cliquez sur le bouton ci-dessous.",
         "modal": {
             "preapproved": "Vous avez déjà accès à Buno Everywhere.",
             "question": {
-                "label": "Pourquoi aimeriez-vous avoir accès à Buno Everywhere?"
+                "label": "Pourquoi voulez-vous Buno Everywhere ?"
             },
             "received": "Votre demande a été enregistrée. N'hésitez pas à revenir d'ici 24-48 heures pour voir si elle a été acceptée",
             "title": "Obtenir l'accès à Buno Everywhere"
@@ -187,7 +187,7 @@
                     }
                 },
                 "embed": {
-                    "title": "Panel d'abus",
+                    "title": "Panel d'admin abuse",
                     "description": "Sélectionnez l'action que tu souhaites effectuer."
                 }
             },
@@ -271,7 +271,7 @@
             "ephemeral": "Tu as tiré: {{card}}",
             "sab": "**{{name}}** a été éjecté pour avoir tenté de saboter le jeu",
             "select": {
-                "draw": "Tiree une carte",
+                "draw": "Tirer une carte",
                 "skip": "Passer son tour"
             },
             "skip": "**{{name}}** ont passé leur tour."
@@ -296,7 +296,7 @@
             "contestPlus4AndFail": "**{{name}}** a contesté la carte +4 de **{{cardPlayer}}** et a échoué.\n**{{name}}** a tiré {{stack}} cartes",
             "draw": "**{{name}}** a tiré **{{stack}}** cartes et a été ignoré.",
             "noCard": "You don't have any card to play",
-            "noStacking": "La règle Allow Stacking est désactivée",
+            "noStacking": "La règle Empilement est désactivée",
             "noReverse": "La règle de la carte Inversion est désactivée",
             "playACard": "Veuillez jouer une carte",
             "reverse": {
@@ -304,7 +304,7 @@
             },
             "select": {
                 "title": "Tirer {{stack}} cartes",
-                "description": "..et reconnaître sa défaite.",
+                "description": "...et reconnaître sa défaite.",
                 "placeholder": "Choisir une carte"
             },
             "text": "Tu dois répondre ou tirer {stack}} cartes."
@@ -449,3 +449,4 @@
     }
 
 }
+
