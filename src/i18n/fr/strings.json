@@ -447,6 +447,5 @@
         "users_one": "**{{count}}** utilisateur",
         "users_other": "**{{count}}** utilisateurs"
     }
-
 }
 
