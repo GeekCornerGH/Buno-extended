@@ -9,7 +9,6 @@ import toHumanReadableTime from "../toHumanReadableTime.js";
 import toTitleCase from "./toTitleCase.js";
 
 export default async function (game: runningUnoGame, client: Client, reason: "notEnoughPeople" | "win", winner?: string) {
-    if (!game.guildApp) await game.interaction.deleteReply(game.mentionId);
     const calledTimestamp = new Date();
     const lng = game.locale;
     if (!game._modified && reason === "win") {
