@@ -240,7 +240,7 @@
         "buno": {
             "contest": {
                 "alreadyYelled": "**{{name}}** a déjà crié \"Buno out!\"",
-                "drew": "**{{name}}** a fait remarquer que **{{drawer}}** a oublié de crier \"Buno out!\"\n**{{drawer}}** a tiré des cartes.",
+                "drew": "**{{name}}** a fait remarquer que **{{drawer}}** a oublié de crier \"Buno out!\"\n**{{drawer}}** a {{stack}} des cartes.",
                 "tooManyCards": "**{{name}} a trop de cartes pour pouvoir crier \"Buno out!\""
             },
             "yell": {
@@ -255,7 +255,7 @@
             "allSwapped": "Toutes les cartes des joueurs ont été échangées !",
             "reversed": "L'ordre des joueurs a été inversé.",
             "seven": "Tu as joué une carte 7 et tu dois maintenant choisir un joueur avec qui échanger tes cartes.",
-            "skippedPlayer": "**{{name}}** ha été ignoré.",
+            "skippedPlayer": "**{{name}}** a été ignoré.",
             "swapped": "**{{from}}** a échangé des cartes avec **{{to}}**",
             "unknown": "**{{name}}** a essayé de jouer une carte inexistante :clown:",
             "unknownColor": "**{{name}}** a essayé de choisir une couleur qui n'existe pas :clown:"
@@ -448,4 +448,5 @@
         "users_other": "**{{count}}** utilisateurs"
     }
 }
+
 
