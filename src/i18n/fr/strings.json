@@ -1,6 +1,6 @@
 {
     "access": {
-        "button": "Demander accès",
+        "button": "Demander l'accès",
         "description": "Envie d'avoir accès? N'hésitez pas à cliquez sur le bouton ci-dessous.",
         "modal": {
             "preapproved": "Vous avez déjà accès à Buno Everywhere.",
