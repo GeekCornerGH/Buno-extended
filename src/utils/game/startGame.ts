@@ -68,7 +68,7 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     game.currentPlayer = game.players[0];
     if (game.guildApp) await message.delete();
     game.startingDate = new Date(Date.now());
-    const gameStartMessage = `${t("strings:game.started", { lng })}${game.settings.adminabusemode === true ? "\n" + t("strings:game.startedAA", { lng }) : "" + (game.guildApp && game.settings.amountOfAiBots > 0) ? "\n" + t("strings:game.aiStart", { lng }) : ""}`;
+    const gameStartMessage = `${t("strings:game.started", { lng })}${game.settings.adminabusemode === true ? "\n" + t("strings:game.startedAA", { lng }) : ""}${(game.guildApp && game.settings.amountOfAiBots > 0) ? "\n" + t("strings:game.aiStart", { lng }) : ""}`;
     let msg: Message;
     const toSend = await runningGameMessage(client, game);
     if (game.guildApp) {
