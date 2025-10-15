@@ -2,12 +2,12 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Gui
 import { t } from "i18next";
 
 import { Buno } from "../../database/models/buno.js";
-import { runningUnoGame, unoCard, unoLog } from "../../typings/unoGame.js";
+import { runningUnoGame, unoLog } from "../../typings/unoGame.js";
+import { config } from "../config.js";
 import { ButtonIDs, cardEmotes, coloredUniqueCards, colorEmotes, defaultSettings, maxActionShownInUserApp, uniqueVariants } from "../constants.js";
 import { getUsername } from "../getUsername.js";
 import toHumanReadableTime from "../toHumanReadableTime.js";
 import toTitleCase from "./toTitleCase.js";
-import { config } from "../config.js";
 
 export default async function (game: runningUnoGame, client: Client, reason: "notEnoughPeople" | "win", winner?: string) {
     const calledTimestamp = new Date();
@@ -75,7 +75,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
         const mostPlayedCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
 
         return `${mostPlayedCardEmote} ${toTitleCase(mostPlayedCardName[0], lng)} (${t("strings:words.time", { lng, count: mostPlayedCardName[1] })})`;
-    }
+    };
     const mostActivePlayer = await getUsername(client, game.guildId, findMostProperty(game.log.filter(p => p.player !== "0"), "player")[0], !game.guildApp);
     const players = [...game.players, ...game.playersWhoLeft];
     const playerNames = await Promise.all(players.map(async (p: Snowflake) => {
