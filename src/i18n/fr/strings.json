@@ -279,6 +279,7 @@
         "end": {
             "default": "**{{name}}** a gagné la partie{{default}}.",
             "embed": {
+                "title": "Statistiques de la partie",
                 "stats": {
                     "duration": "⏱️ Le jeu a duré",
                     "mostActivePlayer": "👤  Joueur le plus actif",

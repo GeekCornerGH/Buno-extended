@@ -36,7 +36,7 @@ export const b: button = {
             else game.previousActions?.push(jumpedInText);
             if (uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]) || game.currentCard.endsWith("-7")) {
                 game.playedCard = uniqueVariants.includes(game.currentCard.split("-")[1] as typeof uniqueVariants[number]) ? game.currentCard.split("-")[1] as "wild" | "+4" : game.currentCard as `${typeof colors[number]}-7`;
-                if (game.playedCard.endsWith("-7")) {
+                if (game.playedCard.endsWith("-7") && game.settings.sevenAndZero) {
                     game.turnProgress = "pickPlayer";
                     return await interaction.editReply({
                         ...await pickPlayer(client, game, interaction.user.id) as MessageEditOptions

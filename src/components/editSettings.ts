@@ -26,7 +26,7 @@ const comp = async (game: unoGame) => {
             ...Object.keys(game.settings).filter(e => game.guildApp || !noEverywhere.includes(e)).map(e => {
                 const key = e as keyof unoSettings;
                 const value = game.settings[key];
-                return new StringSelectMenuOptionBuilder().setLabel(t("strings:settings.options." + e as any, { lng })).setValue(e).setDescription(t("strings:settings.currentValue", { lng, value: value === true ? "✅" : value === false ? "❌" : typeof value === "number" ? value : t(`strings:settings.value.${value}`) }));
+                return new StringSelectMenuOptionBuilder().setLabel(t("strings:settings.options." + e as any, { lng })).setValue(e).setDescription(t("strings:settings.currentValue", { lng, value: value === true ? "✅" : value === false ? "❌" : value }));
             })
         ]).setMaxValues(1).setMinValues(1)
     ])];

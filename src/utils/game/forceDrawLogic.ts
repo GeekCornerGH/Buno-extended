@@ -1,4 +1,4 @@
-import { Client, InteractionUpdateOptions, MessageFlags, Snowflake, StringSelectMenuInteraction } from "discord.js";
+import { Client, InteractionUpdateOptions, Snowflake, StringSelectMenuInteraction } from "discord.js";
 import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
@@ -15,14 +15,12 @@ export default async function forceDrawLogic(game: runningUnoGame, card: unoCard
     let toAppend = "";
     const lng = game.locale;
     const filtered = playableCard(game.cards[player] as unoCard[], game.currentCard, game).filter(c => (game.settings.allowStacking && (c === "+4" || c.endsWith("-+2")) || (game.settings.reverseAnything && (c.endsWith("-reverse")))));
-    if (!filtered && interaction) return interaction.reply({
+    if (!filtered && interaction) return interaction.editReply({
         content: t("strings:game.forceDraw.noCard", { lng }),
-        flags: MessageFlags.Ephemeral
     });
     const pushedFiltered = [...filtered, "draw"];
-    if (!pushedFiltered.includes(card as unoCard) && interaction) return interaction.reply({
+    if (!pushedFiltered.includes(card as unoCard) && interaction) return interaction.editReply({
         content: t("strings:game.notPlayable", { lng }),
-        flags: MessageFlags.Ephemeral
     });
     use(game, card as unoCard, player);
     if (card.endsWith("-reverse")) {
