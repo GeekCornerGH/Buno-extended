@@ -1,4 +1,4 @@
-import { Client, InteractionUpdateOptions, MessageFlags, Snowflake, StringSelectMenuInteraction } from "discord.js";
+import { Client, InteractionUpdateOptions, Snowflake, StringSelectMenuInteraction } from "discord.js";
 import { t } from "i18next";
 
 import chooseColor from "../../components/chooseColor.js";
