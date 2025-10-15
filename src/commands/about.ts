@@ -31,7 +31,7 @@ export const c: command = {
                         },
                         {
                             name: t("strings:commands.about.message.uptime-title", { lng }),
-                            value: t("strings:commands.about.message.uptime-desc", { lng, duration: toHumanReadableTime(Math.round(process.uptime()), lng), date: `<t:${Math.round((Date.now() / 1000) - (client.uptime ?? 0))}:D>`, time: `<t:${Math.round((Date.now() / 1000) - process.uptime())}:T>` })
+                            value: t("strings:commands.about.message.uptime-desc", { lng, duration: toHumanReadableTime(Math.round(process.uptime()), lng), date: `<t:${Math.round((Date.now() / 1000) - ((client.uptime ?? process.uptime() ?? 0) / 1000))}:D>`, time: `<t:${Math.round((Date.now() / 1000) - ((client.uptime ?? process.uptime() ?? 0) / 1000))}:T>` })
                         },
                         {
                             name: t("strings:commands.about.message.stats-title", { lng }),
