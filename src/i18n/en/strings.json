@@ -282,6 +282,7 @@
         "end": {
             "default": "**{{name}}** has won the game{{default}}.",
             "embed": {
+                "title": "Game statistics",
                 "stats": {
                     "duration": "⏱️ The game lasted for",
                     "mostActivePlayer": "👤 Most active player",
