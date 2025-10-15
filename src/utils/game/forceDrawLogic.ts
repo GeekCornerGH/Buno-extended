@@ -17,12 +17,10 @@ export default async function forceDrawLogic(game: runningUnoGame, card: unoCard
     const filtered = playableCard(game.cards[player] as unoCard[], game.currentCard, game).filter(c => (game.settings.allowStacking && (c === "+4" || c.endsWith("-+2")) || (game.settings.reverseAnything && (c.endsWith("-reverse")))));
     if (!filtered && interaction) return interaction.editReply({
         content: t("strings:game.forceDraw.noCard", { lng }),
-        flags: MessageFlags.Ephemeral
     });
     const pushedFiltered = [...filtered, "draw"];
     if (!pushedFiltered.includes(card as unoCard) && interaction) return interaction.editReply({
         content: t("strings:game.notPlayable", { lng }),
-        flags: MessageFlags.Ephemeral
     });
     use(game, card as unoCard, player);
     if (card.endsWith("-reverse")) {
