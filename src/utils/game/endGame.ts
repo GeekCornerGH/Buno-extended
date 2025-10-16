@@ -104,7 +104,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                         value: `${reason === "win" || game.players.length > 0 ? await getUsername(client, game.guildId, winner ?? game.currentPlayer, !game.guildApp) : t("strings:game.end.noWinner", { lng })}`
                     }, {
                         name: t("strings:game.end.embed.stats.mostPlayedCard", { lng }),
-                        value: `${mostPlayedCard}`
+                        value: `${mostPlayedCard() as string}`
                     }, {
                         name: t("strings:game.end.embed.stats.mostActivePlayer", { lng }),
                         value: `${mostActivePlayer} (${t("strings:words.time", { lng, count: findMostProperty(game.log, "player")[1] })})`
