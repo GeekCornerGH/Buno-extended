@@ -41,7 +41,7 @@ export const b: button = {
         });
         await interaction.deferUpdate();
         if (!prevTurn.adminAbused) {
-            game.cards[interaction.user.id] = game.cards[interaction.user.id].concat(draw(game.cardsQuota, 3));
+            game.cards[interaction.user.id] = game.cards[interaction.user.id].concat(await draw(game.cardsQuota, 3));
             game.currentPlayer = next(game.players, game.players.findIndex(p => p === interaction.user.id));
             endTurn(client, game, interaction, interaction.user.id, "misc", t("strings:game.aa.messages.contestAndFailed", { lng, name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), host: await getUsername(client, game.guildId, game.hostId, !game.guildApp), count: 3 }), false);
         }

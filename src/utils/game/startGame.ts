@@ -48,9 +48,9 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     game.cardsQuota = {
         ...averageUnoGameCount()
     };
-    game.players.forEach(p => {
-        game.cards[p] = draw(game.cardsQuota, 7);
-    });
+    for (const p of game.players){
+        game.cards[p] = await draw(game.cardsQuota, 7);
+    };
     if (game.settings.randomizePlayerList) game.players = shuffleArray(game.players);
     game.playersWhoLeft = [];
     game.turnProgress = "chooseCard";
@@ -62,7 +62,7 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     game.saboteurs = {};
     game.adminAbused = false;
     game.messageCount = 0;
-    game.currentCard = draw(game.cardsQuota, 1, true)[0];
+    game.currentCard = (await draw(game.cardsQuota, 1, true))[0];
     use(game, game.currentCard, "0");
     game.log = [{ player: "0", card: game.currentCard, adminAbused: false }];
     game.currentPlayer = game.players[0];

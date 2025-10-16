@@ -21,7 +21,7 @@ export default async function draw4(game: runningUnoGame, toAppend: string, clie
         game.drawStack += 4;
         const nextPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer));
         toAppend += `\n${t("strings:game.draw.drewAndSkipped", { name: await getUsername(client, game.guildId, nextPlayer, !game.guildApp), lng, stack: game.drawStack })}`;
-        game.cards[nextPlayer] = game.cards[nextPlayer].concat(draw(game.cardsQuota, game.drawStack));
+        game.cards[nextPlayer] = game.cards[nextPlayer].concat(await draw(game.cardsQuota, game.drawStack));
         if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
         game.turnProgress = "chooseCard";
         game.drawStack = 0;

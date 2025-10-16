@@ -29,15 +29,15 @@ export const averageUnoGameCount = () => {
     const data: {
         [card: string]: number
     } = {};
-    colors.forEach(c => {
-        variants.forEach(v => {
+    for (const c of colors) {
+        for (const v of variants) {
             if (v === "0") data[`${c}-${v}`] = 1;
             else data[`${c}-${v}`] = 2;
-        });
-    });
-    uniqueVariants.forEach(v => {
+        };
+    };
+    for (const v of uniqueVariants) {
         data[v] = 4;
-    });
+    };
     return data;
 };
 

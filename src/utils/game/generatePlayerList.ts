@@ -11,7 +11,7 @@ export default async function generatePlayerList(client: Client, game: unoGame):
         usernames[player] = player.startsWith("AI-") ? player.split("-")[1] + " 🤖" : await getUsername(client, game.guildId, player, !game.guildApp);
     }
     // Generate the string
-    game.players.forEach(async e => {
+    for (const e of game.players) {
         const username = usernames[e];
         if (game.state === "inProgress") string += t("strings:game.message.embed.playerList", {
             count: game.cards[e].length,
@@ -21,7 +21,7 @@ export default async function generatePlayerList(client: Client, game: unoGame):
             lng: game.locale
         });
         else string += username + "\n";
-    });
+    };
     string += "```";
     return string;
 }

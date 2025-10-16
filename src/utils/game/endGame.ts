@@ -13,7 +13,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
     const calledTimestamp = new Date();
     const lng = game.locale;
     if (!game._modified && reason === "win") {
-        game.players.concat(game.playersWhoLeft).forEach(async p => {
+        for (const p of game.players.concat(game.playersWhoLeft)){
             const dbReq = await Buno.findOne({
                 where: {
                     userId: p,
@@ -42,7 +42,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                     }
                 });
             }
-        });
+        };
         if (winner) {
             const dbReq = await Buno.findOne({
                 where: {

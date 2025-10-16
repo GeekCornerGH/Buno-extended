@@ -46,7 +46,7 @@ export const b: button = {
         });
         await interaction.deferUpdate();
         if (game.cards[prevPlayer].findIndex(c => c.startsWith(pColor)) !== -1) {
-            game.cards[prevPlayer] = game.cards[prevPlayer].concat(draw(game.cardsQuota, game.drawStack));
+            game.cards[prevPlayer] = game.cards[prevPlayer].concat(await draw(game.cardsQuota, game.drawStack));
             if (game.cards[prevPlayer].length >= 2 && game.unoPlayers.includes(prevPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === prevPlayer), 1);
             toAppend += t("strings:game.forceDraw.contestPlus4", { name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), stack: game.drawStack, cardPlayer: await getUsername(client, game.guildId, prevPlayer, !game.guildApp), lng });
             game.drawStack = 0;
@@ -56,7 +56,7 @@ export const b: button = {
             game.drawStack = +2;
             toAppend += t("strings:game.forceDraw.contestPlus4AndFail", { name: await getUsername(client, game.guildId, interaction.user.id, !game.guildApp), stack: game.drawStack, cardPlayer: await getUsername(client, game.guildId, prevPlayer, !game.guildApp), lng });
             if (game.cards[prevPlayer].length >= 2 && game.unoPlayers.includes(prevPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === prevPlayer), 1);
-            game.cards[prevPlayer] = game.cards[prevPlayer].concat(draw(game.cardsQuota, game.drawStack));
+            game.cards[prevPlayer] = game.cards[prevPlayer].concat(await draw(game.cardsQuota, game.drawStack));
             game.drawStack = 0;
             endTurn(client, game, interaction, interaction.user.id, "misc", toAppend, false);
         }

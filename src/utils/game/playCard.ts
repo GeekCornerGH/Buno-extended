@@ -45,7 +45,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
             else game.saboteurs[game.currentPlayer] = 1;
         }
         else if (game.saboteurs[game.currentPlayer] && game.saboteurs[game.currentPlayer] > 0) game.saboteurs[game.currentPlayer] -= 1;
-        const newCard = draw(game.cardsQuota, 1)[0];
+        const newCard = (await draw(game.cardsQuota, 1))[0];
         game.cards[game.currentPlayer].push(newCard);
         if (game.cards[game.currentPlayer].length >= 2 && game.unoPlayers.includes(game.currentPlayer)) game.unoPlayers.splice(game.unoPlayers.findIndex(p => p === game.currentPlayer), 1);
         if (!game.settings.allowSkipping) {
@@ -134,7 +134,7 @@ export default async function (game: runningUnoGame, card: unoCard | "draw" | "s
                 const tempPlayer = game.currentPlayer;
                 toAppend = t("strings:game.draw.drewAndSkipped", { lng, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer)), !game.guildApp), stack: game.drawStack });
                 if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
-                game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(draw(game.cardsQuota, game.drawStack));
+                game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(await draw(game.cardsQuota, game.drawStack));
                 game.turnProgress = "chooseCard";
                 game.drawStack = 0;
                 game.currentPlayer = next(game.players, game.players.findIndex(p => p === tempPlayer), 2);
