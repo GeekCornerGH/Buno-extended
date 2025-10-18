@@ -2,7 +2,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Gui
 import { t } from "i18next";
 
 import { Buno } from "../../database/models/buno.js";
-import { runningUnoGame, unoLog } from "../../typings/unoGame.js";
+import { runningUnoGame, unoCard, unoLog } from "../../typings/unoGame.js";
 import { config } from "../config.js";
 import { ButtonIDs, cardEmotes, coloredUniqueCards, colorEmotes, defaultSettings, maxActionShownInUserApp, uniqueVariants } from "../constants.js";
 import { getUsername } from "../getUsername.js";
@@ -72,7 +72,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
     const mostPlayedCardName = findMostProperty(game.log.filter((c: unoLog) => c.card !== "draw" && c.card !== "forceDraw"), "card");
     const mostPlayedCard: () => string = () => {
         const isUnique = uniqueVariants.includes(mostPlayedCardName[0] as typeof uniqueVariants[number]);
-        const mostPlayedCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[mostPlayedCardName[0] as keyof typeof coloredUniqueCards] : cardEmotes[mostPlayedCardName[0]];
+        const mostPlayedCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[mostPlayedCardName[0] as keyof typeof coloredUniqueCards] : cardEmotes[mostPlayedCardName[0] as unoCard];
 
         return `${mostPlayedCardEmote} ${toTitleCase(mostPlayedCardName[0], lng)} (${t("strings:words.time", { lng, count: mostPlayedCardName[1] })})`;
     };
