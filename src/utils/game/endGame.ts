@@ -72,7 +72,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
     const mostPlayedCardName = findMostProperty(game.log.filter((c: unoLog) => c.card !== "draw" && c.card !== "forceDraw"), "card");
     const mostPlayedCard: () => string = () => {
         const isUnique = uniqueVariants.includes(mostPlayedCardName[0] as typeof uniqueVariants[number]);
-        const mostPlayedCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[game.currentCard as keyof typeof coloredUniqueCards] : cardEmotes[game.currentCard];
+        const mostPlayedCardEmote = isUnique ? config.emoteless ? colorEmotes.other : coloredUniqueCards[mostPlayedCardName[0] as keyof typeof coloredUniqueCards] : cardEmotes[mostPlayedCardName[0]];
 
         return `${mostPlayedCardEmote} ${toTitleCase(mostPlayedCardName[0], lng)} (${t("strings:words.time", { lng, count: mostPlayedCardName[1] })})`;
     };
