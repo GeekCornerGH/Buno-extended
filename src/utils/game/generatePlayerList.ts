@@ -21,7 +21,7 @@ export default async function generatePlayerList(client: Client, game: unoGame):
             lng: game.locale
         });
         else string += username + "\n";
-    };
+    }
     string += "```";
     return string;
 }

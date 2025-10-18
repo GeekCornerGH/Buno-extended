@@ -33,11 +33,11 @@ export const averageUnoGameCount = () => {
         for (const v of variants) {
             if (v === "0") data[`${c}-${v}`] = 1;
             else data[`${c}-${v}`] = 2;
-        };
-    };
+        }
+    }
     for (const v of uniqueVariants) {
         data[v] = 4;
-    };
+    }
     return data;
 };
 

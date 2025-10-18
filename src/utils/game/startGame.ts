@@ -50,7 +50,7 @@ export default async (client: Client, game: unoGame, automatic: boolean, message
     };
     for (const p of game.players){
         game.cards[p] = await draw(game.cardsQuota, 7);
-    };
+    }
     if (game.settings.randomizePlayerList) game.players = shuffleArray(game.players);
     game.playersWhoLeft = [];
     game.turnProgress = "chooseCard";

@@ -42,7 +42,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                     }
                 });
             }
-        };
+        }
         if (winner) {
             const dbReq = await Buno.findOne({
                 where: {
