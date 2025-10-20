@@ -34,7 +34,10 @@ export const c: command = {
         const bash = (cmd: string) => execSync(cmd, { encoding: "utf8" }).replace(regex, "$1amogus");
         const update = () => {
             const data = bash("git pull && pnpm install && pnpm build");
-            if (!data.includes("up to date")) process.exit(1);
+            if (!data.includes("Already up to date.")) {
+                interaction.editReply({content: "Rebooting now"})
+                process.exit(1);
+            }
             else return data;
 
         };

@@ -37,8 +37,8 @@ export default async function forceDrawLogic(game: runningUnoGame, card: unoCard
         game.turnProgress = "chooseCard";
         game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))] = game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].concat(await draw(game.cardsQuota, game.drawStack));
         if (game.cards[next(game.players, game.players.findIndex(p => p === game.currentPlayer))].length >= 2 && game.unoPlayers.includes(next(game.players, game.players.findIndex(p => p === game.currentPlayer)))) game.unoPlayers.splice(game.unoPlayers.findIndex(u => u === next(game.players, game.players.findIndex(p => p === game.currentPlayer))), 1);
-        if (game.players.length > 2) game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer), 2);
         toAppend += t("strings:game.forceDraw.reverse.reverseMessage", { lng, stack: game.drawStack, name: await getUsername(client, game.guildId, next(game.players, game.players.findIndex(p => p === game.currentPlayer)), !game.guildApp) });
+        if (game.players.length > 2) game.currentPlayer = next(game.players, game.players.findIndex(p => p === game.currentPlayer), 2);
         game.drawStack = 0;
         endTurn(client, game, interaction, player, "played", toAppend);
     }
