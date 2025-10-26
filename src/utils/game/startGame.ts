@@ -14,7 +14,6 @@ import use from "./use.js";
 import generateUsername from "./usernameGenerator.js";
 
 export default async (client: Client, game: unoGame, automatic: boolean, message: Message) => {
-    if (!timeouts.get(game.channelId)) return;
     if (!game.guildApp) {
         (game as userRunningGame).previousActions = [];
         game.settings.amountOfAiBots = 0; // AI is a guild-only featuree

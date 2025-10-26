@@ -112,7 +112,8 @@ export const c: command = {
         if (!game.guildApp) game.interaction = interaction;
 
         setTimeout(() => {
-            if (game.state === "waiting") startGame(client, game, true, message as Message);
+            const currentGame = client.games.find(g => g.channelId);
+            if (currentGame && currentGame.uid === game.uid && game.state === "waiting") startGame(client, game, true, message as Message);
         }, autoStartTimeout);
         return;
     }
