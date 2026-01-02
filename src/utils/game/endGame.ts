@@ -8,12 +8,14 @@ import { ButtonIDs, cardEmotes, coloredUniqueCards, colorEmotes, defaultSettings
 import { getUsername } from "../getUsername.js";
 import toHumanReadableTime from "../toHumanReadableTime.js";
 import toTitleCase from "./toTitleCase.js";
+import { games } from "../../database/models/games.js";
 
 export default async function (game: runningUnoGame, client: Client, reason: "notEnoughPeople" | "win", winner?: string) {
     const calledTimestamp = new Date();
     const lng = game.locale;
+    const entierePlayerList = game.players.concat(game.playersWhoLeft);
     if (!game._modified && reason === "win") {
-        for (const p of game.players.concat(game.playersWhoLeft)){
+        for (const p of entierePlayerList) {
             const dbReq = await Buno.findOne({
                 where: {
                     userId: p,
@@ -132,6 +134,10 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
         message: game.messageId
     });
     client.games.splice(client.games.findIndex(g => g === game), 1);
+    if (!game._modified) await games.create({
+        ...game,
+        players: entierePlayerList,
+    });
 }
 
 function findMostProperty(objects: unoLog[], property: string): [string, number] {
