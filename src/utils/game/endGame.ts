@@ -2,13 +2,13 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Gui
 import { t } from "i18next";
 
 import { Buno } from "../../database/models/buno.js";
+import { games } from "../../database/models/games.js";
 import { runningUnoGame, unoCard, unoLog } from "../../typings/unoGame.js";
 import { config } from "../config.js";
 import { ButtonIDs, cardEmotes, coloredUniqueCards, colorEmotes, defaultSettings, maxActionShownInUserApp, uniqueVariants } from "../constants.js";
 import { getUsername } from "../getUsername.js";
 import toHumanReadableTime from "../toHumanReadableTime.js";
 import toTitleCase from "./toTitleCase.js";
-import { games } from "../../database/models/games.js";
 
 export default async function (game: runningUnoGame, client: Client, reason: "notEnoughPeople" | "win", winner?: string) {
     const calledTimestamp = new Date();

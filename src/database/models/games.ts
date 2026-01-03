@@ -1,8 +1,8 @@
 import { Snowflake } from "discord.js";
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 
-import { sequelize } from "../manager.js";
 import { unoLog, unoSettings } from "../../typings/unoGame.js";
+import { sequelize } from "../manager.js";
 
 class games extends Model<InferAttributes<games>, InferCreationAttributes<games>> {
     declare hostId: Snowflake;

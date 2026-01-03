@@ -35,7 +35,7 @@ export const c: command = {
         const update = () => {
             const data = bash("git pull && pnpm install && pnpm build");
             if (!data.includes("Already up to date.")) {
-                interaction.editReply({content: "Rebooting now"})
+                interaction.editReply({ content: "Rebooting now" });
                 process.exit(1);
             }
             else return data;
