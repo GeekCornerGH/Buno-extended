@@ -15,6 +15,7 @@ class games extends Model<InferAttributes<games>, InferCreationAttributes<games>
     declare log: unoLog[];
     declare turnCount: number;
     declare startingDate: Date;
+    declare duration: number;
 }
 
 games.init({
@@ -57,6 +58,10 @@ games.init({
     startingDate: {
         allowNull: false,
         type: DataTypes.DATE
+    },
+    duration: {
+        allowNull: true,
+        type: DataTypes.NUMBER
     }
 }, {
     sequelize,

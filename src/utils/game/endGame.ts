@@ -12,6 +12,7 @@ import toTitleCase from "./toTitleCase.js";
 
 export default async function (game: runningUnoGame, client: Client, reason: "notEnoughPeople" | "win", winner?: string) {
     const calledTimestamp = new Date();
+    const duration = Math.round((calledTimestamp.getTime() - game.startingDate.getTime()) / 1000);
     const lng = game.locale;
     const entierePlayerList = game.players.concat(game.playersWhoLeft);
     if (!game._modified && reason === "win") {
@@ -115,7 +116,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
                         value: `${playerList}`
                     }, {
                         name: t("strings:game.end.embed.stats.duration", { lng }),
-                        value: `${toHumanReadableTime(Math.round((calledTimestamp.getTime() - game.startingDate.getTime()) / 1000), lng)}`
+                        value: `${toHumanReadableTime(duration, lng)}`
                     }
                 ])
         ],
@@ -137,6 +138,7 @@ export default async function (game: runningUnoGame, client: Client, reason: "no
     if (!game._modified) await games.create({
         ...game,
         players: entierePlayerList,
+        duration
     });
 }
 
